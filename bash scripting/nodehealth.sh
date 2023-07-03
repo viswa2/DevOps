@@ -17,5 +17,5 @@ echo "Running ps command"
 ps -ef | grep -w '[L]ENOVO' | awk -F" " '{print $2}'
 # Extract CPU MHz and cores information
 echo "CPU information"
- cat /proc/cpuinfo | awk '/MHz|cores/ && !seen[$0]++ {print $4}'
+cat /proc/cpuinfo | awk '/MHz|cores/ && !seen[$0]++ {print $4}'
 
