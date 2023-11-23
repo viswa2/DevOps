@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #######################################################################################
-# This script is to monitor CPU, Memory, and Disk usage and send the output to a file 
+# This script is to monitor CPU, Memory, Disk usage and send the output to a file 
 # in table format and send an alert if either of them exceeds a certain threshold.
 ########################################################################################
 set -x # Debug mode
@@ -41,4 +41,3 @@ fi
 if (( $(echo "$disk_usage > $disk_threshold" | bc -l) )); then
     echo "Disk usage exceeds threshold! Current usage: $disk_usage%"
 fi
-
