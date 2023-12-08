@@ -353,6 +353,208 @@ Amazon VPC enables you to provision an isolated section of the AWS Cloud. In thi
 
 To allow public traffic from the internet to access your VPC, you attach an internet gateway to the VPC.
 
+An internet gateway is a connection between a VPC and the internet. You can think of an internet gateway as being like a doorway that customers use to enter the coffee shop. Without an internet gateway, no one can access the resources within your VPC.
 
+<img width="452" alt="Internet-Gateway" src="https://github.com/viswa2/devops/assets/34201574/fd919a4f-d9a7-442a-a95d-2bb5e43d98fa">
+
+`What if you have a VPC that includes only private resources?`
+
+## Virtual private gateway ##
+To access private resources in a VPC, you can use a virtual private gateway. 
+Here’s an example of how a virtual private gateway works. You can think of the internet as the road between your home and the coffee shop. Suppose that you are traveling on this road with a bodyguard to protect you. You are still using the same road as other customers, but with an extra layer of protection. 
+
+The bodyguard is like a virtual private network (VPN) connection that encrypts (or protects) your internet traffic from all the other requests around it. 
+The virtual private gateway is the component that allows protected internet traffic to enter the VPC. Even though your connection to the coffee shop has extra protection, traffic jams are possible because you’re using the same road as other customers. 
+
+<img width="452" alt="VPG" src="https://github.com/viswa2/devops/assets/34201574/a012decd-9f79-4898-b0a2-bb2bd14ec5f9">
+
+`A virtual private` gateway enables you to establish a virtual private network (VPN) connection between your VPC and a private network, such as an on-premises data centre or internal corporate network. A virtual private gateway allows traffic into the VPC only if it is coming from an approved network.
+
+## AWS Direct Connect ##
+AWS Direct Connect is a service that enables you to establish a dedicated private connection between your data centre and a VPC.  
+Suppose that there is an apartment building with a hallway directly linking the building to the coffee shop. Only the residents of the apartment building can travel through this hallway. 
+This private hallway provides the same type of dedicated connection as AWS Direct Connect. Residents can get into the coffee shop without needing to use the public road shared with other customers.
+
+<img width="452" alt="Vpc" src="https://github.com/viswa2/devops/assets/34201574/278ec920-33cd-4ca3-bbc7-a25093ff5044">
+
+The private connection that AWS Direct Connect provides helps you to reduce network costs and increase the amount of bandwidth that can travel through your network.
+
+## Subnets ##
+A subnet is a section of a VPC in which you can group resources based on security or operational needs. Subnets can be public or private.
+
+<img width="431" alt="Subnet" src="https://github.com/viswa2/devops/assets/34201574/dffd2503-486b-4922-bcab-7fa724609312">
+
+`Public subnets` contain resources that need to be accessible by the public, such as an online store’s website.
+`Private subnets` contain resources that should be accessible only through your private network, such as a database that contains customers’ personal information and order histories. 
+In a VPC, subnets can communicate with each other. For example, you might have an application that involves Amazon EC2 instances in a public subnet communicating with databases that are in a private subnet. The public subnet can communicate with the private subnet because the CIDR of the private subnet falls within the local route of the route table associated with the public subnet.
+
+## Network traffic in a VPC ##
+
+When a customer requests data from an application hosted in the AWS Cloud, this request is sent as a packet. A packet is a unit of data sent over the internet or a network. 
+It enters a VPC through an internet gateway. Before a packet can enter a subnet or exit from a subnet, it checks for permissions. These permissions indicate who sent the packet and how the packet is trying to communicate with the resources in a subnet.
+The VPC component that checks packet permissions for subnets is a network access control list (ACL).
+
+Network access control lists (ACLs)
+A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is stateless and allows all inbound and outbound traffic.
+For example, step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
+  
+## Network access control lists (ACLs) ##
+
+A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is stateless and allows all inbound and outbound traffic.
+For example, step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
+
+<img width="419" alt="NACL" src="https://github.com/viswa2/devops/assets/34201574/af446d10-18cf-45a4-a2ca-40b1fcdc7943">
+`Reference Link:` https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html
+
+Each AWS account includes a default network ACL. When configuring your VPC, you can use your account’s default network ACL or create custom network ACLs. 
+By default, your account’s default network ACL allows all inbound and outbound traffic, but you can modify it by adding your own rules. For custom network ACLs, all inbound and outbound traffic is denied until you add rules to specify which traffic to allow. Additionally, all network ACLs have an explicit deny rule. This rule ensures that if a packet doesn’t match any of the other rules on the list, the packet is denied.
+
+`Security groups` A security group is a virtual firewall that controls inbound and outbound traffic for an Amazon EC2 instance.
+
+<img width="360" alt="Security-Group" src="https://github.com/viswa2/devops/assets/34201574/bd5e5012-35a2-463d-97ec-a1426320fc19">
+
+By default, a security group denies all inbound traffic and allows all outbound traffic. You can add custom rules to configure which traffic to allow or deny.
+For this example, suppose that you are in an apartment building with a door attendant who greets guests in the lobby. 
+You can think of the guests as packets and the door attendant as a security group. As guests arrive, the door attendant checks a list to ensure they can enter the building. However, the door attendant does not check the list again when guests are exiting the building.
+
+If you have multiple Amazon EC2 instances within a subnet, you can associate them with the same security group or use different security groups for each instance. 
+
+In the following, match each part of the application to the correct VPC component.
+
+![VPC-Component](https://github.com/viswa2/devops/assets/34201574/c4ea93f0-5a8c-4ea3-a251-0a4cc134f4ae)
+
+## Domain Name System (DNS) ##
+
+Suppose that any Company has a website hosted in the AWS Cloud. Customers enter the web address into their browser, and they can access the website. This happens because of Domain Name System (DNS) resolution. DNS resolution involves a customer DNS resolver communicating with a company DNS server.
+You can think of DNS as being the phone book of the internet. DNS resolution is the process of translating a domain name to an IP address. 
+
+<img width="452" alt="DNS" src="https://github.com/viswa2/devops/assets/34201574/2ad73ec0-d781-4054-9856-e427ebc9743f">
+
+For example, suppose that you want to visit AnyCompany’s website. 
+
+1.	When you enter the domain name into your browser, this request is sent to a customer DNS resolver. 
+2.	The customer DNS resolver asks the company DNS server for the IP address that corresponds to AnyCompany’s website.
+3.	The company DNS server responds by providing the IP address for AnyCompany’s website, 192.0.2.0.
+
+## Amazon Route 53 ##
+
+Amazon Route 53 is a DNS web service. It gives developers and businesses a reliable way to route end users to internet applications hosted in AWS. 
+Amazon Route 53 connects user requests to infrastructure running in AWS (such as Amazon EC2 instances and load balancers). It can route users to infrastructure outside of AWS.
+Another feature of Route 53 is the ability to manage the DNS records for domain names. You can register new domain names directly in Route 53. You can also transfer DNS records for existing domain names managed by other domain registrars. This enables you to manage all your domain names within a single location.
+In the previous module, you learned about Amazon CloudFront, a content delivery service. The following example describes how Route 53 and Amazon CloudFront work together to deliver content to customers.
+`Example:` How Amazon Route 53 and Amazon CloudFront deliver content
+
+<img width="452" alt="Route53" src="https://github.com/viswa2/devops/assets/34201574/ea3c0b6a-19a3-4a6e-85d6-6a16dc540e4c">
+
+Suppose that any Company’s application is running on several Amazon EC2 instances. These instances are in an Auto Scaling group that attaches to an Application Load Balancer. 
+
+1.	A customer requests data from the application by going to any Company’s website. 
+2.	Amazon Route 53 uses DNS resolution to identify AnyCompany.com’s corresponding IP address, 192.0.2.0. This information is sent back to the customer. 
+3.	The customer’s request is sent to the nearest edge location through Amazon CloudFront.
+4.	Amazon CloudFront connects to the Application Load Balancer, which sends the incoming packet to an Amazon EC2 instance.
+
+## Storage and Database ##
+
+Instance stores
+Block-level storage volumes behave like physical hard drives.
+An instance store provides temporary block-level storage for an Amazon EC2 instance. An instance store is disk storage that is physically attached to the host computer for an EC2 instance, and therefore has the same lifespan as the instance. When the instance is terminated, you lose any data in the instance store.
+
+Ama![EBS](https://github.com/viswa2/devops/assets/34201574/fe1d890e-82df-4aef-b179-33b64b0bf19e)
+
+`Amazon Elastic Block Store (Amazon EBS)` is a service that provides block-level storage volumes that you can use with Amazon EC2 instances. If you stop or terminate an Amazon EC2 instance, all the data on the attached EBS volume remains available.
+To create an EBS volume, you define the configuration (such as volume size and type) and provision it. After you create an EBS volume, it can attach to an Amazon EC2 instance.
+Because EBS volumes are for data that needs to persist, it’s important to back up the data. You can take incremental backups of EBS volumes by creating Amazon EBS snapshots.
+
+`Reference Link:` https://aws.amazon.com/ebs/
+
+## Amazon EBS snapshots ##
+
+An EBS snapshot is an incremental backup. This means that the first backup taken of a volume copy all the data. For subsequent backups, only the blocks of data that have changed since the most recent snapshot are saved. 
+Incremental backups are different from full backups, in which all the data in a storage volume copies each time a backup occurs. The full backup includes data that has not changed since the most recent backup.
+
+![EBS-Snapshot](https://github.com/viswa2/devops/assets/34201574/0b02b1d5-a11e-43c7-acb0-815a6cc8b745)
+
+## Amazon Simple Storage Service (Amazon S3) ## or  ## Object Storage ##
+
+![Object-Storage](https://github.com/viswa2/devops/assets/34201574/c2bd700d-fccc-499b-a0ce-205718d4a1cc)
+
+In object storage, each object consists of data, metadata, and a key.
+The data might be an image, video, text document, or any other type of file. Metadata contains information about what the data is, how it is used, the object size, and so on. An object’s key is its unique identifier.
+
+`Note:` Recall that when you modify a file in block storage, only the pieces that are changed are updated. When a file in object storage is modified, the entire object is updated.
+
+## Amazon Simple Storage Service (Amazon S3) ##
+
+Amazon Simple Storage Service (Amazon S3) is a service that provides object-level storage. Amazon S3 stores data as objects in buckets.
+You can upload any type of file to Amazon S3, such as images, videos, text files, and so on. For example, you might use Amazon S3 to store backup files, media files for a website, or archived documents. Amazon S3 offers unlimited storage space. The maximum file size for an object in Amazon S3 is 5 TB.
+When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time.
+
+## Amazon S3 storage classes ##
+
+With Amazon S3, you pay only for what you use. You can choose from a range of storage classes to select a fit for your business and cost needs. When selecting an Amazon S3 storage class, consider these two factors:
+
+•	How often you plan to retrieve your data.
+•	How available you need your data to be.
+To learn more about the Amazon S3 storage classes select the + symbol next to each category.
+
+`Amazon S3 Standard`
+
+•	Designed for frequently accessed data.
+•	Stores data in a minimum of three Availability Zones
+Amazon S3 Standard provides high availability for objects. This makes it a good choice for a wide range of use cases, such as websites, content distribution, and data analytics. Amazon S3 Standard has a higher cost than other storage classes intended for infrequently accessed data and archival storage.
+
+`Amazon S3 Standard-Infrequent Access (S3 Standard-IA)`
+
+•	Ideal for infrequently accessed data.
+•	Like Amazon S3 Standard but has a lower storage price and higher retrieval price.
+Amazon S3 Standard-IA is ideal for data infrequently accessed but requires high availability when needed. Both Amazon S3 Standard and Amazon S3 Standard-IA store data in a minimum of three Availability Zones. Amazon S3 Standard-IA provides the same level of availability as Amazon S3 Standard but with a lower storage price and a higher retrieval price.
+
+`Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA)`
+
+•	Stores data in a single Availability Zone
+•	Has a lower storage price than Amazon S3 Standard-IA
+Compared to Amazon S3 Standard and Amazon S3 Standard-IA, which store data in a minimum of three Availability Zones, Amazon S3 One Zone-IA stores data in a single Availability Zone. This makes it a good storage class to consider if the following conditions apply:
+•	You want to save costs on storage.
+•	You can easily reproduce your data in the event of an Availability Zone failure.
+
+`Amazon S3 Intelligent-Tiering`
+•	Ideal for data with unknown or changing access patterns.
+•	Requires a small monthly monitoring and automation fee per object.
+In the Amazon S3 Intelligent-Tiering storage class, Amazon S3 monitors objects’ access patterns. If you haven’t accessed an object for 30 consecutive days, Amazon S3 automatically moves it to the infrequent access tier, Amazon S3 Standard-IA. If you access an object in the infrequent access tier, Amazon S3 automatically moves it to the frequent access tier, Amazon S3 Standard.
+
+`Amazon S3 Glacier Instant Retrieval`
+
+•	Works well for archived data that requires immediate access.
+•	Can retrieve objects within a few milliseconds.
+When you decide between the options for archival storage, consider how quickly you must retrieve the archived objects. You can retrieve objects stored in the Amazon S3 Glacier Instant Retrieval storage class within milliseconds, with the same performance as Amazon S3 Standard.
+
+`Amazon S3 Glacier Flexible Retrieval`
+
+•	Low-cost storage designed for data archiving.
+•	Able to retrieve objects within a few minutes to hours.
+Amazon S3 Glacier Flexible Retrieval is a low-cost storage class that is ideal for data archiving. For example, you might use this storage class to store archived customer records or older photos and video files.
+
+`Amazon S3 Glacier Deep Archive`
+
+•	Lowest-cost object storage class ideal for archiving
+•	Able to retrieve objects within 12 hours.
+Amazon S3 Deep Archive supports long-term retention and digital preservation for data that might be accessed once or twice in a year. This storage class is the lowest-cost storage in the AWS Cloud, with data retrieval from 12 to 48 hours. All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones.
+
+`Amazon S3 Outposts`
+
+•	Creates S3 buckets on Amazon S3 Outposts
+•	Makes it easier to retrieve, store, and access data on AWS Outposts
+Amazon S3 Outposts delivers object storage to your on-premises AWS Outposts environment. Amazon S3 Outposts is designed to store data durably and redundantly across multiple devices and servers on your Outposts. It works well for workloads with local data residency requirements that must satisfy demanding performance needs by keeping data close to on-premises applications.
+
+Reference Links: https://aws.amazon.com/s3/storage-classes/
+
+## Amazon Elastic File System (Amazon EFS) ##
+
+`File storage`
+In file storage, multiple clients (such as users, applications, servers, and so on) can access data that is stored in shared file folders. In this approach, a storage server uses block storage with a local file system to organize files. Clients access data through file paths.
+Compared to block storage and object storage, file storage is ideal for use cases in which many services and resources need to access the same data at the same time.
+Amazon Elastic File System (Amazon EFS) is a scalable file system used with AWS Cloud services and on-premises resources. As you add and remove files, Amazon EFS grows and shrinks automatically. It can scale on demand to petabytes without disrupting applications. 
+
+Amazon Relational Database Service (Amazon RDS)
 
 
