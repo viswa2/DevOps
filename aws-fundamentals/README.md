@@ -6,14 +6,17 @@ Cloud computing is the delivery of on-demand computing services over the interne
 <img width="359" alt="cloud-computing" src="https://github.com/viswa2/devops/assets/34201574/816eb632-2e32-44c6-b0f6-1020d7646aba">
 
 Cloud computing offers platform independency, as the software is not required to be installed locally on the PC. Hence, the Cloud Computing is making our business applications mobile and collaborative.
+
 Types of cloud computing model:
 1.	Deployment Model
 2.	Service Model
+
 Types of Cloud Deployment Model:
+
 1.	Public Cloud: The Cloud infrastructure is made available to general public over the internet and by cloud provider.
- Ex: - AWS, Azure, IBM’s Blue cloud and sun cloud
+ `Ex:` - AWS, Azure, IBM’s Blue cloud and sun cloud
 2.	Private Cloud: This Cloud Infrastructure Is Exclusively operated by a single organization. It can be managed by organization or third party and may exist on-premises or off-premises.
-Ex: - AWS, VMware
+`Ex:`` - AWS, VMware
 3.	Hybrid Cloud: It’s Consists of both Public and Private cloud
 Ex: - Federal agencies opt for private clouds when sensitive information is involved. Also, they use the public cloud to share the datasets with the general public or other government departments.
 
@@ -37,7 +40,7 @@ One way to use IaaS would be as a quick, flexible way to build up and take down 
 
 The main drawbacks to IaaS are the possibilities of provider security issues, multi-tenant systems where the provider must share infrastructure resources with multiple clients, and service reliability. These drawbacks can be avoided by choosing a reliable and trustworthy provider with a solid history and reputation.
 
-EX: Public cloud providers such as AWS, Microsoft Azure, and Google Cloud are examples of IaaS.
+`EX:` Public cloud providers such as AWS, Microsoft Azure, and Google Cloud are examples of IaaS.
 
 `PAAS:`
 Platform-as-a-service (PaaS) is another step further from full, on-premises infrastructure management. It is where a provider hosts the hardware and software on its own infrastructure and delivers this platform to the user as an integrated solution, solution stack, or service through an internet connection.
@@ -45,7 +48,7 @@ Platform-as-a-service (PaaS) is another step further from full, on-premises infr
 Primarily useful for developers and programmers, PaaS allows the user to develop, run, and manage their own apps without having to build and maintain the infrastructure or platform usually associated with the process. 
 You write the code, build, and manage your apps, but you do it without the headaches of software updates or hardware maintenance. The environment to build and deploy is provided for you. 
 PaaS is a way that developers can create a framework to build and customize their web-based applications on. Developers can use built-in software components to create their applications, which cuts down on the amount of code they must write themselves.
-EX: A few examples of PaaS are AWS Elastic Beanstalk, Heroku, and Red Hat OpenShift.
+`EX:` A few examples of PaaS are AWS Elastic Beanstalk, Heroku, and Red Hat OpenShift.
 
 `SAAS:`
 Software-as-a-service (SaaS), also known as cloud application services, is the most comprehensive form of cloud computing services, delivering an entire application that is managed by a provider, via a web browser. 
@@ -53,7 +56,9 @@ Software updates, bug fixes, and general software maintenance are handled by the
 You’re already familiar with a form of SaaS if you have an email account with a web-based service like Outlook or Gmail, for example, as you can log into your account and get your email from any computer, anywhere. 
 SaaS is a great option for small businesses who don’t have the staff or bandwidth to handle software installation and updates, as well as for applications that don’t require much customization or that will only be used periodically. 
 What SaaS saves you in time and maintenance, however, it could cost you in control, security, and performance, so it’s important to choose a provider you can trust.
-EX: Dropbox, Salesforce, Google Apps, and Red Hat Insights are some examples of SaaS. 
+
+`EX:` Dropbox, Salesforce, Google Apps, and Red Hat Insights are some examples of SaaS. 
+
 `Reference Link:` IaaS vs PaaS vs SaaS (redhat.com)
 
 ``Cloud Computing Services:``
@@ -169,7 +174,8 @@ Use hardware accelerators, or coprocessors, to perform some functions more effic
 In computing, a hardware accelerator is a component that can expedite data processing. Accelerated computing instances are ideal for workloads such as graphics applications, game streaming, and application streaming.
 
 `Storage Optimized Instances:`
-are designed for workloads that require high, sequential read and write access to large datasets on local storage. Examples of workloads suitable for storage optimized instances include distributed file systems, data warehousing applications, and high-frequency online transaction processing (OLTP) systems.
+
+Are designed for workloads that require high, sequential read and write access to large datasets on local storage. Examples of workloads suitable for storage optimized instances include distributed file systems, data warehousing applications, and high-frequency online transaction processing (OLTP) systems.
 
 In computing, the term input/output operations per second (IOPS) is a metric that measures the performance of a storage device. It indicates how many different input or output operations a device can perform in one second. Storage optimized instances are designed to deliver tens of thousands of low-latencies, random IOPS to applications. 
 
@@ -180,6 +186,7 @@ You can think of input operations as data put into a system, such as records ent
 ## Ec2 Pricing ##
 
 `On-Demand:`
+
 On-Demand Instances are ideal for short-term, irregular workloads that cannot be interrupted. No upfront costs or minimum contracts apply. The instances run continuously until you stop them, and you pay for only the compute time you use.
 
 Sample use cases for On-Demand Instances include developing and testing applications and running applications that have unpredictable usage patterns. On-Demand Instances are not recommended for workloads that last a year or longer because these workloads can experience greater cost savings using Reserved Instances.
@@ -193,6 +200,7 @@ Any usage up to the commitment is charged at the discounted Savings Plan rate (f
 Later in this course, you will review AWS Cost Explorer, a tool that enables you to visualize, understand, and manage your AWS costs and usage over time. If you are considering your options for Savings Plans, AWS Cost Explorer can analyse your Amazon EC2 usage over the past 7, 30, or 60 days. AWS Cost Explorer also provides customized recommendations for Savings Plans. These recommendations estimate how much you could save on your monthly Amazon EC2 costs, based on previous Amazon EC2 usage and the hourly commitment amount in a 1-year or 3-year Savings Plan.
 
 `Reserved Instances:`
+
 Reserved Instances are a billing discount applied to the use of On-Demand Instances in your account. You can purchase Standard Reserved and Convertible Reserved Instances for a 1-year or 3-year term and Scheduled Reserved Instances for a 1-year term. You realize greater cost savings with the 3-year option.
 
 At the end of a Reserved Instance term, you can continue using the Amazon EC2 instance without interruption. However, you are charged On-Demand rates until you do one of the following:
@@ -283,7 +291,8 @@ What might happen if the cashier took an order and went to deliver it to the bar
 
 As the coffee shop has become more popular and the ordering line is moving more slowly, the owners notice that the current ordering process is time consuming and inefficient. They decide to try a different approach that uses a queue.
 
-Example: Orders in a queue
+`Example:` Orders in a queue
+
 ![OrdersinQue](https://github.com/viswa2/devops/assets/34201574/2771d195-d915-4a7d-8ce8-2aa94d9d66b2)
 
 Recall that the cashier and the barista are two separate components of an application. A message queuing service such as Amazon SQS enables messages between decoupled application complements.
@@ -299,15 +308,13 @@ This decoupled approach enables the separate components to work more efficiently
 ## Serverless computing ##
 
 Earlier in this module, you learned about Amazon EC2, a service that lets you run virtual servers in the cloud. If you have applications that you want to run in Amazon EC2, you must do the following:
-    1.	Provision instances (virtual servers).
+    1. Provision instances (virtual servers).
     2. Upload your code. 
- 	  3. Continue to manage the instances while your application is running.
+ 	3. Continue to manage the instances while your application is running.
     
-•	The term “serverless” means that your code runs on servers, but you do not need to provision or manage these servers. With serverless computing, you can     
-  focus more on innovating new products and features instead of maintaining servers.
-•	Another benefit of serverless computing is the flexibility to scale serverless applications automatically. Serverless computing can adjust the applications' 
-  capacity by modifying the units of consumptions, such as throughput and memory. 
-•	An AWS service for serverless computing is AWS Lambda.
+• The term “serverless” means that your code runs on servers, but you do not need to provision or manage these servers. With serverless computing, you can focus more on innovating new products and features instead of maintaining servers.
+• Another benefit of serverless computing is the flexibility to scale serverless applications automatically. Serverless computing can adjust the applications' capacity by modifying the units of consumptions, such as throughput and memory. 
+• An AWS service for serverless computing is AWS Lambda.
 
 ## AWS Lambda ##
 
@@ -385,6 +392,7 @@ A subnet is a section of a VPC in which you can group resources based on securit
 <img width="431" alt="Subnet" src="https://github.com/viswa2/devops/assets/34201574/dffd2503-486b-4922-bcab-7fa724609312">
 
 `Public subnets` contain resources that need to be accessible by the public, such as an online store’s website.
+
 `Private subnets` contain resources that should be accessible only through your private network, such as a database that contains customers’ personal information and order histories. 
 In a VPC, subnets can communicate with each other. For example, you might have an application that involves Amazon EC2 instances in a public subnet communicating with databases that are in a private subnet. The public subnet can communicate with the private subnet because the CIDR of the private subnet falls within the local route of the route table associated with the public subnet.
 
@@ -404,6 +412,7 @@ A network access control list (ACL) is a virtual firewall that controls inbound 
 For example, step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
 
 <img width="419" alt="NACL" src="https://github.com/viswa2/devops/assets/34201574/af446d10-18cf-45a4-a2ca-40b1fcdc7943">
+
 `Reference Link:` https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html
 
 Each AWS account includes a default network ACL. When configuring your VPC, you can use your account’s default network ACL or create custom network ACLs. 
@@ -552,8 +561,10 @@ Reference Links: https://aws.amazon.com/s3/storage-classes/
 ## Amazon Elastic File System (Amazon EFS) ##
 
 `File storage`
+
 In file storage, multiple clients (such as users, applications, servers, and so on) can access data that is stored in shared file folders. In this approach, a storage server uses block storage with a local file system to organize files. Clients access data through file paths.
 Compared to block storage and object storage, file storage is ideal for use cases in which many services and resources need to access the same data at the same time.
+
 `Amazon Elastic File System (Amazon EFS)` is a scalable file system used with AWS Cloud services and on-premises resources. As you add and remove files, Amazon EFS grows and shrinks automatically. It can scale on demand to petabytes without disrupting applications. 
 
 ## Amazon Relational Database Service (Amazon RDS) ##
@@ -562,13 +573,14 @@ In a relational database, data is stored in a way that relates it to other piece
 An example of a relational database might be the coffee shop’s inventory management system. Each record in the database would include data for a single item, such as product name, size, price, and so on.
 Relational databases use structured query language (SQL) to store and query data. This approach allows data to be stored in an easily understandable, consistent, and scalable way. For example, the coffee shop owners can write a SQL query to identify all the customers whose most frequently purchased drink is a medium latte.
 
-Example of data in a relational database:
+`Example of data in a relational database:`
 
-ID	Product name	               Size	   Price
-1	Medium roast ground coffee	  12 oz.	 $5.30
-2	Dark roast ground coffee	    20 oz.	 $9.27
+ID	Product name	                Size	   Price
+1	Medium roast ground coffee	    12 oz.	   $5.30
+2	Dark roast ground coffee	    20 oz.	   $9.27
 
 ## Amazon Relational Database Service ##
+
 `Amazon Relational Database Service (Amazon RDS)` is a service that enables you to run relational databases in the AWS Cloud.
 Amazon RDS is a managed service that automates tasks such as hardware provisioning, database setup, patching, and backups. With these capabilities, you can spend less time completing administrative tasks and more time using data to innovate your applications. You can integrate Amazon RDS with other services to fulfil your business and operational needs, such as using AWS Lambda to query your database from a serverless application.
 
@@ -576,6 +588,7 @@ Amazon RDS provides several different security options. Many Amazon RDS database
 
 ## Amazon RDS database engines ##
 Amazon RDS is available on six database engines, which optimize for memory, performance, or input/output (I/O). Supported database engines include:
+
 •	Amazon Aurora
 •	PostgreSQL
 •	MySQL
@@ -594,10 +607,12 @@ Consider Amazon Aurora if your workloads require high availability. It replicate
 Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale.
 
 `Serverless:`
+
 DynamoDB is serverless, which means that you do not have to provision, patch, or manage servers. 
 You also do not have to install, maintain, or operate software.
 
 `Automatic Scaling:`
+
 As the size of your database shrinks or grows, DynamoDB automatically scales to adjust for changes in capacity while maintaining consistent performance. 
 This makes it a suitable choice for use cases that require high performance while scaling.
 
@@ -615,6 +630,7 @@ For example, suppose that you have a MySQL database that is stored on premises i
 
 AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely.   
 IAM gives you the flexibility to configure access based on your company’s specific operational and security needs. You do this by using a combination of IAM features, which are explored in detail in this lesson:
+
 •	IAM users, groups, and roles
 •	IAM policies
 •	Multi-factor authentication
@@ -628,11 +644,13 @@ The root user is accessed by signing in with the email address and password that
 <img width="452" alt="AWS-Root-User" src="https://github.com/viswa2/devops/assets/34201574/063bf2c6-724e-4140-a191-b6212e3b9831">
 
 `Best practice:`
+
 Do not use the root user for everyday tasks. 
 Instead, use the root user to create your first IAM user and assign it permissions to create other users.
 Then, continue to create other IAM users, and access those identities for performing regular tasks throughout AWS. Only use the root user when you need to perform a limited number of tasks that are only available to the root user. Examples of these tasks include changing your root user email address and changing your AWS support plan.
 
 ## IAM users ##
+
 An IAM user is an identity that you create in AWS. It represents the person or application that interacts with AWS services and resources. It consists of a name and credentials.
 By default, when you create a new IAM user in AWS, it has no permissions associated with it. To allow the IAM user to perform specific actions in AWS, such as launching an Amazon EC2 instance or creating an Amazon S3 bucket, you must grant the IAM user the necessary permissions.
 
@@ -659,6 +677,7 @@ Here’s an example of how IAM policies work. Suppose that the coffee shop owner
 <img width="452" alt="Iam-Policy" src="https://github.com/viswa2/devops/assets/34201574/35c11938-a13a-4cda-9daa-874ce935ece7">
 
 This example `IAM policy` allows permission to access the objects in the Amazon S3 bucket with ID: AWSDOC-EXAMPLE-BUCKET.
+
 In this example, the IAM policy is allowing a specific action within Amazon S3: List Object. The policy also mentions a specific bucket ID: AWSDOC-EXAMPLE-BUCKET. When the owner attaches this policy to the cashier’s IAM user, it will allow the cashier to view all the objects in the AWSDOC-EXAMPLE-BUCKET bucket. 
 If the owner wants the cashier to be able to access other services and perform other actions in AWS, the owner must attach additional policies to specify these services and actions.
 Now, suppose that the coffee shop has hired a few more cashiers. Instead of assigning permissions to each individual IAM user, the owner places the users into an IAM group.
