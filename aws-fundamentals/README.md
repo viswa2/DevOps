@@ -131,7 +131,7 @@ An Availability Zone is a single data centre or a group of data canters within a
 
 `Region:`
 
-A Region consists of two or more Availability Zones.
+Regions are geographically isolated areas, where you can access services needed to run your enterprise. A Region consists of two or more Availability Zones.
 
 For example: the South America (São Paulo) Region is sa-east-1. It includes three Availability Zones: sa-east-1a, sa-east-1b, and sa-east-1c.
 
