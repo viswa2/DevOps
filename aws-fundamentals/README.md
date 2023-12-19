@@ -402,15 +402,11 @@ When a customer requests data from an application hosted in the AWS Cloud, this 
 It enters a VPC through an internet gateway. Before a packet can enter a subnet or exit from a subnet, it checks for permissions. These permissions indicate who sent the packet and how the packet is trying to communicate with the resources in a subnet.
 The VPC component that checks packet permissions for subnets is a network access control list (ACL).
 
-Network access control lists (ACLs)
-A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is stateless and allows all inbound and outbound traffic.
-For example, step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
-  
 ## Network access control lists (ACLs) ##
 
 A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is stateless and allows all inbound and outbound traffic.
 For example, step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
-
+  
 <img width="419" alt="NACL" src="https://github.com/viswa2/devops/assets/34201574/af446d10-18cf-45a4-a2ca-40b1fcdc7943">
 
 `Reference Link:` https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html
