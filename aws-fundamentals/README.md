@@ -164,6 +164,8 @@ An AMI includes the operating system, storage mapping, architecture type, launch
 
 Each AMI in the AWS Management Console has an AMI ID, which is prefixed by ami-, followed by a random hash of numbers and letters. The IDs are unique to each AWS Region.
 
+<img width="873" alt="AMI" src="https://github.com/viswa2/devops/assets/34201574/c703fb96-7b6b-4108-9a60-a569d77a567e">
+
 ## Different type of Ec2 Instances ##
 When selecting an instance type, consider the specific needs of your workloads and applications. This might include requirements for compute, memory, or storage capabilities.
 
