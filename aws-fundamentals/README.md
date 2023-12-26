@@ -138,13 +138,31 @@ For example: the South America (São Paulo) Region is sa-east-1. It includes thr
 
 Reference Link: Global Infrastructure Regions & AZs (amazon.com)
 
-`EC2 (Elastic cloud Computing):`
+`Amazon EC2 (Elastic Compute Cloud):`
+
+Amazon EC2 is a web service that provides secure, resizable compute capacity in the cloud. With this service, you can provision virtual servers called EC2 instances. 
 
 Amazon EC2 instance you can use a virtual server to run applications in the AWS Cloud.
 •	you can provision and launch an Amazon EC2 instance within minutes.
 •	You can stop using it when you have finished running a workload.
 •	You pay only for the compute time you use when an instance is running, not when it is stopped or terminated.
 •	You can save costs by paying only for server capacity that you need or want.
+
+To create an EC2 instance, you must define the following:
+
+• Hardware specifications: CPU, memory, network, and storage
+
+• Logical configurations: Networking location, firewall rules, authentication, and the operating system of your choice.
+
+## Amazon Machine Image ##
+
+When launching an EC2 instance, the first setting you configure is which operating system you want by selecting an Amazon Machine Image (AMI).
+
+In the traditional infrastructure world, spinning up a server consists of installing an operating system from installation disks, drives, or wizards over the network. In the AWS Cloud, the operating system installation is not your responsibility. Instead, it's built into the AMI that you choose.
+
+An AMI includes the operating system, storage mapping, architecture type, launch permissions, and any additional preinstalled software applications.
+
+Each AMI in the AWS Management Console has an AMI ID, which is prefixed by ami-, followed by a random hash of numbers and letters. The IDs are unique to each AWS Region.
 
 ## Different type of Ec2 Instances ##
 When selecting an instance type, consider the specific needs of your workloads and applications. This might include requirements for compute, memory, or storage capabilities.
@@ -221,6 +239,14 @@ After you have launched a Spot Instance, if capacity is no longer available or d
 Dedicated Hosts are physical servers with Amazon EC2 instance capacity that is fully dedicated to your use. 
 
 You can use your existing per-socket, per-core, or per-VM software licenses to help maintain license compliance. You can purchase On-Demand Dedicated Hosts and Dedicated Hosts Reservations. Of all the Amazon EC2 options that were covered, Dedicated Hosts are the most expensive.
+
+## Amazon EC2 instance types ##
+
+EC2 instances are a combination of virtual processors (vCPUs), memory, network, and, in some cases, instance storage and graphics processing units (GPUs). When you create an EC2 instance, you need to choose how much you need of each of these components.
+
+`EX:` t2.micro, t2.medium, t2.large, t3.nano, t3.small, t3.large, a1.medium, a1.large etc.
+
+<img width="920" alt="Instance-types" src="https://github.com/viswa2/devops/assets/34201574/56812bf9-a2f3-4e8c-b653-5b7ff8270ab9">
 
 ## Amazon EC2 Auto Scaling ##
 
