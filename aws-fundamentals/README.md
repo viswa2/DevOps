@@ -521,6 +521,11 @@ Ama![EBS](https://github.com/viswa2/devops/assets/34201574/fe1d890e-82df-4aef-b1
 To create an EBS volume, you define the configuration (such as volume size and type) and provision it. After you create an EBS volume, it can attach to an Amazon EC2 instance.
 Because EBS volumes are for data that needs to persist, it’s important to back up the data. You can take incremental backups of EBS volumes by creating Amazon EBS snapshots.
 
+`Note:` In the same AZ EC2 instance volume can be attached other AZ volume can't be attached to EC2  
+      Once the EC2 instance is terminated by default volume should be deleted, because while creating EC2 instance `delete on termination is selected yes`
+
+<img width="1383" alt="Block-Device-Volume" src="https://github.com/viswa2/DevOps/assets/34201574/2c7846d2-a924-44f0-9ac1-cd33eaa1e11d">
+
 `Reference Link:` https://aws.amazon.com/ebs/
 
 ## Amazon EBS snapshots ##
