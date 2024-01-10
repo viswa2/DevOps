@@ -22,10 +22,24 @@
 1. Launch an EC2 instance with the user data of httpd
 
 <img width="336" alt="User-Data for EC2" src="https://github.com/viswa2/DevOps/assets/34201574/81115aef-80a4-48dc-9292-bd323b1e0538">
+
 2. check with the public ip in the browser
 
 <img width="465" alt="HTTPD-Configuration-Check-in Browser" src="https://github.com/viswa2/DevOps/assets/34201574/0e7765cb-ba91-4b21-ad8e-477ef735bdb2">
 
-3. Create a image from the EC2 instance which we created on it's first step --> Select the EC2 instance from the 1st Step --> Click on Actions --> Image and Templates --> Image name --> Create image
-4. Launch a instance from AMI list with the user data just last line of echo statement
-5. Check both instances public ip in the browser it's should work.
+3. Create a image from the EC2 instance which we created on it's first step --> Select the EC2 instance from the 1st Step --> Click on Actions --> Image and Templates --> Image name --> Create image i.e Then click on EC2 dashboard --> Images --> AMIs --> You can find the created image.
+
+<img width="1439" alt="AMI" src="https://github.com/viswa2/DevOps/assets/34201574/4861798a-5bf2-4064-af5f-03c09a9c7bc3">
+
+5. Launch a instance from AMI list which was created on 3rd step with the user data with the just last line of echo statement.
+
+<img width="743" alt="AMI from Catalog" src="https://github.com/viswa2/DevOps/assets/34201574/7667160b-3c85-4c48-b598-ace82702a5cd">
+
+<img width="559" alt="User-Data" src="https://github.com/viswa2/DevOps/assets/34201574/02eed45c-9dca-4604-88a9-5fd228ccfcd5">
+
+6. Check instance public ip in the browser it's should work.
+
+7. Find the screenshot for the second instance as below.
+
+<img width="955" alt="AMI Image Instance IP" src="https://github.com/viswa2/DevOps/assets/34201574/d90ceb66-369c-4cf3-8fb9-ed108a2df11f">
+
