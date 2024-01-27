@@ -43,3 +43,35 @@
 
 <img width="955" alt="AMI Image Instance IP" src="https://github.com/viswa2/DevOps/assets/34201574/d90ceb66-369c-4cf3-8fb9-ed108a2df11f">
 
+## Application Load Balancer ##
+
+1. Launch 2 EC2 instances with the same style --> My first instance --> Number of instances 2 --> Instance type t2.micro --> Proceed without keypair --> Under network settings select existing security group which is having ssh and http indbound rule if not create a new one --> Advance details --> user data --> add user-data-for-load-balancer
+
+2. After launching the 2 instances change the name for one of the instance from My First Instance to My Second Instance
+
+<img width="1488" alt="2-EC@-Instances created for -Load-Balancer" src="https://github.com/viswa2/DevOps/assets/34201574/f487987a-a91f-4e38-b139-653ef03a36c8">
+
+3. Check the public Ip of both Ec2 instances if it's working or not as per below attaching here one instance reference.
+
+<img width="758" alt="Ec2-Instance-Public-Ip" src="https://github.com/viswa2/DevOps/assets/34201574/abaa77af-0daa-4a09-9799-0eb809c84dbe">
+
+4. Click on load balancers --> create load balancer --> click on creat application load balancer --> load abalancer name i.e Demo-ALB, Internet-facing, ip address type ipv4 --> Network mapping --> Select at least two Availability Zones --> Refresh and select the Security group which we created in 5th step --> Refresh and select the target group which we created in 6th step --> Create a load balancer
+
+<img width="1485" alt="Application-Load-Balancer" src="https://github.com/viswa2/DevOps/assets/34201574/d1d6b659-ccca-464a-a746-76037da60044">
+
+5. Create a new security group which is allowing http port
+
+<img width="1420" alt="Security-group for- load- balancer" src="https://github.com/viswa2/DevOps/assets/34201574/e4db92d2-301d-4698-93ad-6593b9f269e2">
+  
+6. Listner and routing --> choose a target type --> Instances --> Target Group Name --> Protocol port http --> IP address type ipv4--> Health checks HTTP --> Register Targets select the 2 instances --> Include as pending below --> Create Target Group
+
+<img width="1446" alt="Target-Groups" src="https://github.com/viswa2/DevOps/assets/34201574/17335d87-5d6a-4dd3-9f39-1d84973343ce">
+
+7. Copy DNS name of the load balancer and open in the browser and refresh it you camn able to observe the two ip address of the 2 EC2 instances.
+
+<img width="704" alt="First-EC2-Instance-Ip" src="https://github.com/viswa2/DevOps/assets/34201574/4b0dd520-aa96-45c8-9f8f-c349d3d48ca4">
+
+<img width="701" alt="Second-Ec2-IP-Address" src="https://github.com/viswa2/DevOps/assets/34201574/13bd5b62-f641-43d0-98d9-89af6dbfe16a">
+
+8. For futrher testing you can stop one instance and refresh the DNS name of load balancer and vice versa
+
