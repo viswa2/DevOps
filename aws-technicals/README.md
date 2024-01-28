@@ -75,3 +75,26 @@
 
 8. For futrher testing you can stop one instance and refresh the DNS name of load balancer and vice versa
 
+## S3 Bucket ##
+
+1. Search on s3 on amaznon dashboard and click on create bucket
+2. Select the region if you want to create a bucket
+3. Bucket name must be unique within the global namespace and follow the bucket naming rules
+4. Object Ownership  ACL's disabled
+5. Block all public access
+6. Disable bucket versioning
+7. Rest of the options are default and create a bucket
+8. Click on the bucket name --> upload --> Add files --> Slect from your computer --> Upload
+9. Click on the objects which you have uploaded and click on object url you will get AccessDenied error due to Block all public access on 6th point.
+10. Now click on bucket permissions and edit Block public access (bucket settings) uncheck Block all public access and save
+11. Edit the Bucket policy click on plocy generator (https://awspolicygen.s3.amazonaws.com/policygen.html) and fill the necessary details add statement and generate policy.
+
+<img width="1521" alt="S3-bucket-p;olicy-Generator" src="https://github.com/viswa2/DevOps/assets/34201574/78d17a6c-4a76-4b24-a23d-254af0c0b9a0">
+
+12. Copy the policy and paste policy and click on save changes
+13. Now try to refresh the object URl
+
+<img width="1156" alt="S3-bucket-object-url-testing" src="https://github.com/viswa2/DevOps/assets/34201574/2f915698-ddfa-401b-af56-4fda2756cbf9">
+
+
+
