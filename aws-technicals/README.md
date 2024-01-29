@@ -109,6 +109,22 @@
 
 <img width="1606" alt="s3-bucket-versioning" src="https://github.com/viswa2/DevOps/assets/34201574/1dda5c3e-63de-4caa-87d0-52b24e603a2d">
 
+## Replication Rules for S3 Bucket ##
+
+1. Create a 2 buckets for replication testing i.e replication-origin and replication-destination0
+
+<img width="1569" alt="s3-buckets-for replication-testing" src="https://github.com/viswa2/DevOps/assets/34201574/2e096291-654e-46e5-8a7f-21e636b2c9fa">
+
+2. Create a replication rule in `replication-origin` bucket click on Management --> Replication rule name i.e mydemo replication --> Status enabled --> Under source bucket Apply to all objects in the bucket --> Destination choose --> Choose a bucket in this account, add the bucket name i.e `replication-destination0` --> IAM role --> Create a new role --> keep remaining as default and save.
+
+3. Upload the objects for testing with the versioning enabled
+4. Go to the `replication-destination0` bucket and refresh the page you can observe same file with the same version id.
+
+<img width="1601" alt="replication-source" src="https://github.com/viswa2/DevOps/assets/34201574/5ca7fc5b-ea69-4171-b8f2-1318b3d5a746">
+
+5. Replication destination with `replication-destination0`
+
+<img width="1608" alt="replication-destination" src="https://github.com/viswa2/DevOps/assets/34201574/4454fdfd-a696-4319-9f6e-546df97108b1">
 
 
 
