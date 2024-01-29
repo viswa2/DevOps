@@ -96,5 +96,20 @@
 
 <img width="1156" alt="S3-bucket-object-url-testing" src="https://github.com/viswa2/DevOps/assets/34201574/2f915698-ddfa-401b-af56-4fda2756cbf9">
 
+## Static website hosting ##
+
+1. Click buckets --> Bucket name --> properties --> edit and enable static website hosting --> Save changes
+2. Upload the indx.html file into the bucket
+3. Go to the Static website hosting click on url find the below image as reference.
+
+<img width="591" alt="static-website-hosting" src="https://github.com/viswa2/DevOps/assets/34201574/129d1275-f623-4365-9a0c-ffc7951bc278">
+
+4. if you want to enable the bucket versioning click on properties Bucket Versioning enable and save it.
+5. Then try to upload some modificatiopn with the index.html and upload the same.
+
+<img width="1606" alt="s3-bucket-versioning" src="https://github.com/viswa2/DevOps/assets/34201574/1dda5c3e-63de-4caa-87d0-52b24e603a2d">
+
+
+
 
 
