@@ -134,8 +134,5 @@
 
 ## S3 Encryption ##
 
-<img width="964" alt="S3 Encryption" src="https://github.com/viswa2/DevOps/assets/34201574/18ef06f4-c043-4726-95c9-8dbd83a4e26d">
-
-
-
+<img width="964" alt="S3 Encryption" src="https://github.com/viswa2/DevOps/assets/34201574/009b7a48-0bb9-48d0-a6b1-0bc8c622b9a1">
 
