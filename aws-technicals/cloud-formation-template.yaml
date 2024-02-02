@@ -1,0 +1,7 @@
+Resources:
+  MyEC2Instance: #An inline comment
+    Type: "AWS::EC2::Instance"
+    Properties: 
+      ImageId: "ami-0277155c3f0ab2930" #Another comment -- This is a Linux AMI
+      InstanceType: t2.micro
+      AvailabilityZone: us-east-1a
