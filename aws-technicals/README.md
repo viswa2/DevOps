@@ -136,3 +136,27 @@
 
 <img width="964" alt="S3 Encryption" src="https://github.com/viswa2/DevOps/assets/34201574/009b7a48-0bb9-48d0-a6b1-0bc8c622b9a1">
 
+## Cloud Formation ##
+
+CloudFormation, It's infrastructure as code. This means that you can build an environment by writing lines of code instead of using the AWS Management Console to individually provision your infrastructure resources.
+
+1. Select the region as us-east-1 otherwise things will not work.
+2. Create a stack & Prerequisite –-> Prepare template--> select Template is ready
+3. Specify Template --> select Upload a template file i.e upload from your computer or you can select Amazon S3 url as well.
+
+<img width="1291" alt="Upload a template from computer" src="https://github.com/viswa2/DevOps/assets/34201574/0afd6382-fbd2-4a6f-bafe-478c11b03359">
+
+4. Provide a stack name called i.e Demo Cloudformation and click on next
+5. Configure stack options provide key and value fields and click on next and submit
+6. Then You can observe Events
+
+<img width="1064" alt="Cloud-formation-Events" src="https://github.com/viswa2/DevOps/assets/34201574/bbe6a256-1f1b-4821-841d-42ba31a39156">
+
+7. Open the next tab and you can able to see the Ec2 intsance through the cloudformation which we have provisioned.
+
+<img width="1485" alt="Cloud-Formation-Through-Ec2-Instance" src="https://github.com/viswa2/DevOps/assets/34201574/a835737f-1ef5-4140-a0bd-d624ad3419d3">
+
+8. If you want to update stack click on update stack --> replace current template --> Upload a template file with the changes. Once done it will terminate the existing resources and re-create with the new one.
+   
+9. If we want to delete the resources there is no need to go each and indivual resources to delete simply go and delete the stack 
+
