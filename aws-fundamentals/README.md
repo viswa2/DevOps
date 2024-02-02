@@ -407,6 +407,8 @@ Amazon Virtual Private Cloud (Amazon VPC)
 A networking service that you can use to establish boundaries around your AWS resources is Amazon Virtual Private Cloud (Amazon VPC).
 Amazon VPC enables you to provision an isolated section of the AWS Cloud. In this isolated section, you can launch resources in a virtual network that you define. Within a virtual private cloud (VPC), you can organize your resources into subnets. A subnet is a section of a VPC that can contain resources such as Amazon EC2 instances.
 
+`Note:` An Amazon Virtual Private Cloud (Amazon VPC) spans all of the Availability Zones (AZ) in the Region whereas a subnet spans only one Availability Zone (AZ) in the Region
+
 ## Internet gateway ##
 
 To allow public traffic from the internet to access your VPC, you attach an internet gateway to the VPC.
@@ -465,6 +467,8 @@ For example, step outside of the coffee shop and imagine that you are in an airp
 Each AWS account includes a default network ACL. When configuring your VPC, you can use your account’s default network ACL or create custom network ACLs. 
 By default, your account’s default network ACL allows all inbound and outbound traffic, but you can modify it by adding your own rules. For custom network ACLs, all inbound and outbound traffic is denied until you add rules to specify which traffic to allow. Additionally, all network ACLs have an explicit deny rule. This rule ensures that if a packet doesn’t match any of the other rules on the list, the packet is denied.
 
+## Security Groups ##
+
 `Security groups` A security group is a virtual firewall that controls inbound and outbound traffic for an Amazon EC2 instance.
 
 <img width="360" alt="Security-Group" src="https://github.com/viswa2/devops/assets/34201574/bd5e5012-35a2-463d-97ec-a1426320fc19">
@@ -474,6 +478,8 @@ For this example, suppose that you are in an apartment building with a door atte
 You can think of the guests as packets and the door attendant as a security group. As guests arrive, the door attendant checks a list to ensure they can enter the building. However, the door attendant does not check the list again when guests are exiting the building.
 
 If you have multiple Amazon EC2 instances within a subnet, you can associate them with the same security group or use different security groups for each instance. 
+
+`Note:` Security Group acts as a firewall at the instance level whereas Network Access Control List (Network ACL) acts as a firewall at the subnet level
 
 In the following, match each part of the application to the correct VPC component.
 
@@ -656,12 +662,12 @@ Consider Amazon Aurora if your workloads require high availability. It replicate
 
 ## Amazon DynamoDB ##
 
-Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale.
+Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have flexible schema and supports document data models
 
 `Serverless:`
 
 DynamoDB is serverless, which means that you do not have to provision, patch, or manage servers. 
-You also do not have to install, maintain, or operate software.
+You also do not have to install, maintain, or operate software. 
 
 `Automatic Scaling:`
 
