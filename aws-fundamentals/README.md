@@ -361,7 +361,7 @@ This decoupled approach enables the separate components to work more efficiently
 Earlier in this module, you learned about Amazon EC2, a service that lets you run virtual servers in the cloud. If you have applications that you want to run in Amazon EC2, you must do the following:
     1. Provision instances (virtual servers).
     2. Upload your code. 
- 	3. Continue to manage the instances while your application is running.
+ 	  3. Continue to manage the instances while your application is running.
     
 • The term “serverless” means that your code runs on servers, but you do not need to provision or manage these servers. With serverless computing, you can focus more on innovating new products and features instead of maintaining servers.
 • Another benefit of serverless computing is the flexibility to scale serverless applications automatically. Serverless computing can adjust the applications' capacity by modifying the units of consumptions, such as throughput and memory. 
@@ -503,6 +503,9 @@ For example, suppose that you want to visit AnyCompany’s website.
 Amazon Route 53 is a DNS web service. It gives developers and businesses a reliable way to route end users to internet applications hosted in AWS. 
 Amazon Route 53 connects user requests to infrastructure running in AWS (such as Amazon EC2 instances and load balancers). It can route users to infrastructure outside of AWS.
 Another feature of Route 53 is the ability to manage the DNS records for domain names. You can register new domain names directly in Route 53. You can also transfer DNS records for existing domain names managed by other domain registrars. This enables you to manage all your domain names within a single location.
+
+`Note:` Features are available with Roue53 i.e Domain Registrations, DNS, Health checks, Routing Policy.
+
 In the previous module, you learned about Amazon CloudFront, a content delivery service. The following example describes how Route 53 and Amazon CloudFront work together to deliver content to customers.
 `Example:` How Amazon Route 53 and Amazon CloudFront deliver content
 
