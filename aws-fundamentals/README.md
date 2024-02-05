@@ -504,7 +504,7 @@ Amazon Route 53 is a DNS web service. It gives developers and businesses a relia
 Amazon Route 53 connects user requests to infrastructure running in AWS (such as Amazon EC2 instances and load balancers). It can route users to infrastructure outside of AWS.
 Another feature of Route 53 is the ability to manage the DNS records for domain names. You can register new domain names directly in Route 53. You can also transfer DNS records for existing domain names managed by other domain registrars. This enables you to manage all your domain names within a single location.
 
-`Note:` Features are available with Roue53 i.e Domain Registrations, DNS, Health checks, Routing Policy.
+`Note:` Features are available with Route53 i.e Domain Registrations, DNS, Health checks, Routing Policy.
 
 In the previous module, you learned about Amazon CloudFront, a content delivery service. The following example describes how Route 53 and Amazon CloudFront work together to deliver content to customers.
 `Example:` How Amazon Route 53 and Amazon CloudFront deliver content
