@@ -515,6 +515,8 @@ Suppose that any Company’s application is running on several Amazon EC2 instan
 3.	The customer’s request is sent to the nearest edge location through Amazon CloudFront.
 4.	Amazon CloudFront connects to the Application Load Balancer, which sends the incoming packet to an Amazon EC2 instance.
 
+`Route53 Routing Policy:` https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html
+
 ## Storage and Database ##
 
 Instance stores
