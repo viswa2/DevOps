@@ -160,3 +160,26 @@ CloudFormation, It's infrastructure as code. This means that you can build an en
    
 9. If we want to delete the resources there is no need to go each and indivual resources to delete simply go and delete the stack 
 
+## Cloud Front ##
+
+1. Create a bucket in S3
+2. Upload with the files for cloudfront testing.
+
+<img width="1371" alt="S3-bucket for Cloudfront" src="https://github.com/viswa2/DevOps/assets/34201574/e46ec12b-8c6a-47c3-a6b7-17e307adaf48">
+3. Now open the Object url it won't work due to AccessDenied error because we blocked the public access. This we can able to acheive by using cloudfront.
+
+<img width="775" alt="Cloudfront demo object url" src="https://github.com/viswa2/DevOps/assets/34201574/bd672d96-9a45-47ac-bebb-8ce6ccc1823f">
+
+4. Next in Amaznon search i.e cloudfront & Create distribution ie choose the name of bucket object url which we was created the bucket in 1st step
+5. Name of this origin i.e demo-cloudfront10.s3.us-east-1.amazonaws.com (it's same like the distrubution)
+6. Origin access public 
+7. Under Web Application Firewall (WAF) select Do not enable security protections
+8. under Default root object type index.html which we were uploaded earlier in s3 bucket and then click create distribution.
+9. Once the distribution status is enabled click on Distribution domain name and see the magic.
+
+<img width="358" alt="Cloudfront Image" src="https://github.com/viswa2/DevOps/assets/34201574/897a9dcd-6062-47ab-8d2d-557d76df830a">
+
+10. You can try with the domain name with the index.html and image.jpg etc.
+
+
+
