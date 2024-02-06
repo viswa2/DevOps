@@ -180,8 +180,9 @@ Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Ro
 5. Name of this origin i.e demo-cloudfront10.s3.us-east-1.amazonaws.com (it's same like the distrubution)
 6. Origin access public 
 7. Under Web Application Firewall (WAF) select Do not enable security protections
-8. under Default root object type index.html which we were uploaded earlier in s3 bucket and then click create distribution.
-9. Once the distribution status is enabled click on Distribution domain name and see the magic.
+8. under Default root object type `index.html` which we were uploaded earlier in s3 bucket and then click create distribution.
+9. Need to copy the policy of cloud front and paste under the bucket policy.
+10. Once the distribution status is enabled click on Distribution domain name and see the magic.
 
 <img width="358" alt="Cloudfront Image" src="https://github.com/viswa2/DevOps/assets/34201574/897a9dcd-6062-47ab-8d2d-557d76df830a">
 
