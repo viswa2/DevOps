@@ -162,10 +162,16 @@ CloudFormation, It's infrastructure as code. This means that you can build an en
 
 ## Cloud Front ##
 
+`Note:` Amazon CloudFront is a content delivery network (CDN) service built for high performance, security, and developer convenience. Caches and serves static & dynamic content it's a global service.
+
+**Protection against network and application layer attacks**
+Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Route 53 work seamlessly together to create a flexible, layered security perimeter against multiple types of attacks including network and application layer DDoS attacks.
+
 1. Create a bucket in S3
 2. Upload with the files for cloudfront testing.
 
 <img width="1371" alt="S3-bucket for Cloudfront" src="https://github.com/viswa2/DevOps/assets/34201574/e46ec12b-8c6a-47c3-a6b7-17e307adaf48">
+
 3. Now open the Object url it won't work due to AccessDenied error because we blocked the public access. This we can able to acheive by using cloudfront.
 
 <img width="775" alt="Cloudfront demo object url" src="https://github.com/viswa2/DevOps/assets/34201574/bd672d96-9a45-47ac-bebb-8ce6ccc1823f">
@@ -180,6 +186,4 @@ CloudFormation, It's infrastructure as code. This means that you can build an en
 <img width="358" alt="Cloudfront Image" src="https://github.com/viswa2/DevOps/assets/34201574/897a9dcd-6062-47ab-8d2d-557d76df830a">
 
 10. You can try with the domain name with the index.html and image.jpg etc.
-
-
 
