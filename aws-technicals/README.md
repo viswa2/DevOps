@@ -162,7 +162,7 @@ CloudFormation, It's infrastructure as code. This means that you can build an en
 
 ## Cloud Front ##
 
-`Note:` Amazon CloudFront is a content delivery network (CDN) service built for high performance, security, and developer convenience. Caches and serves static & dynamic content it's a global service.
+Amazon CloudFront is a content delivery network (CDN) service built for high performance, security, and developer convenience. Caches and serves static & dynamic content it's a `global` service.
 
 **Protection against network and application layer attacks**
 Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Route 53 work seamlessly together to create a flexible, layered security perimeter against multiple types of attacks including network and application layer DDoS attacks.
@@ -186,5 +186,5 @@ Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Ro
 
 <img width="358" alt="Cloudfront Image" src="https://github.com/viswa2/DevOps/assets/34201574/897a9dcd-6062-47ab-8d2d-557d76df830a">
 
-10. You can try with the domain name with the index.html and image.jpg etc.
+11. You can try with the domain name with the index.html and image.jpg etc.
 
