@@ -188,3 +188,7 @@ Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Ro
 
 11. You can try with the domain name with the index.html and image.jpg etc.
 
+## AWS Shared Responsibility Model ##
+
+<img width="496" alt="AWS-Shared-Responsibility-Model" src="https://github.com/viswa2/DevOps/assets/34201574/a27613ca-d83c-4c50-8126-8cc56a62e598">
+
