@@ -58,7 +58,7 @@ You’re already familiar with a form of SaaS if you have an email account with 
 SaaS is a great option for small businesses who don’t have the staff or bandwidth to handle software installation and updates, as well as for applications that don’t require much customization or that will only be used periodically. 
 What SaaS saves you in time and maintenance, however, it could cost you in control, security, and performance, so it’s important to choose a provider you can trust.
 
-`EX:` Dropbox, Salesforce, Google Apps, and Red Hat Insights are some examples of SaaS. 
+`EX:` Dropbox, Salesforce, Google Apps, i.e gmail and Red Hat Insights are some examples of SaaS. 
 
 `Reference Link:` IaaS vs PaaS vs SaaS (redhat.com)
 
