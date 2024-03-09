@@ -41,7 +41,7 @@ One way to use IaaS would be as a quick, flexible way to build up and take down 
 
 The main drawbacks to IaaS are the possibilities of provider security issues, multi-tenant systems where the provider must share infrastructure resources with multiple clients, and service reliability. These drawbacks can be avoided by choosing a reliable and trustworthy provider with a solid history and reputation.
 
-`EX:` Public cloud providers such as AWS, Microsoft Azure, and Google Cloud are examples of IaaS.
+`EX:` Public cloud providers such as AWS, AWS EC2, Microsoft Azure, and Google Cloud are examples of IaaS
 
 `PAAS:`
 Platform-as-a-service (PaaS) is another step further from full, on-premises infrastructure management. It is where a provider hosts the hardware and software on its own infrastructure and delivers this platform to the user as an integrated solution, solution stack, or service through an internet connection.
@@ -49,6 +49,7 @@ Platform-as-a-service (PaaS) is another step further from full, on-premises infr
 Primarily useful for developers and programmers, PaaS allows the user to develop, run, and manage their own apps without having to build and maintain the infrastructure or platform usually associated with the process. 
 You write the code, build, and manage your apps, but you do it without the headaches of software updates or hardware maintenance. The environment to build and deploy is provided for you. 
 PaaS is a way that developers can create a framework to build and customize their web-based applications on. Developers can use built-in software components to create their applications, which cuts down on the amount of code they must write themselves.
+
 `EX:` A few examples of PaaS are AWS Elastic Beanstalk, Heroku, and Red Hat OpenShift.
 
 `SAAS:`
@@ -154,7 +155,7 @@ To create an EC2 instance, you must define the following:
 
 • Logical configurations: Networking location, firewall rules, authentication, and the operating system of your choice.
 
-## Amazon Machine Image ##
+## Amazon Machine Image (AMI) ##
 
 When launching an EC2 instance, the first setting you configure is which operating system you want by selecting an Amazon Machine Image (AMI).
 
@@ -163,6 +164,8 @@ In the traditional infrastructure world, spinning up a server consists of instal
 An AMI includes the operating system, storage mapping, architecture type, launch permissions, and any additional preinstalled software applications.
 
 Each AMI in the AWS Management Console has an AMI ID, which is prefixed by ami-, followed by a random hash of numbers and letters. The IDs are unique to each AWS Region.
+
+The Amazon Machine Image (AMI) must be in the same region as that of the Amazon EC2 instance to be launched. If the Amazon Machine Image (AMI) exists in a different region, you can copy that Amazon Machine Image (AMI) to the region where you want to launch the EC2 instance. The region of Amazon Machine Image (AMI) has no bearing on the performance of the Amazon EC2 instance.
 
 <img width="873" alt="AMI" src="https://github.com/viswa2/devops/assets/34201574/c703fb96-7b6b-4108-9a60-a569d77a567e">
 
@@ -295,7 +298,7 @@ Next, you can set the desired capacity at two Amazon EC2 instances even though y
 
 `Note:` If you do not specify the desired number of Amazon EC2 instances in an Auto Scaling group, the desired capacity defaults to your minimum capacity.
 
-The third configuration that you can set in an Auto Scaling group is the maximum capacity. For example, you might configure the Auto Scaling group to scale out in response to increased demand, but only to a maximum of four Amazon EC2 instances.
+The third configuration that you can set in an Auto Scaling group is the maximum capacity. For example, you might configure the Auto Scaling group to `scales out` in response to increased demand, but only to a maximum of four Amazon EC2 instances. `scales in` and reduces the number of Amazon EC2 instances to match a decrease in demand
 Because Amazon EC2 Auto Scaling uses Amazon EC2 instances, you pay for only the instances you use when you use them. You now have a cost-effective architecture that provides the best customer experience while reducing expenses.
 
 ## Elastic Load Balancing ##
@@ -321,14 +324,14 @@ If only a few registers are open, this matches the demand of customers who need 
 
 Throughout the day, as the number of customers increases, the coffee shop opens more registers to accommodate them. In the diagram, the Auto Scaling group represents this. Additionally, a coffee shop employee directs customers to the most appropriate register so that the number of requests can evenly distribute across the open registers. You can think of this coffee shop employee as a load balancer. 
 
-`Amazon Simple Notification Service (Amazon SNS)`
+`Amazon Simple Notification Service (SNS)`
 
 Amazon Simple Notification Service (Amazon SNS) is a publish/subscribe service. Using Amazon SNS topics, a publisher publishes messages to subscribers. This is like the coffee shop; the cashier provides coffee orders to the barista who makes the drinks.
 In Amazon SNS, subscribers can be web servers, email addresses, AWS Lambda functions, or several other options.
 
-`Amazon Simple Queue Service (Amazon SQS)`
+`Amazon Simple Queue Service (SQS)`
 
-Amazon Simple Queue Service (Amazon SQS) is a message queuing service. Using Amazon SQS, you can send, store, and receive messages between software components, without losing messages or requiring other services to be available. In Amazon SQS, an application sends messages into a queue. A user or service retrieves a message from the queue, processes it, and then deletes it from the queue.
+Amazon Simple Queue Service (Amazon SQS) is a message queuing service. Using Amazon SQS, you can send, store, and receive messages between software components, without losing messages or requiring other services to be available. In Amazon SQS, an application sends messages into a queue. A user or service retrieves a message from the queue, processes it, and then deletes it from the queue. Is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications.
 
 Example: Amazon SQS
 Example: Fulfilling an order
@@ -457,7 +460,7 @@ The VPC component that checks packet permissions for subnets is a network access
 
 ## Network access control lists (ACLs) ##
 
-A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is stateless and allows all inbound and outbound traffic.
+A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is `stateless` and allows all inbound and outbound traffic.
 For example, step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
   
 <img width="419" alt="NACL" src="https://github.com/viswa2/devops/assets/34201574/af446d10-18cf-45a4-a2ca-40b1fcdc7943">
@@ -469,13 +472,11 @@ By default, your account’s default network ACL allows all inbound and outbound
 
 ## Security Groups ##
 
-`Security groups` A security group is a virtual firewall that controls inbound and outbound traffic for an Amazon EC2 instance.
+`Security groups` A security group is a virtual firewall that controls inbound and outbound traffic for an Amazon EC2 instance, not at the subnet level.
 
 <img width="360" alt="Security-Group" src="https://github.com/viswa2/devops/assets/34201574/bd5e5012-35a2-463d-97ec-a1426320fc19">
 
-By default, a security group denies all inbound traffic and allows all outbound traffic. You can add custom rules to configure which traffic to allow or deny.
-For this example, suppose that you are in an apartment building with a door attendant who greets guests in the lobby. 
-You can think of the guests as packets and the door attendant as a security group. As guests arrive, the door attendant checks a list to ensure they can enter the building. However, the door attendant does not check the list again when guests are exiting the building.
+You can add custom rules to configure which traffic to allow or deny. Security groups are `stateful`. 
 
 If you have multiple Amazon EC2 instances within a subnet, you can associate them with the same security group or use different security groups for each instance. 
 
@@ -510,6 +511,14 @@ In the previous module, you learned about Amazon CloudFront, a content delivery 
 `Example:` How Amazon Route 53 and Amazon CloudFront deliver content
 
 <img width="452" alt="Route53" src="https://github.com/viswa2/devops/assets/34201574/ea3c0b6a-19a3-4a6e-85d6-6a16dc540e4c">
+
+`Simple routing` - Simple routing lets you configure standard DNS records, with no special Route 53 routing such as weighted or latency. With simple routing, you typically route traffic to a single resource, for example, to a web server for your website.
+
+`Weighted routing` - This routing policy is used to route traffic to multiple resources in proportions that you specify.
+
+`Latency-based routing` - This routing policy is used when you have resources in multiple AWS Regions and you want to route traffic to the region that provides the best latency.
+
+`Failover routing policy` is used when you want to configure `active-passive failover`. Failover routing lets you route traffic to a resource when the resource is healthy or to a different resource when the first resource is unhealthy. The primary and secondary records can route traffic to anything from an Amazon S3 bucket that is configured as a website to a complex tree of records. 
 
 Suppose that any Company’s application is running on several Amazon EC2 instances. These instances are in an Auto Scaling group that attaches to an Application Load Balancer. 
 
@@ -559,7 +568,7 @@ The data might be an image, video, text document, or any other type of file. Met
 
 Amazon Simple Storage Service (Amazon S3) is a service that provides object-level storage. Amazon S3 stores data as objects in buckets.
 You can upload any type of file to Amazon S3, such as images, videos, text files, and so on. For example, you might use Amazon S3 to store backup files, media files for a website, or archived documents. Amazon S3 offers unlimited storage space. The maximum file size for an object in Amazon S3 is 5 TB.
-When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time.
+When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time. `All Amazon S3 buckets have encryption configured by default, and objects are automatically encrypted by using server-side encryption with Amazon S3 managed keys (SSE-S3). This encryption setting applies to all objects in your Amazon S3 buckets.`
 
 ## Amazon S3 storage classes ##
 
@@ -611,7 +620,7 @@ Amazon S3 Glacier Flexible Retrieval is a low-cost storage class that is ideal f
 
 •	Lowest-cost object storage class ideal for archiving
 •	Able to retrieve objects within 12 hours.
-Amazon S3 Deep Archive supports long-term retention and digital preservation for data that might be accessed once or twice in a year. This storage class is the lowest-cost storage in the AWS Cloud, with data retrieval from 12 to 48 hours. All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones.
+Amazon S3 Deep Archive supports long-term retention and digital preservation for data that might be accessed once or twice in a year. This storage class is the lowest-cost storage in the AWS Cloud, with data retrieval from 12 to 48 hours. All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones. particularly those in highly-regulated industries, such as the Financial Services, Healthcare, and Public Sectors — that retain data sets for 7-10 years or longer to meet regulatory compliance requirements. Amazon S3 Glacier Deep Archive can also be used for backup and disaster recovery use cases
 
 `Amazon S3 Outposts`
 
@@ -620,6 +629,10 @@ Amazon S3 Deep Archive supports long-term retention and digital preservation for
 Amazon S3 Outposts delivers object storage to your on-premises AWS Outposts environment. Amazon S3 Outposts is designed to store data durably and redundantly across multiple devices and servers on your Outposts. It works well for workloads with local data residency requirements that must satisfy demanding performance needs by keeping data close to on-premises applications.
 
 Reference Links: https://aws.amazon.com/s3/storage-classes/
+
+## AWS Storage Gateway ##
+
+AWS Storage Gateway is a hybrid cloud storage service that gives you on-premises access to virtually unlimited cloud storage. All data transferred between the gateway and AWS storage is encrypted using SSL (for all three types of gateways - File, Volume and Tape Gateways).
 
 ## Amazon Elastic File System (Amazon EFS) ##
 
@@ -1067,7 +1080,7 @@ o	Compute: 52 vCPUs, 208 GiB of memory, and an optional NVIDIA Tesla V100 GPU. D
 AWS Snowmobile is an exabyte-scale data transfer service used to move large amounts of data to AWS. 
 You can transfer up to 100 petabytes of data per Snowmobile, a 45-foot-long ruggedized shipping container, pulled by a semi-trailer truck.
 
-## AWS Well-Architected Framework ##
+## AWS Well-Architected Framework (WAF) ##
 
 The AWS Well-Architected Framework helps you understand how to design and operate reliable, secure, efficient, and cost-effective systems in the AWS Cloud. It provides a way for you to consistently measure your architecture against best practices and design principles and identify areas for improvement.
 
@@ -1081,11 +1094,11 @@ The AWS Well-Architected Framework helps you understand how to design and operat
 •	Performance efficiency
 •	Cost optimization
 •	Sustainability
-Operational excellence is the ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures.  
+`Operational excellence` is the ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures.  
 
-Design principles for operational excellence in the cloud include performing operations as code, annotating documentation, anticipating failure, and frequently making small, reversible changes.
+Design principles for operational excellence in the cloud You can define your entire workload (applications, infrastructure) as code and update it with code. annotating documentation, anticipating failure, and frequently making small, reversible changes.
 
-The Security pillar is the ability to protect information, systems, and assets while delivering business value through risk assessments and mitigation strategies. 
+The `security` pillar focuses on protecting information & systems. Key topics include confidentiality and integrity of data, identifying and managing who can do what with privilege management, protecting systems, and establishing controls to detect security events.
 
 `When considering the security of your architecture, apply these best practices:`
 •	Automate security best practices when possible.
@@ -1095,13 +1108,14 @@ Reliability is the ability of a system to do the following:
 •	Recover from infrastructure or service disruptions.
 •	Dynamically acquire computing resources to meet demand.
 •	Mitigate disruptions such as misconfigurations or transient network issues.
+
 Reliability includes testing recovery procedures, scaling horizontally to increase aggregate system availability, and automatically recovering from failure.
 
 Performance efficiency is the ability to use computing resources efficiently to meet system requirements and to maintain that efficiency as demand changes and technologies evolve. 
 
 Evaluating the performance efficiency of your architecture includes experimenting more often, using serverless architectures, and designing systems to be able to go global in minutes.
 
-Cost optimization is the ability to run systems to deliver business value at the lowest price point. 
+Cost optimization is the ability to run systems to deliver business value at the lowest price point. Cost Optimization focuses on avoiding un-needed costs 
 
 Cost optimization includes adopting a consumption model, analyzing and attributing expenditure, and using managed services to reduce the cost of ownership.
 
