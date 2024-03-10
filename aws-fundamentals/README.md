@@ -570,6 +570,8 @@ Amazon Simple Storage Service (Amazon S3) is a service that provides object-leve
 You can upload any type of file to Amazon S3, such as images, videos, text files, and so on. For example, you might use Amazon S3 to store backup files, media files for a website, or archived documents. Amazon S3 offers unlimited storage space. The maximum file size for an object in Amazon S3 is 5 TB.
 When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time. `All Amazon S3 buckets have encryption configured by default, and objects are automatically encrypted by using server-side encryption with Amazon S3 managed keys (SSE-S3). This encryption setting applies to all objects in your Amazon S3 buckets.`
 
+`Note:` Enable the bucket versioning can use to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket. With versioning, you can easily recover from both unintended user actions and application failures.
+
 ## Amazon S3 storage classes ##
 
 With Amazon S3, you pay only for what you use. You can choose from a range of storage classes to select a fit for your business and cost needs. When selecting an Amazon S3 storage class, consider these two factors:
@@ -702,6 +704,8 @@ With AWS DMS, you move data between a source database and a target database. The
 
 For example, suppose that you have a MySQL database that is stored on premises in an Amazon EC2 instance or in Amazon RDS. Consider the MySQL database to be your source database. Using AWS DMS, you could migrate your data to a target database, such as an Amazon Aurora database.
 
+<img width="679" alt="Differences b:w databases" src="https://github.com/viswa2/DevOps/assets/34201574/f3b16e97-12bf-4664-8fe5-27ec9d688f01">
+
 ## AWS Identity and Access Management (IAM) ##
 
 AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely.   
@@ -725,10 +729,11 @@ Do not use the root user for everyday tasks.
 Instead, use the root user to create your first IAM user and assign it permissions to create other users.
 Then, continue to create other IAM users, and access those identities for performing regular tasks throughout AWS. Only use the root user when you need to perform a limited number of tasks that are only available to the root user. Examples of these tasks include changing your root user email address and changing your AWS support plan.
 
+
 ## IAM users ##
 
 An IAM user is an identity that you create in AWS. It represents the person or application that interacts with AWS services and resources. It consists of a name and credentials.
-By default, when you create a new IAM user in AWS, it has no permissions associated with it. To allow the IAM user to perform specific actions in AWS, such as launching an Amazon EC2 instance or creating an Amazon S3 bucket, you must grant the IAM user the necessary permissions.
+By default, when you create a new IAM user in AWS, it has no permissions associated with it. To allow the IAM user to perform specific actions in AWS, such as launching an Amazon EC2 instance or creating an Amazon S3 bucket, you must grant the IAM user the necessary permissions. AWS recommends that you require `multi-factor authentication (MFA)` for all users in your account and rotate credentials regularly.
 
 `Best practice:`
 
@@ -858,7 +863,7 @@ After Amazon Inspector has performed an assessment, it provides you with a list 
 
 ## Amazon Guard Duty ##
 
-Amazon Guard Duty is a service that provides intelligent threat detection for your AWS infrastructure and resources. It identifies threats by continuously monitoring the network activity and account behaviour within your AWS environment.
+Amazon Guard Duty is a service that provides intelligent threat detection malicious activity and unauthorized behavior to protect your AWS account.
 
 <img width="452" alt="Amazon-Guard" src="https://github.com/viswa2/devops/assets/34201574/5379a58b-a6b3-42cb-832e-2ca44a136b73">
 
@@ -881,6 +886,8 @@ In this scenario, you could create a CloudWatch alarm that automatically stops a
 <img width="452" alt="Cloudwatch-Dashboard" src="https://github.com/viswa2/devops/assets/34201574/bb359427-2992-4b37-8e5a-506cdb0b19cf">
 
 The `CloudWatch dashboard` feature enables you to access all the metrics for your resources from a single location. For example, you can use a CloudWatch dashboard to monitor the CPU utilization of an Amazon EC2 instance, the total number of requests made to an Amazon S3 bucket, and more. You can even customize separate dashboards for different business purposes, applications, or resources.
+
+`Note:` CloudWatch billing metric data is stored in US East (N. Virginia) - us-east-1
 
 ## AWS CloudTrail ##
 
@@ -1133,4 +1140,12 @@ To facilitate good design for sustainability:
 
 `Reference Link:` https://aws.amazon.com/certification/certified-cloud-practitioner/
 
+## AWS Health Dashboard – Your account health ##
 
+AWS Health Dashboard – Your account health provides alerts and remediation guidance when AWS is experiencing events that may impact you.
+
+AWS Health Dashboard – Your account health, alerts are triggered by changes in the health of your AWS resources, giving you event visibility, and guidance to help quickly diagnose and resolve issues.
+
+## AWS Config ##
+
+AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. AWS Config continuously monitors and records your AWS resource configurations and allows you to automate the evaluation of recorded configurations against desired configurations.
