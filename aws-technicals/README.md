@@ -99,7 +99,7 @@
 ## Static website hosting ##
 
 1. Click buckets --> Bucket name --> properties --> edit and enable static website hosting --> Save changes
-2. Upload the indx.html file into the bucket
+2. Upload the index.html file into the bucket
 3. Go to the Static website hosting click on url find the below image as reference.
 
 <img width="591" alt="static-website-hosting" src="https://github.com/viswa2/DevOps/assets/34201574/129d1275-f623-4365-9a0c-ffc7951bc278">
@@ -192,3 +192,6 @@ Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Ro
 
 <img width="496" alt="AWS-Shared-Responsibility-Model" src="https://github.com/viswa2/DevOps/assets/34201574/a27613ca-d83c-4c50-8126-8cc56a62e598">
 
+Under the AWS Shared Responsibility Model, customer's responsibility is determined by the AWS Cloud services that a customer selects. For abstracted services, such as Amazon S3 and Amazon DynamoDB, AWS operates the infrastructure layer, the operating system, and platforms, and customers access the endpoints to store and retrieve data. Customers are responsible for managing their data (including encryption options), classifying their assets, and using IAM tools to apply the appropriate permissions.
+
+For the given use-case, the customer is responsible for maintaining the versions of an AWS Lambda function.
