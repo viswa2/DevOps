@@ -242,6 +242,8 @@ After you have launched a Spot Instance, if capacity is no longer available or d
 
  Amazon EC2 Dedicated Hosts allow you to use your eligible software licenses from vendors such as Microsoft and Oracle on Amazon EC2 so that you get the flexibility and cost-effectiveness of using your licenses, but with the resiliency, simplicity, and elasticity of AWS. An Amazon EC2 Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirement.
 
+<img width="691" alt="EC2-Pricing" src="https://github.com/viswa2/DevOps/assets/34201574/b328405a-158d-4f49-b2fb-7114121ef3f2">
+
 ## Amazon EC2 instance types ##
 
 EC2 instances are a combination of virtual processors (vCPUs), memory, network, and, in some cases, instance storage and graphics processing units (GPUs). When you create an EC2 instance, you need to choose how much you need of each of these components.
