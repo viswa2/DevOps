@@ -211,9 +211,8 @@ You can think of input operations as data put into a system, such as records ent
 
 `On-Demand:`
 
-On-Demand Instances are ideal for short-term, irregular workloads that cannot be interrupted. No upfront costs or minimum contracts apply. The instances run continuously until you stop them, and you pay for only the compute time you use.
-
-Sample use cases for On-Demand Instances include developing and testing applications and running applications that have unpredictable usage patterns. On-Demand Instances are not recommended for workloads that last a year or longer because these workloads can experience greater cost savings using Reserved Instances.
+An On-Demand Instance is an instance that you use on-demand. You have full control over its lifecycle — you decide when to launch, stop, hibernate, start, reboot, or terminate it. There is no long-term commitment required when you purchase On-Demand Instances. 
+There is no upfront payment and you pay only for the seconds that your On-Demand Instances are running. The price per second for running an On-Demand Instance is fixed. On-demand instances cannot be interrupted.
 
 `Saving Plans:`
 
@@ -225,7 +224,7 @@ Later in this course, you will review AWS Cost Explorer, a tool that enables you
 
 `Reserved Instances:`
 
-Reserved Instances are a billing discount applied to the use of On-Demand Instances in your account. You can purchase Standard Reserved and Convertible Reserved Instances for a 1-year or 3-year term and Scheduled Reserved Instances for a 1-year term. You realize greater cost savings with the 3-year option.
+Reserved Instances (RI) provide you with significant savings (up to 75%) on your Amazon EC2 costs compared to On-Demand Instance pricing. You can purchase Standard Reserved and Convertible Reserved Instances for a 1-year or 3-year term and Scheduled Reserved Instances for a 1-year term. You realize greater cost savings with the 3-year option.
 
 At the end of a Reserved Instance term, you can continue using the Amazon EC2 instance without interruption. However, you are charged On-Demand rates until you do one of the following:
 •	Terminate the instance.
@@ -237,13 +236,11 @@ Spot Instances are ideal for workloads with flexible start and end times, or tha
 
 Suppose that you have a background processing job that can start and stop as needed (such as the data processing job for a customer survey). You want to start and stop the processing job without affecting the overall operations of your business. If you make a Spot request and Amazon EC2 capacity is available, your Spot Instance launches. However, if you make a Spot request and Amazon EC2 capacity is unavailable, the request is not successful until capacity becomes available. The unavailable capacity might delay the launch of your background processing job.
 
-After you have launched a Spot Instance, if capacity is no longer available or demand for Spot Instances increases, your instance may be interrupted. This might not pose any issues for your background processing job. However, in the earlier example of developing and testing applications, you would most likely want to avoid unexpected interruptions. Therefore, choose a different EC2 instance type that is ideal for those tasks.
+After you have launched a Spot Instance, if capacity is no longer available or demand for Spot Instances increases, your `instance may be interrupted.` This might not pose any issues for your background processing job. However, in the earlier example of developing and testing applications, you would most likely want to avoid unexpected interruptions. Therefore, choose a different EC2 instance type that is ideal for those tasks.
 
 `Dedicated Hosts:`
 
-Dedicated Hosts are physical servers with Amazon EC2 instance capacity that is fully dedicated to your use. 
-
-You can use your existing per-socket, per-core, or per-VM software licenses to help maintain license compliance. You can purchase On-Demand Dedicated Hosts and Dedicated Hosts Reservations. Of all the Amazon EC2 options that were covered, Dedicated Hosts are the most expensive.
+ Amazon EC2 Dedicated Hosts allow you to use your eligible software licenses from vendors such as Microsoft and Oracle on Amazon EC2 so that you get the flexibility and cost-effectiveness of using your licenses, but with the resiliency, simplicity, and elasticity of AWS. An Amazon EC2 Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirement.
 
 ## Amazon EC2 instance types ##
 
@@ -423,6 +420,7 @@ An internet gateway is a connection between a VPC and the internet. You can thin
 `What if you have a VPC that includes only private resources?`
 
 ## Virtual private gateway ##
+
 To access private resources in a VPC, you can use a virtual private gateway. 
 Here’s an example of how a virtual private gateway works. You can think of the internet as the road between your home and the coffee shop. Suppose that you are traveling on this road with a bodyguard to protect you. You are still using the same road as other customers, but with an extra layer of protection. 
 
@@ -434,6 +432,7 @@ The virtual private gateway is the component that allows protected internet traf
 `A virtual private` gateway enables you to establish a virtual private network (VPN) connection between your VPC and a private network, such as an on-premises data centre or internal corporate network. A virtual private gateway allows traffic into the VPC only if it is coming from an approved network.
 
 ## AWS Direct Connect ##
+
 AWS Direct Connect is a service that enables you to establish a dedicated private connection between your data centre and a VPC.  
 Suppose that there is an apartment building with a hallway directly linking the building to the coffee shop. Only the residents of the apartment building can travel through this hallway. 
 This private hallway provides the same type of dedicated connection as AWS Direct Connect. Residents can get into the coffee shop without needing to use the public road shared with other customers.
@@ -443,6 +442,7 @@ This private hallway provides the same type of dedicated connection as AWS Direc
 The private connection that AWS Direct Connect provides helps you to reduce network costs and increase the amount of bandwidth that can travel through your network.
 
 ## Subnets ##
+
 A subnet is a section of a VPC in which you can group resources based on security or operational needs. Subnets can be public or private.
 
 <img width="431" alt="Subnet" src="https://github.com/viswa2/devops/assets/34201574/dffd2503-486b-4922-bcab-7fa724609312">
@@ -485,6 +485,10 @@ If you have multiple Amazon EC2 instances within a subnet, you can associate the
 In the following, match each part of the application to the correct VPC component.
 
 ![VPC-Component](https://github.com/viswa2/devops/assets/34201574/c4ea93f0-5a8c-4ea3-a251-0a4cc134f4ae)
+
+## AWS Transit Gateway ##
+
+AWS Transit Gateway connects Amazon Virtual Private Clouds (Amazon VPC) and on-premises networks through a central hub. This simplifies your network and puts an end to complex peering relationships. It acts as a cloud router – each new connection is only made once. As you expand globally, inter-Region peering connects AWS Transit Gateways using the AWS global network. Your data is automatically encrypted and never travels over the public internet.
 
 ## Domain Name System (DNS) ##
 
@@ -644,6 +648,8 @@ In file storage, multiple clients (such as users, applications, servers, and so 
 Compared to block storage and object storage, file storage is ideal for use cases in which many services and resources need to access the same data at the same time.
 
 `Amazon Elastic File System (Amazon EFS)` is a scalable file system used with AWS Cloud services and on-premises resources. As you add and remove files, Amazon EFS grows and shrinks automatically. It can scale on demand to petabytes without disrupting applications. 
+
+`Amazon EFS` is a regional service storing data within and across multiple Availability Zones (AZs) for high availability and durability. Amazon EC2 instances can access your file system across AZs, regions, and VPCs, while on-premises servers can access using AWS Direct Connect or AWS VPN.
 
 ## Amazon Relational Database Service (Amazon RDS) ##
 
@@ -820,12 +826,12 @@ To help minimize the effect of DoS and DDoS attacks on your applications, you ca
 
 ## AWS Shield ##
 
-AWS Shield is a service that protects applications against DDoS attacks. AWS Shield provides two levels of protection: Standard and Advanced.
-AWS Shield Standard automatically protects all AWS customers at no cost. It protects your AWS resources from the most common, frequently occurring types of DDoS attacks. 
+AWS Shield is a service that protects applications against `DDoS attacks.` AWS Shield provides two levels of protection: Standard and Advanced.
+AWS Shield Standard automatically protects all AWS customers at no cost. It protects your AWS resources from the most common, frequently occurring types of `DDoS attacks.`
 
 As network traffic comes into your applications, AWS Shield Standard uses a variety of analysis techniques to detect malicious traffic in real time and automatically mitigates it. 
 
-AWS Shield Advanced is a paid service that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks. 
+AWS Shield Advanced is a paid service for all customers, irrespective of the Support plan. that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks. 
 
 It also integrates with other services such as Amazon CloudFront, Amazon Route 53, and Elastic Load Balancing. Additionally, you can integrate AWS Shield with AWS WAF by writing custom rules to mitigate complex DDoS attacks.
 
@@ -837,7 +843,7 @@ In the same way, you must ensure that your applications’ data is secure while 
 `AWS Key Management Service (AWS KMS)` enables you to perform encryption operations using cryptographic keys. A cryptographic key is a random string of digits used for locking (encrypting) and unlocking (decrypting) data. You can use AWS KMS to create, manage, and use cryptographic keys. You can also control the use of keys across a wide range of services and in your applications.
 With AWS KMS, you can choose the specific levels of access control that you need for your keys. For example, you can specify which IAM users and roles are able to manage keys. Alternatively, you can temporarily disable keys so that they are no longer in use by anyone. Your keys never leave AWS KMS, and you are always in control of them.
 
-## AWS WAF ##
+## AWS  Web Application Firewall (WAF) ##
 
 `AWS WAF` is a web application firewall that lets you monitor network requests that come into your web applications. 
 AWS WAF works together with Amazon CloudFront and an Application Load Balancer. Recall the network access control lists that you learned about in an earlier module. AWS WAF works in a similar way to block or allow traffic. However, it does this by using a web access control list (ACL) to protect your AWS resources. 
@@ -960,6 +966,8 @@ Which pricing tool is used to visualize, understand, and manage your AWS costs a
 
 `Ans:`  AWS Cost Explorer
 
+AWS Cost Explorer - AWS Cost Explorer has an easy-to-use interface that lets you visualize, understand, and manage your AWS costs and usage over time. AWS Cost Explorer includes a default report that helps you visualize the costs and usage associated with your top five cost-accruing AWS services, and gives you a detailed breakdown of all services in the table view.
+
 Which pricing tool enables you to receive alerts when your service usage exceeds a threshold that you have defined?
 
 `Ans:` AWS Budgets
@@ -979,6 +987,8 @@ Your company wants to receive support from an AWS Technical Account Manager (TAM
 `Ans:` Enterprise
 
 A Technical Account Manager (TAM) is available only to AWS customers with the Enterprise On-Ramp and Enterprise Support plans. A TAM provides guidance, architectural reviews, and ongoing communication with your company as you plan, deploy, and optimize your applications.
+
+`AWS Pricing Calculator` - AWS Pricing Calculator lets you explore AWS services and create an estimate for the cost of your use cases on AWS. You can model your solutions before building them, explore the price points and calculations behind your estimate, and find the available instance types and contract terms that meet your needs.
 
 Which service or resource is used to find third-party software that runs on AWS?
 
@@ -1156,4 +1166,6 @@ AWS Health Dashboard – Your account health, alerts are triggered by changes in
 
 ## AWS Config ##
 
-AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. AWS Config continuously monitors and records your AWS resource configurations and allows you to automate the evaluation of recorded configurations against desired configurations.
+AWS Config
+
+AWS Config provides a detailed view of the configuration of AWS resources in your AWS account. This includes how the resources are related to one another and how they were configured in the past so that you can see how the configurations and relationships change over time. AWS Config is designed to help you oversee your application resources in the following scenarios: Resource Administration, Auditing and Compliance, Managing and Troubleshooting Configuration Changes, Security Analysis.
