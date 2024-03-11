@@ -966,6 +966,14 @@ Which pricing tool enables you to receive alerts when your service usage exceeds
 
 In AWS Budgets, you can set custom alerts that will notify you when your service usage exceeds (or is forecasted to exceed) the amount that you have budgeted.
 
+AWS Budgets enable you to plan your service usage, service costs, and instance reservations. AWS Budgets information is updated up to three times a day. Updates typically occur between 8 to 12 hours after the previous update. Budgets track your unblended costs, subscriptions, refunds, and RIs.
+
+`Cost budget` - Helps you plan how much you want to spend on a service.
+
+`Usage budget` - Helps you plan how much you want to use one or more services.
+
+`Reservation budget` - This helps you track the usage of your Reserved Instances (RI). Two ways of doing it - Reserved Instance (RI) utilization budgets (This lets you see if your Reserved Instances (RI) are unused or under-utilized), Reserved Instance (RI) coverage budgets
+
 Your company wants to receive support from an AWS Technical Account Manager (TAM). Which support plan should you choose?
 
 `Ans:` Enterprise
