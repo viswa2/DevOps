@@ -407,15 +407,15 @@ With AWS Elastic Beanstalk, you provide code and configuration settings, and Ela
 
 Amazon Virtual Private Cloud (Amazon VPC)
 A networking service that you can use to establish boundaries around your AWS resources is Amazon Virtual Private Cloud (Amazon VPC).
-Amazon VPC enables you to provision an isolated section of the AWS Cloud. In this isolated section, you can launch resources in a virtual network that you define. Within a virtual private cloud (VPC), you can organize your resources into subnets. A subnet is a section of a VPC that can contain resources such as Amazon EC2 instances.
+Amazon VPC enables you to provision an `isolated section of the AWS Cloud`. In this isolated section, you can launch resources in a virtual network that you define. Within a virtual private cloud (VPC), you can organize your resources into subnets. A subnet is a section of a VPC that can contain resources such as Amazon EC2 instances.
 
 `Note:` An Amazon Virtual Private Cloud (Amazon VPC) spans all of the Availability Zones (AZ) in the Region whereas a subnet spans only one Availability Zone (AZ) in the Region
 
 ## Internet gateway ##
 
-To allow public traffic from the internet to access your VPC, you attach an internet gateway to the VPC.
+To allow `public traffic from the internet` to access your VPC, you attach an internet gateway to the VPC.
 
-An internet gateway is a connection between a VPC and the internet. You can think of an internet gateway as being like a doorway that customers use to enter the coffee shop. Without an internet gateway, no one can access the resources within your VPC.
+An internet gateway is a connection `between a VPC and the internet`. You can think of an internet gateway as being like a doorway that customers use to enter the coffee shop. Without an internet gateway, no one can access the resources within your VPC.
 
 <img width="452" alt="Internet-Gateway" src="https://github.com/viswa2/devops/assets/34201574/fd919a4f-d9a7-442a-a95d-2bb5e43d98fa">
 
@@ -423,11 +423,11 @@ An internet gateway is a connection between a VPC and the internet. You can thin
 
 ## Virtual private gateway ##
 
-To access private resources in a VPC, you can use a virtual private gateway. 
+To access private resources in a VPC, you can use a `virtual private gateway.` 
 Here’s an example of how a virtual private gateway works. You can think of the internet as the road between your home and the coffee shop. Suppose that you are traveling on this road with a bodyguard to protect you. You are still using the same road as other customers, but with an extra layer of protection. 
 
 The bodyguard is like a virtual private network (VPN) connection that encrypts (or protects) your internet traffic from all the other requests around it. 
-The virtual private gateway is the component that allows protected internet traffic to enter the VPC. Even though your connection to the coffee shop has extra protection, traffic jams are possible because you’re using the same road as other customers. 
+`The virtual private gateway is the component that allows protected internet traffic to enter the VPC`. Even though your connection to the coffee shop has extra protection, traffic jams are possible because you’re using the same road as other customers. 
 
 <img width="452" alt="VPG" src="https://github.com/viswa2/devops/assets/34201574/a012decd-9f79-4898-b0a2-bb2bd14ec5f9">
 
@@ -435,13 +435,13 @@ The virtual private gateway is the component that allows protected internet traf
 
 ## AWS Direct Connect ##
 
-AWS Direct Connect is a service that enables you to establish a dedicated private connection between your data centre and a VPC.  
+AWS Direct Connect is a service that enables you to `establish a dedicated private connection between your data centre and a VPC`.  
 Suppose that there is an apartment building with a hallway directly linking the building to the coffee shop. Only the residents of the apartment building can travel through this hallway. 
 This private hallway provides the same type of dedicated connection as AWS Direct Connect. Residents can get into the coffee shop without needing to use the public road shared with other customers.
 
 <img width="452" alt="Vpc" src="https://github.com/viswa2/devops/assets/34201574/278ec920-33cd-4ca3-bbc7-a25093ff5044">
 
-The private connection that AWS Direct Connect provides helps you to reduce network costs and increase the amount of bandwidth that can travel through your network.
+The private connection that AWS Direct Connect provides helps you to `reduce network costs and increase the amount of bandwidth` that can travel through your network.
 
 ## Subnets ##
 
@@ -452,7 +452,7 @@ A subnet is a section of a VPC in which you can group resources based on securit
 `Public subnets` contain resources that need to be accessible by the public, such as an online store’s website.
 
 `Private subnets` contain resources that should be accessible only through your private network, such as a database that contains customers’ personal information and order histories. 
-In a VPC, subnets can communicate with each other. For example, you might have an application that involves Amazon EC2 instances in a public subnet communicating with databases that are in a private subnet. The public subnet can communicate with the private subnet because the CIDR of the private subnet falls within the local route of the route table associated with the public subnet.
+In a VPC, subnets can communicate with each other. For example, you might have an application that involves Amazon EC2 instances in a public subnet communicating with databases that are in a private subnet. `The public subnet can communicate with the private subnet because the CIDR of the private subnet falls within the local route of the route table associated with the public subnet`.
 
 ## Network traffic in a VPC ##
 
@@ -462,8 +462,8 @@ The VPC component that checks packet permissions for subnets is a network access
 
 ## Network access control lists (ACLs) ##
 
-A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is `stateless` and allows all inbound and outbound traffic.
-For example, step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
+`A network access control list (ACL) is a virtual firewall that controls inbound and outbound traffic at the subnet level. It is stateless` and allows all inbound and outbound traffic.
+`EX:` step outside of the coffee shop and imagine that you are in an airport. In the airport, travelers are trying to enter a different country. You can think of the travellers as packets and the passport control officer as a network ACL. The passport control officer checks travelers’ credentials when they are both entering and exiting out of the country. If a traveler is on an approved list, they can get through. However, if they are not on the approved list or are explicitly on a list of banned travelers, they cannot come in.
   
 <img width="419" alt="NACL" src="https://github.com/viswa2/devops/assets/34201574/af446d10-18cf-45a4-a2ca-40b1fcdc7943">
 
@@ -474,7 +474,7 @@ By default, your account’s default network ACL allows all inbound and outbound
 
 ## Security Groups ##
 
-`Security groups` A security group is a virtual firewall that controls inbound and outbound traffic for an Amazon EC2 instance, not at the subnet level.
+`A security group is a virtual firewall that controls inbound and outbound traffic for an Amazon EC2 instance level` not at the subnet level.
 
 <img width="360" alt="Security-Group" src="https://github.com/viswa2/devops/assets/34201574/bd5e5012-35a2-463d-97ec-a1426320fc19">
 
@@ -482,7 +482,7 @@ You can add custom rules to configure which traffic to allow or deny. Security g
 
 If you have multiple Amazon EC2 instances within a subnet, you can associate them with the same security group or use different security groups for each instance. 
 
-`Note:` Security Group acts as a firewall at the instance level whereas Network Access Control List (Network ACL) acts as a firewall at the subnet level
+`Note:` Security Group acts as a firewall at the virtual instance level whereas Network Access Control List (Network ACL) acts as a firewall at the subnet level.
 
 In the following, match each part of the application to the correct VPC component.
 
@@ -490,7 +490,7 @@ In the following, match each part of the application to the correct VPC componen
 
 ## AWS Transit Gateway ##
 
-AWS Transit Gateway connects Amazon Virtual Private Clouds (Amazon VPC) and on-premises networks through a central hub. This simplifies your network and puts an end to complex peering relationships. It acts as a cloud router – each new connection is only made once. As you expand globally, inter-Region peering connects AWS Transit Gateways using the AWS global network. Your data is automatically encrypted and never travels over the public internet.
+AWS Transit Gateway connects `Amazon Virtual Private Clouds (Amazon VPC) and on-premises networks through a central hub`. This simplifies your network and puts an end to complex peering relationships. It acts as a cloud router – each new connection is only made once. As you expand globally, inter-Region peering connects AWS Transit Gateways using the AWS global network. Your data is automatically encrypted and never travels over the public internet.
 
 ## Domain Name System (DNS) ##
 
@@ -522,7 +522,7 @@ In the previous module, you learned about Amazon CloudFront, a content delivery 
 
 `Weighted routing` - This routing policy is used to route traffic to multiple resources in proportions that you specify.
 
-`Latency-based routing` - This routing policy is used when you have resources in multiple AWS Regions and you want to route traffic to the region that provides the best latency.
+`Latency-based routing` - This routing policy is used when you have `resources in multiple AWS Regions and you want to route traffic to the region` that provides the best latency.
 
 `Failover routing policy` is used when you want to configure `active-passive failover`. Failover routing lets you route traffic to a resource when the resource is healthy or to a different resource when the first resource is unhealthy. The primary and secondary records can route traffic to anything from an Amazon S3 bucket that is configured as a website to a complex tree of records. 
 
