@@ -372,7 +372,7 @@ Earlier in this module, you learned about Amazon EC2, a service that lets you ru
 ## AWS Lambda ##
 
 AWS Lambda is a service that lets you run code without needing to provision or manage servers. 
-While using AWS Lambda, you pay only for the compute time that you consume. Charges apply only when your code is running. You can also run code for virtually any type of application or backend service, all with zero administration. 
+While using AWS Lambda, `you pay only for the compute time that you consume.` `Charges apply only when your code is running`. You can also run code for virtually any type of application or backend service, all with zero administration. 
 For example, a simple Lambda function might involve automatically resizing uploaded images to the AWS Cloud. In this case, the function triggers when uploading a new image. 
 
 ## How AWS Lambda works ##
@@ -388,7 +388,7 @@ For example, a simple Lambda function might involve automatically resizing uploa
 
 ## Edge locations ##
 
-An edge location is a site that Amazon CloudFront uses to store cached copies of your content closer to your customers for faster delivery.
+An edge location is a site that `Amazon CloudFront` uses to store `cached copies of your content` closer to your customers for faster delivery.
 
 ## AWS Elastic Beanstalk ##
 
@@ -400,7 +400,7 @@ With AWS Elastic Beanstalk, you provide code and configuration settings, and Ela
 
 ## AWS CloudFormation ##
 
-•	With AWS CloudFormation, you can treat your infrastructure as code. This means that you can build an environment by writing lines of code instead of using the AWS Management Console to individually provision resources.
+•	With AWS CloudFormation, you can treat your `infrastructure as code`. This means that you can build an environment by writing lines of code instead of using the AWS Management Console to individually provision resources.
 •	AWS CloudFormation provisions your resources in a safe, repeatable manner, enabling you to frequently build your infrastructure and applications without having to perform manual actions. It determines the right operations to perform when managing your stack and rolls back changes automatically if it detects errors.
 
 ## Networking ##
