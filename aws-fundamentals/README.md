@@ -590,13 +590,13 @@ To learn more about the Amazon S3 storage classes select the + symbol next to ea
 
 •	Designed for frequently accessed data.
 •	Stores data in a minimum of three Availability Zones
-Amazon S3 Standard provides high availability for objects. This makes it a good choice for a wide range of use cases, such as websites, content distribution, and data analytics. Amazon S3 Standard has a higher cost than other storage classes intended for infrequently accessed data and archival storage.
+Amazon S3 Standard provides `high availability for objects` This makes it a good choice for a wide range of use cases, such as `websites, content distribution, and data analytics.` Amazon S3 Standard has a higher cost than other storage classes intended for infrequently accessed data and archival storage.
 
 `Amazon S3 Standard-Infrequent Access (S3 Standard-IA)`
 
 •	Ideal for infrequently accessed data.
 •	Like Amazon S3 Standard but has a lower storage price and higher retrieval price.
-Amazon S3 Standard-IA is ideal for data infrequently accessed but requires high availability when needed. Both Amazon S3 Standard and Amazon S3 Standard-IA store data in a minimum of three Availability Zones. Amazon S3 Standard-IA provides the same level of availability as Amazon S3 Standard but with a lower storage price and a higher retrieval price.
+Amazon S3 Standard-IA is ideal for data `infrequently accessed but requires high availability when needed.` Both Amazon S3 Standard and Amazon S3 Standard-IA store data in a minimum of three Availability Zones. Amazon S3 Standard-IA provides the same level of availability as Amazon S3 Standard but with a lower storage price and a higher retrieval price.
 
 `Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA)`
 
@@ -610,11 +610,11 @@ Compared to Amazon S3 Standard and Amazon S3 Standard-IA, which store data in a 
 
 •	Ideal for data with unknown or changing access patterns.
 •	Requires a small monthly monitoring and automation fee per object.
-In the Amazon S3 Intelligent-Tiering storage class, Amazon S3 monitors objects’ access patterns. If you haven’t accessed an object for 30 consecutive days, Amazon S3 automatically moves it to the infrequent access tier, Amazon S3 Standard-IA. If you access an object in the infrequent access tier, Amazon S3 automatically moves it to the frequent access tier, Amazon S3 Standard.
+In the Amazon S3 Intelligent-Tiering storage class, Amazon S3 monitors objects’ access patterns. `If you haven’t accessed an object for 30 consecutive days, Amazon S3 automatically moves it to the infrequent access tier, Amazon S3 Standard-IA.` If you access an object in the infrequent access tier, `Amazon S3 automatically moves it to the frequent access tier`, Amazon S3 Standard.
 
 `Amazon S3 Glacier Instant Retrieval`
 
-•	Works well for archived data that requires immediate access.
+•	Works well for `archived data` that requires immediate access.
 •	Can retrieve objects within a few milliseconds.
 When you decide between the options for archival storage, consider how quickly you must retrieve the archived objects. You can retrieve objects stored in the Amazon S3 Glacier Instant Retrieval storage class within milliseconds, with the same performance as Amazon S3 Standard.
 
@@ -628,7 +628,7 @@ Amazon S3 Glacier Flexible Retrieval is a low-cost storage class that is ideal f
 
 •	Lowest-cost object storage class ideal for archiving
 •	Able to retrieve objects within 12 hours.
-Amazon S3 Deep Archive supports long-term retention and digital preservation for data that might be accessed once or twice in a year. This storage class is the lowest-cost storage in the AWS Cloud, with data retrieval from 12 to 48 hours. All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones. particularly those in highly-regulated industries, such as the Financial Services, Healthcare, and Public Sectors — that retain data sets for 7-10 years or longer to meet regulatory compliance requirements. Amazon S3 Glacier Deep Archive can also be used for backup and disaster recovery use cases
+Amazon S3 Deep Archive supports `long-term retention and digital preservation for data that might be accessed once or twice in a year`. This storage class is the lowest-cost storage in the AWS Cloud, with data retrieval from 12 to 48 hours. All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones. particularly those in highly-regulated industries, such as the Financial Services, Healthcare, and Public Sectors — that retain data sets for 7-10 years or longer to meet regulatory compliance requirements. Amazon S3 Glacier Deep Archive can also be used for backup and disaster recovery use cases.
 
 `Amazon S3 Outposts`
 
@@ -636,7 +636,7 @@ Amazon S3 Deep Archive supports long-term retention and digital preservation for
 •	Makes it easier to retrieve, store, and access data on AWS Outposts
 Amazon S3 Outposts delivers object storage to your on-premises AWS Outposts environment. Amazon S3 Outposts is designed to store data durably and redundantly across multiple devices and servers on your Outposts. It works well for workloads with local data residency requirements that must satisfy demanding performance needs by keeping data close to on-premises applications.
 
-Reference Links: https://aws.amazon.com/s3/storage-classes/
+`Reference Links:` https://aws.amazon.com/s3/storage-classes/
 
 ## AWS Storage Gateway ##
 
@@ -653,17 +653,17 @@ Compared to block storage and object storage, file storage is ideal for use case
 
 `Amazon EFS` is a regional service storing data within and across multiple Availability Zones (AZs) for high availability and durability. Amazon EC2 instances can access your file system across AZs, regions, and VPCs, while on-premises servers can access using AWS Direct Connect or AWS VPN.
 
-## Amazon Relational Database Service (Amazon RDS) ##
+## Amazon Relational Database Service (RDS) ##
 
 In a relational database, data is stored in a way that relates it to other pieces of data. 
 An example of a relational database might be the coffee shop’s inventory management system. Each record in the database would include data for a single item, such as product name, size, price, and so on.
-Relational databases use structured query language (SQL) to store and query data. This approach allows data to be stored in an easily understandable, consistent, and scalable way. For example, the coffee shop owners can write a SQL query to identify all the customers whose most frequently purchased drink is a medium latte.
+`Relational databases use structured query language (SQL) to store and query data.` This approach allows data to be stored in an easily understandable, consistent, and scalable way. For example, the coffee shop owners can write a SQL query to identify all the customers whose most frequently purchased drink is a medium latte.
 
 `Example of data in a relational database:`
 
-ID	Product name	                Size	   Price
+ID	Product name	                 Size	     Price
 1	Medium roast ground coffee	    12 oz.	   $5.30
-2	Dark roast ground coffee	    20 oz.	   $9.27
+2	Dark roast ground coffee	      20 oz.	   $9.27
 
 ## Amazon Relational Database Service ##
 
@@ -684,13 +684,13 @@ Amazon RDS is available on six database engines, which optimize for memory, perf
 
 ## Amazon Aurora ##
 
-Amazon Aurora is an enterprise-class relational database. It is compatible with MySQL and PostgreSQL relational databases. It is up to five times faster than standard MySQL databases and up to three times faster than standard PostgreSQL databases.
+Amazon Aurora is an enterprise-class relational database. `It is compatible with MySQL and PostgreSQL relational databases.` It is up to five times faster than standard MySQL databases and up to three times faster than standard PostgreSQL databases.
 Amazon Aurora helps to reduce your database costs by reducing unnecessary input/output (I/O) operations, while ensuring that your database resources remain reliable and available. 
 Consider Amazon Aurora if your workloads require high availability. It replicates six copies of your data across three Availability Zones and continuously backs up your data to Amazon S3.
 
 ## Amazon DynamoDB ##
 
-Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have flexible schema and supports document data models
+Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have `flexible schema and supports document data models.`
 
 `Serverless:`
 
@@ -704,11 +704,12 @@ This makes it a suitable choice for use cases that require high performance whil
 
 ## Amazon Redshift ##
 
-`Amazon Redshift` is a data warehousing service that you can use for big data analytics. It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data.
+`Amazon Redshift` is a `data warehousing service that you can use for big data analytics`. It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data.
 
 ## AWS Database Migration Service (AWS DMS) ##
+
 `AWS Database Migration Service (AWS DMS)` enables you to migrate relational databases, nonrelational databases, and other types of data stores.
-With AWS DMS, you move data between a source database and a target database. The source and target databases can be of the same type or different types. During the migration, your source database remains operational, reducing downtime for any applications that rely on the database.
+With AWS DMS, you move data between a source database and a target database. The source and target databases can be of the same type or different types. During the migration, your `source database remains operational, reducing downtime for any applications that rely on the database.`
 
 For example, suppose that you have a MySQL database that is stored on premises in an Amazon EC2 instance or in Amazon RDS. Consider the MySQL database to be your source database. Using AWS DMS, you could migrate your data to a target database, such as an Amazon Aurora database.
 
@@ -727,7 +728,7 @@ You will also learn best practices for each of these features.
 ## AWS account root user ##
 
 When you first create an AWS account, you begin with an identity known as the root user. 
-The root user is accessed by signing in with the email address and password that you used to create your AWS account. You can think of the root user as being like the owner of the coffee shop. It has complete access to all the AWS services and resources in the account.
+The root user is accessed by signing in with the `email address and password` that you used to create your AWS account. You can think of the root user as being like the owner of the coffee shop. It has complete access to all the AWS services and resources in the account.
 
 <img width="452" alt="AWS-Root-User" src="https://github.com/viswa2/devops/assets/34201574/063bf2c6-724e-4140-a191-b6212e3b9831">
 
@@ -735,13 +736,12 @@ The root user is accessed by signing in with the email address and password that
 
 Do not use the root user for everyday tasks. 
 Instead, use the root user to create your first IAM user and assign it permissions to create other users.
-Then, continue to create other IAM users, and access those identities for performing regular tasks throughout AWS. Only use the root user when you need to perform a limited number of tasks that are only available to the root user. Examples of these tasks include changing your root user email address and changing your AWS support plan.
-
+Then, continue to create other `IAM users, and access those identities for performing regular tasks throughout AWS.` `Only use the root user when you need to perform a limited number of tasks that are only available to the root user.` Examples of these tasks include changing your root user email address and changing your AWS support plan.
 
 ## IAM users ##
 
 An IAM user is an identity that you create in AWS. It represents the person or application that interacts with AWS services and resources. It consists of a name and credentials.
-By default, when you create a new IAM user in AWS, it has no permissions associated with it. To allow the IAM user to perform specific actions in AWS, such as launching an Amazon EC2 instance or creating an Amazon S3 bucket, you must grant the IAM user the necessary permissions. AWS recommends that you require `multi-factor authentication (MFA)` for all users in your account and rotate credentials regularly.
+By default, when you create a new IAM user in AWS, it has no permissions associated with it. To allow the IAM user to perform specific actions in AWS, such as launching an Amazon EC2 instance or creating an Amazon S3 bucket, you must grant the IAM user the necessary permissions. AWS recommends that you require `multi-factor authentication (MFA)` for all users in your account and rotate credentials regularly. `Access keys and security keys are tied to iam users.`
 
 `Best practice:`
 
@@ -755,7 +755,7 @@ IAM policies enable you to customize users’ levels of access to resources. For
 
 `Best practice:`
 
-Follow the security principle of least privilege when granting permissions. 
+Follow the security principle of `least privilege` when granting permissions. 
 By following this principle, you help to prevent users or roles from having more permissions than needed to perform their tasks. 
 For example, if an employee needs access to only a specific bucket, specify the bucket in the IAM policy. Do this instead of granting the employee access to all of the buckets in your AWS account.
 
@@ -786,22 +786,22 @@ What if a coffee shop employee hasn’t switched jobs permanently, but instead, 
 In the coffee shop, an employee rotates to different workstations throughout the day. Depending on the staffing of the coffee shop, this employee might perform several duties: work at the cash register, update the inventory system, process online orders, and so on. 
 When the employee needs to switch to a different task, they give up their access to one workstation and gain access to the next workstation. The employee can easily switch between workstations, but at any given point in time, they can have access to only a single workstation. This same concept exists in AWS with IAM roles.
 
-An IAM role is an identity that you can assume to gain temporary access to permissions.  
+An `IAM role is an identity that you can assume to gain temporary access to permissions`.  
 Before an IAM user, application, or service can assume an IAM role, they must be granted permissions to switch to the role. When someone assumes an IAM role, they abandon all previous permissions that they had under a previous role and assume the permissions of the new role. 
 Best practice: IAM roles are ideal for situations in which access to services or resources needs to be granted temporarily, instead of long-term.
 
 ## Multi-factor authentication ##
 
-Have you ever signed into a website that required you to provide multiple pieces of information to verify your identity? You might have needed to provide your password and then a second form of authentication, such as a random code sent to your phone. This is an example of multi-factor authentication.
-In IAM, multi-factor authentication (MFA) provides an extra layer of security for your AWS account.
+Have you ever signed into a website that required you to provide multiple pieces of information to verify your identity? You might have needed to provide your password and then a second form of authentication, such as a random code sent to your phone. This is an example of `multi-factor authentication`.
+In IAM, multi-factor authentication (MFA) provides an `extra layer of security` for your AWS account.
 
 ## AWS Organizations ##
 
-Suppose that your company has multiple AWS accounts. You can use AWS Organizations to consolidate and manage multiple AWS accounts within a central location.
+Suppose that your company has multiple AWS accounts. You can use `AWS Organizations to consolidate and manage multiple AWS accounts within a central location`.
 When you create an organization, AWS Organizations automatically creates a root, which is the parent container for all the accounts in your organization. 
-In AWS Organizations, you can centrally control permissions for the accounts in your organization by using service control policies (SCPs). SCPs enable you to place restrictions on the AWS services, resources, and individual API actions that users and roles in each account can access.
+In AWS Organizations, you can `centrally control permissions for the accounts in your organization by using service control policies (SCPs)`. SCPs enable you to place restrictions on the AWS services, resources, and individual API actions that users and roles in each account can access.
 
-Consolidated billing is another feature of AWS Organizations. You will learn about consolidated billing in a later module.
+`Consolidated billing is another feature of AWS Organizations`. You will learn about consolidated billing in a later module.
 
 ## Organizational units ##
 
@@ -823,55 +823,48 @@ The prankster and their friends repeatedly call the coffee shop with requests to
 
 <img width="452" alt="DDOS" src="https://github.com/viswa2/devops/assets/34201574/449295ea-8334-4bd8-9992-7526651444cd">
 
-In a distributed denial-of-service (DDoS) attack, multiple sources are used to start an attack that aims to make a website or application unavailable. This can come from a group of attackers, or even a single attacker. The single attacker can use multiple infected computers (also known as “bots”) to send excessive traffic to a website or application.
-To help minimize the effect of DoS and DDoS attacks on your applications, you can use AWS Shield.
+In a distributed denial-of-service (DDoS) attack, multiple sources are used to start an attack that `aims to make a website or application unavailable`. This can come from a group of attackers, or even a single attacker. The single attacker can use multiple infected computers (also known as “bots”) to send excessive traffic to a website or application. To help minimize the effect of DoS and DDoS attacks on your applications, you can use `AWS Shield`.
 
 ## AWS Shield ##
 
-AWS Shield is a service that protects applications against `DDoS attacks.` AWS Shield provides two levels of protection: Standard and Advanced.
-AWS Shield Standard automatically protects all AWS customers at no cost. It protects your AWS resources from the most common, frequently occurring types of `DDoS attacks.`
+AWS Shield is a service that protects applications against `DDoS attacks.` AWS Shield provides two levels of protection: `Standard and Advanced`.
+AWS `Shield Standard automatically protects all AWS customers at no cost. It protects your AWS resources from the most common, frequently occurring types of DDoS attacks.`
 
 As network traffic comes into your applications, AWS Shield Standard uses a variety of analysis techniques to detect malicious traffic in real time and automatically mitigates it. 
 
-AWS Shield Advanced is a paid service for all customers, irrespective of the Support plan. that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks. 
+AWS `Shield Advanced is a paid service for all customers`, `irrespective of the Support plan`. that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks. 
 
 It also integrates with other services such as Amazon CloudFront, Amazon Route 53, and Elastic Load Balancing. Additionally, you can integrate AWS Shield with AWS WAF by writing custom rules to mitigate complex DDoS attacks.
 
 ## AWS Key Management Service (AWS KMS) ##
 
-The coffee shop has many items, such as coffee machines, pastries, money in the cash registers, and so on. You can think of these items as data. The coffee shop owners want to ensure that all of these items are secure, whether they’re sitting in the storage room or being transported between shop locations. 
-In the same way, you must ensure that your applications’ data is secure while in storage (encryption at rest) and while it is transmitted, known as encryption in transit
-
-`AWS Key Management Service (AWS KMS)` enables you to perform encryption operations using cryptographic keys. A cryptographic key is a random string of digits used for locking (encrypting) and unlocking (decrypting) data. You can use AWS KMS to create, manage, and use cryptographic keys. You can also control the use of keys across a wide range of services and in your applications.
+`AWS Key Management Service (AWS KMS)` enables you to perform encryption operations using `cryptographic keys`. A cryptographic key is a random string of digits used for locking (encrypting) and unlocking (decrypting) data. You can use AWS KMS to create, manage, and use cryptographic keys. You can also control the use of keys across a wide range of services and in your applications.
 With AWS KMS, you can choose the specific levels of access control that you need for your keys. For example, you can specify which IAM users and roles are able to manage keys. Alternatively, you can temporarily disable keys so that they are no longer in use by anyone. Your keys never leave AWS KMS, and you are always in control of them.
 
 ## AWS  Web Application Firewall (WAF) ##
 
-`AWS WAF` is a web application firewall that lets you monitor network requests that come into your web applications. 
-AWS WAF works together with Amazon CloudFront and an Application Load Balancer. Recall the network access control lists that you learned about in an earlier module. AWS WAF works in a similar way to block or allow traffic. However, it does this by using a web access control list (ACL) to protect your AWS resources. 
-Here’s an example of how you can use AWS WAF to allow and block specific requests.
+`AWS WAF is a web application firewall that lets you monitor network requests that come into your web applications`. 
+AWS WAF works together with `Amazon CloudFront and an Application Load Balancer`. Recall the network access control lists that you learned about in an earlier module. AWS WAF works in a similar way to block or allow traffic. However, it does this by using a web access control list (ACL) to protect your AWS resources. 
 
 Here’s an example of how you can use AWS WAF to allow and block specific requests.
 
 <img width="448" alt="AWS-WAF" src="https://github.com/viswa2/devops/assets/34201574/920d0ab0-2a50-4988-82ba-3c9ebf0f49cb">
 
-Suppose that your application has been receiving malicious network requests from several IP addresses. You want to prevent these requests from continuing to access your application, but you also want to ensure that legitimate users can still access it. You configure the web ACL to allow all requests except those from the IP addresses that you have specified.
+Suppose that your application has been `receiving malicious network requests from several IP addresses`. You want to prevent these requests from continuing to access your application, but you also want to ensure that legitimate users can still access it. You configure the web `ACL to allow all requests except those from the IP addresses that you have specified`.
 When a request comes into AWS WAF, it checks against the list of rules that you have configured in the web ACL. If a request did not come from one of the blocked IP addresses, it allows access to the application.
 
 <img width="370" alt="AWS-WAF-1" src="https://github.com/viswa2/devops/assets/34201574/5ef19ed3-beb1-4f0f-a13a-592d68d8d567">
 
-However, if a request came from one of the blocked IP addresses that you have specified in the web ACL, it is denied access
+However, if a request came from one of the blocked IP addresses that you have specified in the web ACL, it is denied access.
 
 ## Amazon Inspector ##
 
-Suppose that the developers at the coffee shop are developing and testing a new ordering application. They want to make sure that they are designing the application in accordance with security best practices. However, they have several other applications to develop, so they cannot spend much time conducting manual assessments. To perform automated security assessments, they decide to use Amazon Inspector.
-
-Amazon Inspector helps to improve the security and compliance of applications by running automated security assessments. It checks applications for security vulnerabilities and deviations from security best practices, such as open access to Amazon EC2 instances and installations of vulnerable software versions. 
+`Amazon Inspector helps to improve the security and compliance of applications by running automated security assessments`. It checks applications for security vulnerabilities and deviations from security best practices, such as open access to Amazon EC2 instances and installations of vulnerable software versions. 
 After Amazon Inspector has performed an assessment, it provides you with a list of security findings. The list prioritizes by severity level, including a detailed description of each security issue and a recommendation for how to fix it. However, AWS does not guarantee that following the provided recommendations resolves every potential security issue. Under the shared responsibility model, customers are responsible for the security of their applications, processes, and tools that run on AWS services.
 
 ## Amazon Guard Duty ##
 
-Amazon Guard Duty is a service that provides intelligent threat detection malicious activity and unauthorized behavior to protect your AWS account.
+`Amazon Guard Duty is a service that provides intelligent threat detection malicious activity and unauthorized behavior to protect your AWS account`.
 
 <img width="452" alt="Amazon-Guard" src="https://github.com/viswa2/devops/assets/34201574/5379a58b-a6b3-42cb-832e-2ca44a136b73">
 
@@ -880,7 +873,7 @@ If GuardDuty detects any threats, you can review detailed findings about them fr
 
 ## Amazon CloudWatch ##
 
-Amazon CloudWatch is a web service that enables you to monitor and manage various metrics and configure alarm actions based on data from those metrics.
+`Amazon CloudWatch is a web service that enables you to monitor and manage various metrics and configure alarm actions based on data from those metrics`.
 CloudWatch uses metrics to represent the data points for your resources. AWS services send metrics to CloudWatch. CloudWatch then uses these metrics to create graphs automatically that show how performance has changed over time. 
 
 ## CloudWatch alarms ##
