@@ -129,11 +129,11 @@ Global Infrastructure and reliability:
 
 `Availability Zones:`
 
-An Availability Zone is a single data centre or a group of data canters within a Region. Availability Zones are located tens of miles apart from each other. This is close enough to have low latency (the time between when content requested and received) between Availability Zones. However, if a disaster occurs in one part of the Region, they are distant enough to reduce the chance that multiple Availability Zones are affected.
+`An Availability Zone one or more discrete data centers within a Region`. Availability Zones are located tens of miles apart from each other. This is close enough to have low latency (the time between when content requested and received) between Availability Zones. However, if a disaster occurs in one part of the Region, they are distant enough to reduce the chance that multiple Availability Zones are affected.
 
 `Region:`
 
-Regions are geographically isolated areas, where you can access services needed to run your enterprise. A Region consists of two or more Availability Zones.
+Regions are geographically isolated areas, where you can access services needed to run your enterprise. `A Region consists of two or more Availability Zones`.
 
 For example: the South America (São Paulo) Region is sa-east-1. It includes three Availability Zones: sa-east-1a, sa-east-1b, and sa-east-1c.
 
@@ -236,7 +236,7 @@ Spot Instances are ideal for workloads with flexible start and end times, or tha
 
 Suppose that you have a background processing job that can start and stop as needed (such as the data processing job for a customer survey). You want to start and stop the processing job without affecting the overall operations of your business. If you make a Spot request and Amazon EC2 capacity is available, your Spot Instance launches. However, if you make a Spot request and Amazon EC2 capacity is unavailable, the request is not successful until capacity becomes available. The unavailable capacity might delay the launch of your background processing job.
 
-After you have launched a Spot Instance, if capacity is no longer available or demand for Spot Instances increases, your `instance may be interrupted.` This might not pose any issues for your background processing job. However, in the earlier example of developing and testing applications, you would most likely want to avoid unexpected interruptions. Therefore, choose a different EC2 instance type that is ideal for those tasks.
+After you have launched a Spot Instance, if capacity is no longer available or demand for Spot Instances increases, your `instance may be interrupted.` This might not pose any issues for your background processing job. However, in the earlier example of developing and testing applications, you would most likely want to avoid unexpected interruptions. Therefore, choose a different EC2 instance type that is ideal for those tasks.Spot Instances can be used with `Elastic Container Service (ECS) or Elastic Container Service for Kubernetes (EKS) to run any containerized workload`, from distributed parallel test systems to applications that map millions of miles a day
 
 `Dedicated Hosts:`
 
@@ -492,6 +492,10 @@ In the following, match each part of the application to the correct VPC componen
 
 AWS Transit Gateway connects `Amazon Virtual Private Clouds (Amazon VPC) and on-premises networks through a central hub`. This simplifies your network and puts an end to complex peering relationships. It acts as a cloud router – each new connection is only made once. As you expand globally, inter-Region peering connects AWS Transit Gateways using the AWS global network. Your data is automatically encrypted and never travels over the public internet.
 
+## VPC peering connection ##
+
+A VPC peering connection is a networking `connection between two VPCs that enables you to route traffic between them privately`. VPC peering connection is not transitive, a separate VPC peering connection has to be made between two VPCs that need to talk to each other.
+
 ## Domain Name System (DNS) ##
 
 Suppose that any Company has a website hosted in the AWS Cloud. Customers enter the web address into their browser, and they can access the website. This happens because of Domain Name System (DNS) resolution. DNS resolution involves a customer DNS resolver communicating with a company DNS server.
@@ -518,9 +522,9 @@ In the previous module, you learned about Amazon CloudFront, a content delivery 
 
 <img width="452" alt="Route53" src="https://github.com/viswa2/devops/assets/34201574/ea3c0b6a-19a3-4a6e-85d6-6a16dc540e4c">
 
-`Simple routing` - Simple routing lets you configure standard DNS records, with no special Route 53 routing such as weighted or latency. With simple routing, you typically route traffic to a single resource, for example, to a web server for your website.
+`Simple routing` - Simple routing lets you configure standard DNS records, with no special Route 53 routing such as weighted or latency. With simple routing, you `typically route traffic to a single resource, for example, to a web server for your website`.
 
-`Weighted routing` - This routing policy is used to route traffic to multiple resources in proportions that you specify.
+`Weighted routing` - This routing policy is used to `route traffic to multiple resources in proportions that you specify`.
 
 `Latency-based routing` - This routing policy is used when you have `resources in multiple AWS Regions and you want to route traffic to the region` that provides the best latency.
 
@@ -649,7 +653,7 @@ AWS Storage Gateway is a hybrid cloud storage service that gives you on-premises
 In file storage, multiple clients (such as users, applications, servers, and so on) can access data that is stored in shared file folders. In this approach, a storage server uses block storage with a local file system to organize files. Clients access data through file paths.
 Compared to block storage and object storage, file storage is ideal for use cases in which many services and resources need to access the same data at the same time.
 
-`Amazon Elastic File System (Amazon EFS)` is a scalable file system used with AWS Cloud services and on-premises resources. As you add and remove files, Amazon EFS grows and shrinks automatically. It can scale on demand to petabytes without disrupting applications. 
+`Amazon Elastic File System (Amazon EFS) is a scalable file system used with AWS Cloud services and on-premises resources`. As you add and remove files, Amazon EFS grows and shrinks automatically. It can scale on demand to petabytes without disrupting applications. 
 
 `Amazon EFS` is a regional service storing data within and across multiple Availability Zones (AZs) for high availability and durability. Amazon EC2 instances can access your file system across AZs, regions, and VPCs, while on-premises servers can access using AWS Direct Connect or AWS VPN.
 
@@ -690,7 +694,7 @@ Consider Amazon Aurora if your workloads require high availability. It replicate
 
 ## Amazon DynamoDB ##
 
-Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have `flexible schema and supports document data models.`
+Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have `schemaless and supports document data models.`
 
 `Serverless:`
 
@@ -803,10 +807,13 @@ In AWS Organizations, you can `centrally control permissions for the accounts in
 
 `Consolidated billing is another feature of AWS Organizations`. You will learn about consolidated billing in a later module.
 
+`Note:` Volume discounts for Amazon EC2 and Amazon S3 aggregated across the member AWS accounts and Share the reserved Amazon EC2 instances amongst the member AWS accounts.
+
 ## Organizational units ##
 
-In AWS Organizations, you can group accounts into organizational units (OUs) to make it easier to manage accounts with similar business or security requirements. When you apply a policy to an OU, all the accounts in the OU automatically inherit the permissions specified in the policy.  
+In `AWS Organizations, you can group accounts into organizational units (OUs) to make it easier to manage accounts with similar business or security requirements.` When you apply a policy to an OU, all the accounts in the OU automatically inherit the permissions specified in the policy.  
 By organizing separate accounts into OUs, you can more easily isolate workloads or applications that have specific security requirements. For instance, if your company has accounts that can access only the AWS services that meet certain regulatory requirements, you can put these accounts into one OU. Then, you can attach a policy to the OU that blocks access to all other AWS services that do not meet the regulatory requirements.
+
 
 ## Denial-of-service attacks ##
 
@@ -832,9 +839,9 @@ AWS `Shield Standard automatically protects all AWS customers at no cost. It pro
 
 As network traffic comes into your applications, AWS Shield Standard uses a variety of analysis techniques to detect malicious traffic in real time and automatically mitigates it. 
 
-AWS `Shield Advanced is a paid service for all customers`, `irrespective of the Support plan`. that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks. 
+AWS `Shield Advanced is a paid service for all customers`, `irrespective of the Support plan`. that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks. It includes intelligent DDoS attack detection and mitigation for not only for network layer (layer 3) and transport layer (layer 4) attacks but also for application layer (layer 7) attacks.
 
-It also integrates with other services such as Amazon CloudFront, Amazon Route 53, and Elastic Load Balancing. Additionally, you can integrate AWS Shield with AWS WAF by writing custom rules to mitigate complex DDoS attacks.
+It also integrates with other services such as `EC2, Elastic Load Balancing (ELB), Amazon CloudFront, Amazon Route 53, and AWS Global Accelerator`. Additionally, you can integrate AWS Shield with AWS WAF by writing custom rules to mitigate complex DDoS attacks.
 
 ## AWS Key Management Service (AWS KMS) ##
 
@@ -844,7 +851,7 @@ With AWS KMS, you can choose the specific levels of access control that you need
 ## AWS  Web Application Firewall (WAF) ##
 
 `AWS WAF is a web application firewall that lets you monitor network requests that come into your web applications`. 
-AWS WAF works together with `Amazon CloudFront and an Application Load Balancer`. Recall the network access control lists that you learned about in an earlier module. AWS WAF works in a similar way to block or allow traffic. However, it does this by using a web access control list (ACL) to protect your AWS resources. 
+AWS WAF works together with `Amazon CloudFront and an Application Load Balancer`. Recall the network access control lists that you learned about in an earlier module. `AWS WAF works in a similar way to block or allow traffic`. However, it does this by using a web access control list (ACL) to protect your AWS resources. 
 
 Here’s an example of how you can use AWS WAF to allow and block specific requests.
 
@@ -914,9 +921,11 @@ For example, CloudTrail Insights might detect that a higher number of Amazon EC2
 ## AWS Trusted Advisor ##
 
 AWS Trusted Advisor is a web service that inspects your AWS environment and provides real-time recommendations in accordance with AWS best practices.
-Trusted Advisor compares its findings to AWS best practices in five categories: cost optimization, performance, security, fault tolerance, and service limits. For the checks in each category, Trusted Advisor offers a list of recommended actions and additional resources to learn more about AWS best practices.
+Trusted Advisor compares its findings to AWS best practices in five categories: `cost optimization, performance, security, fault tolerance, and service limits`. For the checks in each category, Trusted Advisor offers a list of recommended actions and additional resources to learn more about AWS best practices.
 
 The guidance provided by AWS Trusted Advisor can benefit your company at all stages of deployment. For example, you can use AWS Trusted Advisor to assist you while you are creating new workflows and developing new applications. Or you can use it while you are making ongoing improvements to existing applications and resources.
+
+`AWS Trusted Advisor can check Amazon Elastic Block Store (Amazon EBS) volume configurations and warns when volumes appear to be underused`. Charges begin when a volume is created. If a volume remains unattached or has very low write activity (excluding boot volumes) for a period of time, the volume is probably not being
 
 ## AWS Trusted Advisor dashboard ##
 
@@ -1114,9 +1123,8 @@ The AWS Well-Architected Framework helps you understand how to design and operat
 •	Performance efficiency
 •	Cost optimization
 •	Sustainability
-`Operational excellence` is the ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures.  
 
-Design principles for operational excellence in the cloud You can define your entire workload (applications, infrastructure) as code and update it with code. annotating documentation, anticipating failure, and frequently making small, reversible changes.
+`Operational excellence` The Operational Excellence pillar includes the ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures. In the cloud, you can apply the same engineering discipline that you use for application code to your entire environment. You can define your entire workload (applications, infrastructure) as code and update it with code. You can implement your operations procedures as code and automate their execution by triggering them in response to events.
 
 The `security` pillar focuses on protecting information & systems. Key topics include confidentiality and integrity of data, identifying and managing who can do what with privilege management, protecting systems, and establishing controls to detect security events.
 
@@ -1129,19 +1137,16 @@ Reliability is the ability of a system to do the following:
 •	Dynamically acquire computing resources to meet demand.
 •	Mitigate disruptions such as misconfigurations or transient network issues.
 
-Reliability includes testing recovery procedures, scaling horizontally to increase aggregate system availability, and automatically recovering from failure.
+`Reliability` This refers to the ability of a system to recover from infrastructure or service disruptions, dynamically acquire computing resources to meet demand, and mitigate disruptions such as misconfigurations or transient network issues.
 
-Performance efficiency is the ability to use computing resources efficiently to meet system requirements and to maintain that efficiency as demand changes and technologies evolve. 
+`Performance efficiency` pillar focuses on using IT and computing resources efficiently. Key topics include selecting the right resource types and sizes based on workload requirements, monitoring performance, and making informed decisions to maintain efficiency as business needs evolve.
 
 Evaluating the performance efficiency of your architecture includes experimenting more often, using serverless architectures, and designing systems to be able to go global in minutes.
 
-Cost optimization is the ability to run systems to deliver business value at the lowest price point. Cost Optimization focuses on avoiding un-needed costs 
+`Cost optimization` focuses on avoiding un-needed costs. Key topics include understanding and controlling where the money is being spent, selecting the most appropriate and right number of resource types, analyzing spend over time, and scaling to meet business needs without overspending.
 
-Cost optimization includes adopting a consumption model, analyzing and attributing expenditure, and using managed services to reduce the cost of ownership.
-
+`Sustainability` is the ability to continually improve sustainability impacts by reducing energy consumption and increasing efficiency across all components of a workload by maximizing the benefits from the provisioned resources and minimizing the total resources required.
 In December 2021, AWS introduced a sustainability pillar as part of the AWS Well-Architected Framework.
-
-Sustainability is the ability to continually improve sustainability impacts by reducing energy consumption and increasing efficiency across all components of a workload by maximizing the benefits from the provisioned resources and minimizing the total resources required.
 
 To facilitate good design for sustainability:
 •	Understand your impact.
@@ -1161,6 +1166,23 @@ AWS Health Dashboard – Your account health, alerts are triggered by changes in
 
 ## AWS Config ##
 
-AWS Config
-
 AWS Config provides a detailed view of the configuration of AWS resources in your AWS account. This includes how the resources are related to one another and how they were configured in the past so that you can see how the configurations and relationships change over time. AWS Config is designed to help you oversee your application resources in the following scenarios: Resource Administration, Auditing and Compliance, Managing and Troubleshooting Configuration Changes, Security Analysis.
+
+## Amazon Translate ##
+
+Amazon Translate is a neural machine translation service that delivers fast, high-quality, and affordable language translation. Amazon Translate allows you to localize content - such as websites and applications - for international users, and to easily translate large volumes of text efficiently.
+
+## Amazon Polly ##
+You can use Amazon Polly to turn text into lifelike speech thereby allowing you to create applications that talk. Polly's Text-to-Speech (TTS) service uses advanced deep learning technologies to synthesize natural sounding human speech
+
+## Amazon Transcribe ##
+You can use Amazon Transcribe to add speech-to-text capability to your applications. Amazon Transcribe uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately. Amazon Transcribe can be used to transcribe customer service calls, to automate closed captioning and subtitling, and to generate metadata for media assets.
+
+## Amazon Rekognition ##
+With Amazon Rekognition, you can identify objects, people, text, scenes, and activities in images and videos, as well as to detect any inappropriate content. Amazon Rekognition also provides highly accurate facial analysis and facial search capabilities that you can use to detect, analyze, and compare faces for a wide variety of user verification, people counting, and public safety use cases.
+
+## AWS OpsWorks ## 
+AWS OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. AWS OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed and managed across your Amazon EC2 instances or on-premises compute environments.
+
+## AWS Config ##
+AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. AWS Config continuously monitors and records your AWS resource configurations and allows you to automate the evaluation of recorded configurations against desired configurations
