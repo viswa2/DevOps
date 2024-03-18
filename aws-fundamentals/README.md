@@ -513,9 +513,9 @@ For example, suppose that you want to visit AnyCompany’s website.
 
 Amazon Route 53 is a DNS web service. It gives developers and businesses a reliable way to route end users to internet applications hosted in AWS. 
 Amazon Route 53 connects user requests to infrastructure running in AWS (such as Amazon EC2 instances and load balancers). It can route users to infrastructure outside of AWS.
-Another feature of Route 53 is the ability to manage the DNS records for domain names. You can register new domain names directly in Route 53. You can also transfer DNS records for existing domain names managed by other domain registrars. This enables you to manage all your domain names within a single location.
+Another feature of Route 53 is the ability to `manage the DNS records for domain names`. `You can register new domain names directly in Route 53`. You can also transfer DNS records for existing domain names managed by other domain registrars. This enables you to manage all your domain names within a single location.
 
-`Note:` Features are available with Route53 i.e Domain Registrations, DNS, Health checks, Routing Policy.
+`Note:` Features are available with Route53 i.e `Domain name Registrations(DNS), Health checks&performance of application and Routing Policy`.
 
 In the previous module, you learned about Amazon CloudFront, a content delivery service. The following example describes how Route 53 and Amazon CloudFront work together to deliver content to customers.
 `Example:` How Amazon Route 53 and Amazon CloudFront deliver content
@@ -970,7 +970,10 @@ Which pricing tool is used to visualize, understand, and manage your AWS costs a
 
 `Ans:`  AWS Cost Explorer
 
-AWS Cost Explorer - AWS Cost Explorer has an easy-to-use interface that lets you visualize, understand, and manage your AWS costs and usage over time. AWS Cost Explorer includes a default report that helps you visualize the costs and usage associated with your top five cost-accruing AWS services, and gives you a detailed breakdown of all services in the table view.
+`AWS Cost Explorer` - AWS Cost Explorer has an easy-to-use interface that lets you visualize, understand, and manage your AWS costs and usage over time. AWS Cost Explorer includes a default report that helps you visualize the costs and usage associated with your top five cost-accruing AWS services, and gives you a detailed breakdown of all services in the table view.
+
+which aws service can used to viewed most comprehensive billing details for the past one month?
+`Ans`: AWS Cost and Usage Reports (AWS CUR)
 
 Which pricing tool enables you to receive alerts when your service usage exceeds a threshold that you have defined?
 
@@ -1106,8 +1109,9 @@ o	Compute: 40 vCPUs, and 80 GiB of memory to support Amazon EC2 sbe1 instances (
 •	Snowball Edge Compute Optimized provides powerful computing resources for use cases such as machine learning, full motion video analysis, analytics, and local computing stacks. 
 o	Storage: 42-TB usable HDD capacity for Amazon S3 compatible object storage or Amazon EBS compatible block volumes and 7.68 TB of usable NVMe SSD capacity for Amazon EBS compatible block volumes. 
 o	Compute: 52 vCPUs, 208 GiB of memory, and an optional NVIDIA Tesla V100 GPU. Devices run Amazon EC2 sbe-c and sbe-g instances, which are equivalent to C5, M5a, G3, and P3 instances.
-AWS Snowmobile is an exabyte-scale data transfer service used to move large amounts of data to AWS. 
-You can transfer up to 100 petabytes of data per Snowmobile, a 45-foot-long ruggedized shipping container, pulled by a semi-trailer truck.
+
+`AWS Snowmobile` is an exabyte-scale data transfer service used to move large amounts of data to AWS. 
+You can transfer up to `100 petabytes of data per Snowmobile,` a 45-foot-long ruggedized shipping container, pulled by a semi-trailer truck.
 
 ## AWS Well-Architected Framework (WAF) ##
 
@@ -1160,13 +1164,13 @@ To facilitate good design for sustainability:
 
 ## AWS Health Dashboard – Your account health ##
 
-AWS Health Dashboard – Your account health provides alerts and remediation guidance when AWS is experiencing events that may impact you.
+`AWS Health Dashboard` – Your account health provides alerts and remediation guidance when AWS is experiencing events that may impact you.
 
-AWS Health Dashboard – Your account health, alerts are triggered by changes in the health of your AWS resources, giving you event visibility, and guidance to help quickly diagnose and resolve issues.
+`AWS Health Dashboard` – Your account health, alerts are triggered by changes in the health of your AWS resources, giving you event visibility, and guidance to help quickly diagnose and resolve issues.
 
 ## AWS Config ##
 
-AWS Config provides a detailed view of the configuration of AWS resources in your AWS account. This includes how the resources are related to one another and how they were configured in the past so that you can see how the configurations and relationships change over time. AWS Config is designed to help you oversee your application resources in the following scenarios: Resource Administration, Auditing and Compliance, Managing and Troubleshooting Configuration Changes, Security Analysis.
+AWS Config provides a detailed view of the configuration of AWS resources in your AWS account. This includes how the resources are related to one another and how they were configured in the past so that you can see how the configurations and relationships change over time. AWS Config is designed to help you oversee your application resources in the following scenarios: `Resource Administration, Auditing and Compliance, Managing and Troubleshooting Configuration Changes, Security Analysis`.
 
 ## Amazon Translate ##
 
@@ -1184,5 +1188,8 @@ With Amazon Rekognition, you can identify objects, people, text, scenes, and act
 ## AWS OpsWorks ## 
 AWS OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. AWS OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed and managed across your Amazon EC2 instances or on-premises compute environments.
 
-## AWS Config ##
-AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. AWS Config continuously monitors and records your AWS resource configurations and allows you to automate the evaluation of recorded configurations against desired configurations
+## Amazon Macie ##
+Amazon Macie is a fully managed `data security and data privacy service that uses Machine Learning` and pattern matching to discover and `protect your sensitive data in AWS`.
+
+## AWS Artifact ## 
+AWS Artifact is your go-to, central resource for compliance-related information that matters to you. It provides on-demand access to AWS’ security and compliance reports and selects online agreements.
