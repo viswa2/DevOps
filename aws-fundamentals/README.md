@@ -1193,3 +1193,6 @@ Amazon Macie is a fully managed `data security and data privacy service that use
 
 ## AWS Artifact ## 
 AWS Artifact is your go-to, central resource for compliance-related information that matters to you. It provides on-demand access to AWS’ security and compliance reports and selects online agreements.
+
+## Amazon Lex ##
+Amazon Lex is a service for building conversational interfaces using voice and text. Powered by the same conversational engine as Amazon Alexa, Amazon Lex provides high-quality speech recognition and language understanding capabilities, enabling the addition of sophisticated, natural language ‘chatbots’ to new and existing applications.
