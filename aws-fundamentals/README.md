@@ -1179,22 +1179,22 @@ AWS Config provides a detailed view of the configuration of AWS resources in you
 Amazon Translate is a neural machine translation service that delivers fast, high-quality, and affordable language translation. Amazon Translate allows you to localize content - such as websites and applications - for international users, and to easily translate large volumes of text efficiently.
 
 ## Amazon Polly ##
-You can use Amazon Polly to turn text into lifelike speech thereby allowing you to create applications that talk. Polly's Text-to-Speech (TTS) service uses advanced deep learning technologies to synthesize natural sounding human speech
+You can use Amazon Polly to turn text into lifelike speech thereby allowing you to create applications that talk. `Polly's Text-to-Speech (TTS)` service uses advanced deep learning technologies to synthesize natural sounding human speech
 
 ## Amazon Transcribe ##
-You can use Amazon Transcribe to add speech-to-text capability to your applications. Amazon Transcribe uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately. Amazon Transcribe can be used to transcribe customer service calls, to automate closed captioning and subtitling, and to generate metadata for media assets.
+You can use Amazon Transcribe to add `speech-to-text capability to your applications`. Amazon Transcribe uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately. Amazon Transcribe can be used to transcribe customer service calls, to automate closed captioning and subtitling, and to generate metadata for media assets.
 
 ## Amazon Rekognition ##
-With Amazon Rekognition, you can identify objects, people, text, scenes, and activities in images and videos, as well as to detect any inappropriate content. Amazon Rekognition also provides highly accurate facial analysis and facial search capabilities that you can use to detect, analyze, and compare faces for a wide variety of user verification, people counting, and public safety use cases.
+With Amazon Rekognition, you can `identify objects, people, text, scenes, and activities in images and videos, as well as to detect any inappropriate content`. Amazon Rekognition also provides highly accurate facial analysis and facial search capabilities that you can use to detect, analyze, and compare faces for a wide variety of user verification, people counting, and public safety use cases.
 
 ## AWS OpsWorks ## 
-AWS OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. AWS OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed and managed across your Amazon EC2 instances or on-premises compute environments.
+AWS OpsWorks is a `configuration management service that provides managed instances of Chef and Puppet`. AWS OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed and managed across your Amazon EC2 instances or on-premises compute environments.
 
 ## Amazon Macie ##
 Amazon Macie is a fully managed `data security and data privacy service that uses Machine Learning` and pattern matching to discover and `protect your sensitive data in AWS`.
 
 ## AWS Artifact ## 
-AWS Artifact is your go-to, central resource for compliance-related information that matters to you. It provides on-demand access to AWS’ security and compliance reports and selects online agreements.
+AWS Artifact is your go-to, `central resource for compliance-related information that matters to you. It provides on-demand access to AWS’ security and compliance reports and selects online agreements.
 
 ## Amazon Lex ##
-Amazon Lex is a service for building conversational interfaces using voice and text. Powered by the same conversational engine as Amazon Alexa, Amazon Lex provides high-quality speech recognition and language understanding capabilities, enabling the addition of sophisticated, natural language ‘chatbots’ to new and existing applications.
+Amazon Lex is a service for building `conversational interfaces using voice and text`. Powered by the same conversational engine as Amazon Alexa, Amazon Lex provides high-quality speech recognition and language understanding capabilities, enabling the addition of sophisticated, natural language ‘chatbots’ to new and existing applications.
