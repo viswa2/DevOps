@@ -710,7 +710,8 @@ This makes it a suitable choice for use cases that require high performance whil
 
 ## Amazon Redshift ##
 
-`Amazon Redshift` is a `data warehousing service that you can use for big data analytics`. It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data.
+`Amazon Redshift` is a `data warehousing service that you can use for big data analytics including compatibility with existing business intelligence tools`.
+ It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data.
 
 ## AWS Database Migration Service (AWS DMS) ##
 
@@ -939,6 +940,10 @@ For each category:
 •	The orange triangle represents the number of recommended investigations.
 •	The red circle represents the number of recommended actions.
 
+## Fault Tolerance ##
+
+Fault tolerance describes the concept of a system (in our case a web application) to have failure in some of its components and still remain accessible (highly available). Fault tolerant web applications will have at least two web servers (in case one fails).
+
 ## AWS Free Tier ##
 The AWS Free Tier enables you to begin using certain services without having to worry about incurring costs for the specified period. 
 Three types of offers are available: 
@@ -1130,7 +1135,7 @@ The AWS Well-Architected Framework helps you understand how to design and operat
 •	Cost optimization
 •	Sustainability
 
-`Operational excellence` The Operational Excellence pillar includes the ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures. In the cloud, you can apply the same engineering discipline that you use for application code to your entire environment. You can define your entire workload (applications, infrastructure) as code and update it with code. You can implement your operations procedures as code and automate their execution by triggering them in response to events.
+`Operational excellence` The Operational Excellence pillar includes the ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures. In the cloud, you can apply the same engineering discipline that you use for application code to your entire environment. You can define your entire workload (applications, `infrastructure) as code` and update it with code. You can implement your operations procedures as code and automate their execution by triggering them in response to events.
 
 The `security` pillar focuses on protecting information & systems. Key topics include confidentiality and integrity of data, identifying and managing who can do what with privilege management, protecting systems, and establishing controls to detect security events.
 
@@ -1143,7 +1148,7 @@ Reliability is the ability of a system to do the following:
 •	Dynamically acquire computing resources to meet demand.
 •	Mitigate disruptions such as misconfigurations or transient network issues.
 
-`Reliability` This refers to the ability of a system to recover from infrastructure or service disruptions, dynamically acquire computing resources to meet demand, and mitigate disruptions such as misconfigurations or transient network issues.
+`Reliability` Fault tolerance describes the concept of a system (in our case a web application) to have failure in some of its components and still remain accessible (highly available). Fault tolerant web applications will have at least two web servers (in case one fails). `Fault tolerance comes under reliabilty frame work`.
 
 `Performance efficiency` pillar focuses on using IT and computing resources efficiently. Key topics include selecting the right resource types and sizes based on workload requirements, monitoring performance, and making informed decisions to maintain efficiency as business needs evolve.
 
