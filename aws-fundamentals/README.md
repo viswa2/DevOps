@@ -63,6 +63,20 @@ What SaaS saves you in time and maintenance, however, it could cost you in contr
 
 `Reference Link:` IaaS vs PaaS vs SaaS (redhat.com)
 
+## Six advantages of cloud computing ##
+
+`Trade fixed expense for variable expense` – Instead of having to invest heavily in data centers and servers before you know how you’re going to use them, you can pay only when you consume computing resources, and pay only for how much you consume.
+
+`Benefit from massive economies of scale` – By using cloud computing, you can achieve a lower variable cost than you can get on your own. Because usage from hundreds of thousands of customers is aggregated in the cloud, providers such as AWS can achieve higher economies of scale, which translates into lower pay as-you-go prices.
+
+`Stop guessing capacity` – Eliminate guessing on your infrastructure capacity needs. When you make a capacity decision prior to deploying an application, you often end up either sitting on expensive idle resources or dealing with limited capacity. With cloud computing, these problems go away. You can access as much or as little capacity as you need, and scale up and down as required with only a few minutes’ notice.
+
+`Increase speed and agility` – In a cloud computing environment, new IT resources are only a click away, which means that you reduce the time to make those resources available to your developers from weeks to just minutes. This results in a dramatic increase in agility for the organization, since the cost and time it takes to experiment and develop is significantly lower.
+
+`Stop spending money running and maintaining data centers` – Focus on projects that differentiate your business, not the infrastructure. Cloud computing lets you focus on your own customers, rather than on the heavy lifting of racking, stacking, and powering servers.
+
+`Go global in minutes` – Easily deploy your application in multiple regions around the world with just a few clicks. This means you can provide lower latency and a better experience for your customers at minimal cost.
+
 ``Cloud Computing Services:``
 
 `Compute:`
@@ -216,7 +230,7 @@ There is no upfront payment and you pay only for the seconds that your On-Demand
 
 `Saving Plans:`
 
-AWS offers Savings Plans for several compute services, including Amazon EC2. Amazon EC2 Savings Plans enable you to reduce your compute costs by committing to a consistent amount of compute usage for a 1-year or 3-year term. This term commitment results in savings of up to 72% over On-Demand costs.
+AWS offers Savings Plans for several compute services, including Amazon EC2. Amazon EC2 Savings Plans enable you to reduce your compute costs by committing to a consistent amount of compute usage for a `1-year or 3-year term. This term commitment results in savings of up to 72% over On-Demand costs`.
 
 Any usage up to the commitment is charged at the discounted Savings Plan rate (for example, $10 an hour). Any usage beyond the commitment is charged at regular On-Demand rates.
 
@@ -224,23 +238,24 @@ Later in this course, you will review AWS Cost Explorer, a tool that enables you
 
 `Reserved Instances:`
 
-Reserved Instances (RI) provide you with significant savings (up to 75%) on your Amazon EC2 costs compared to On-Demand Instance pricing. You can purchase Standard Reserved and Convertible Reserved Instances for a 1-year or 3-year term and Scheduled Reserved Instances for a 1-year term. You realize greater cost savings with the 3-year option.
+Reserved Instances (RI) provide you with significant `savings (up to 75%) on your Amazon EC2 costs compared to On-Demand Instance pricing`. `You can purchase Standard Reserved and Convertible Reserved Instances for a 1-year or 3-year term and Scheduled Reserved Instances for a 1-year term. You realize greater cost savings with the 3-year option`.
 
 At the end of a Reserved Instance term, you can continue using the Amazon EC2 instance without interruption. However, you are charged On-Demand rates until you do one of the following:
 •	Terminate the instance.
 •	Purchase a new Reserved Instance that matches the instance attributes (instance type, Region, tenancy, and platform).
+. There is partial upfront payment option with standrad 3-year term.
 
 `Spot Instances:`
 
-Spot Instances are ideal for workloads with flexible start and end times, or that can withstand interruptions. Spot Instances use unused Amazon EC2 computing capacity and offer you cost savings at up to 90% off On-Demand prices.
+Spot Instances are ideal for workloads with flexible start and end times, or that can withstand interruptions. `Spot Instances use unused Amazon EC2 computing capacity and offer you cost savings at up to 90% off On-Demand prices`.
 
 Suppose that you have a background processing job that can start and stop as needed (such as the data processing job for a customer survey). You want to start and stop the processing job without affecting the overall operations of your business. If you make a Spot request and Amazon EC2 capacity is available, your Spot Instance launches. However, if you make a Spot request and Amazon EC2 capacity is unavailable, the request is not successful until capacity becomes available. The unavailable capacity might delay the launch of your background processing job.
 
-After you have launched a Spot Instance, if capacity is no longer available or demand for Spot Instances increases, your `instance may be interrupted.` This might not pose any issues for your background processing job. However, in the earlier example of developing and testing applications, you would most likely want to avoid unexpected interruptions. Therefore, choose a different EC2 instance type that is ideal for those tasks.Spot Instances can be used with `Elastic Container Service (ECS) or Elastic Container Service for Kubernetes (EKS) to run any containerized workload`, from distributed parallel test systems to applications that map millions of miles a day
+After you have launched a Spot Instance, if capacity is no longer available or demand for Spot Instances increases, your `instance may be interrupted.` This might not pose any issues for your background processing job. However, in the earlier example of developing and testing applications, you would most likely want to avoid unexpected interruptions. Therefore, choose a different EC2 instance type that is ideal for those tasks.`Spot Instances can be used with Elastic Container Service (ECS) or Elastic Container Service for Kubernetes (EKS) to run any containerized workload`, from distributed parallel test systems to applications that map millions of miles a day
 
 `Dedicated Hosts:`
 
- Amazon EC2 Dedicated Hosts allow you to use your eligible software licenses from vendors such as Microsoft and Oracle on Amazon EC2 so that you get the flexibility and cost-effectiveness of using your licenses, but with the resiliency, simplicity, and elasticity of AWS. An Amazon EC2 Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirement.
+`Amazon EC2 Dedicated Hosts allow you to use your eligible software licenses from vendors such as Microsoft and Oracle` on Amazon EC2 so that you get the flexibility and cost-effectiveness of using your licenses, but with the resiliency, simplicity, and elasticity of AWS. An Amazon EC2 Dedicated Host is a physical server fully dedicated for your use, so you can help address corporate compliance requirement.
 
 <img width="691" alt="EC2-Pricing" src="https://github.com/viswa2/DevOps/assets/34201574/b328405a-158d-4f49-b2fb-7114121ef3f2">
 
@@ -588,9 +603,19 @@ The data might be an image, video, text document, or any other type of file. Met
 
 Amazon Simple Storage Service (Amazon S3) is a service that provides object-level storage. Amazon S3 stores data as objects in buckets.
 You can upload any type of file to Amazon S3, such as images, videos, text files, and so on. For example, you might use Amazon S3 to store backup files, media files for a website, or archived documents. Amazon S3 offers unlimited storage space. The maximum file size for an object in Amazon S3 is 5 TB.
-When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time. `All Amazon S3 buckets have encryption configured by default, and objects are automatically encrypted by using server-side encryption with Amazon S3 managed keys (SSE-S3). This encryption setting applies to all objects in your Amazon S3 buckets.`
+When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time. 
+
+## S3 Versioning ##
 
 `Note:` Enable the bucket versioning can use to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket. With versioning, you can easily recover from both unintended user actions and application failures.
+
+## S3 Encryption ##
+
+`All Amazon S3 buckets have encryption configured by default, and objects are automatically encrypted by using server-side encryption with Amazon S3 managed keys (SSE-S3). This encryption setting applies to all objects in your Amazon S3 buckets.` 
+
+The AWS encryption SDK is a client-side encryption library that is separate from the language–specific SDKs. You can use this encryption library to more easily implement encryption best practices in Amazon S3. Unlike the Amazon S3 encryption clients in the language–specific AWS SDKs, the AWS encryption SDK is not tied to `Amazon S3 and can be used to encrypt or decrypt data to be stored anywhere`.
+
+<img width="969" alt="s3-encryption" src="https://github.com/viswa2/DevOps/assets/34201574/6f439e8d-c21e-4128-900a-8ac1b7eaf33c">
 
 ## Amazon S3 storage classes ##
 
@@ -643,6 +668,8 @@ Amazon S3 Glacier Flexible Retrieval is a low-cost storage class that is ideal f
 •	Lowest-cost object storage class ideal for archiving
 •	Able to retrieve objects within 12 hours.
 Amazon S3 Deep Archive supports `long-term retention and digital preservation for data that might be accessed once or twice in a year`. This storage class is the lowest-cost storage in the AWS Cloud, with data retrieval from 12 to 48 hours. All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones. particularly those in highly-regulated industries, such as the Financial Services, Healthcare, and Public Sectors — that retain data sets for 7-10 years or longer to meet regulatory compliance requirements. Amazon S3 Glacier Deep Archive can also be used for backup and disaster recovery use cases.
+
+`Reference Link for S3 Pricing`: https://aws.amazon.com/s3/pricing/
 
 `Amazon S3 Outposts`
 
@@ -706,7 +733,7 @@ Consider Amazon Aurora if your workloads require high availability. It replicate
 
 ## Amazon DynamoDB ##
 
-Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have `schemaless and supports document data models.`
+Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have `schemaless and supports document data models.` With global tables, your globally distributed applications can access data locally in the selected regions `to get single-digit millisecond read and write performance. DynamoDB offers active-active cross-region support that is needed for the company`.
 
 `Serverless:`
 
@@ -721,7 +748,7 @@ This makes it a suitable choice for use cases that require high performance whil
 ## Amazon Redshift ##
 
 `Amazon Redshift` is a `data warehousing service that you can use for big data analytics including compatibility with existing business intelligence tools`.
- It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data.
+ It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data. It is AWS database service.
 
 ## AWS Database Migration Service (AWS DMS) ##
 
@@ -864,7 +891,7 @@ With AWS KMS, you can choose the specific levels of access control that you need
 ## AWS  Web Application Firewall (WAF) ##
 
 `AWS WAF is a web application firewall that lets you monitor network requests that come into your web applications`. 
-AWS WAF works together with `Amazon CloudFront and an Application Load Balancer`. Recall the network access control lists that you learned about in an earlier module. `AWS WAF works in a similar way to block or allow traffic`. However, it does this by using a web access control list (ACL) to protect your AWS resources. 
+AWS WAF works together with `Amazon CloudFront and an Application Load Balancer`. Recall the network access control lists that you learned about in an earlier module. `AWS WAF works in a similar way to block or allow traffic`. However, it does this by using a web access control list (ACL) to protect your AWS resources. It will protect `HTTP and HTTPS requests are part of the Application layer, which is layer 7`.
 
 Here’s an example of how you can use AWS WAF to allow and block specific requests.
 
@@ -1011,6 +1038,10 @@ Your company wants to receive support from an AWS Technical Account Manager (TAM
 `Ans:` Enterprise
 
 A Technical Account Manager (TAM) is available only to AWS customers with the Enterprise On-Ramp and Enterprise Support plans. A TAM provides guidance, architectural reviews, and ongoing communication with your company as you plan, deploy, and optimize your applications.
+
+`AWS Business Support`
+
+You should use AWS Business Support if you have production workloads on AWS and want 24x7 phone, email and chat access to `technical support and architectural guidance` in the context of your specific use-cases. You get full access to AWS Trusted Advisor Best Practice Checks. You also get access to Infrastructure Event Management for an additional fee.
 
 `AWS Pricing Calculator` - AWS Pricing Calculator lets you explore AWS services and create an estimate for the cost of your use cases on AWS. You can model your solutions before building them, explore the price points and calculations behind your estimate, and find the available instance types and contract terms that meet your needs.
 
@@ -1186,11 +1217,9 @@ To facilitate good design for sustainability:
 `AWS Health Dashboard` – Your account health, alerts are triggered by changes in the health of your AWS resources, giving you event visibility, and guidance to help quickly diagnose and resolve issues.
 
 ## AWS Config ##
-
 AWS Config provides a detailed view of the configuration of AWS resources in your AWS account. This includes how the resources are related to one another and how they were configured in the past so that you can see how the configurations and relationships change over time. AWS Config is designed to help you oversee your application resources in the following scenarios: `Resource Administration, Auditing and Compliance, Managing and Troubleshooting Configuration Changes, Security Analysis`.
 
 ## Amazon Translate ##
-
 Amazon Translate is a neural machine translation service that delivers fast, high-quality, and affordable language translation. Amazon Translate allows you to localize content - such as websites and applications - for international users, and to easily translate large volumes of text efficiently.
 
 ## Amazon Polly ##
@@ -1213,3 +1242,6 @@ AWS Artifact is your go-to, `central resource for compliance-related information
 
 ## Amazon Lex ##
 Amazon Lex is a service for building `conversational interfaces using voice and text`. Powered by the same conversational engine as Amazon Alexa, Amazon Lex provides high-quality speech recognition and language understanding capabilities, enabling the addition of sophisticated, natural language ‘chatbots’ to new and existing applications.
+
+## AWS X-Ray ##
+You can use `AWS X-Ray to analyze and debug serverless and distributed applications such as those built using a microservices architecture`. With X-Ray, you can understand how your application and its `underlying services are performing to identify and troubleshoot the root cause of performance issues and errors`.
