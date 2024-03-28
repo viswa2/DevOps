@@ -126,10 +126,6 @@
 
 <img width="1608" alt="replication-destination" src="https://github.com/viswa2/DevOps/assets/34201574/4454fdfd-a696-4319-9f6e-546df97108b1">
 
-## S3 Encryption ##
-
-<img width="964" alt="S3 Encryption" src="https://github.com/viswa2/DevOps/assets/34201574/009b7a48-0bb9-48d0-a6b1-0bc8c622b9a1">
-
 ## Cloud Formation ##
 
 CloudFormation, It's infrastructure as code. This means that you can build an environment by writing lines of code instead of using the AWS Management Console to individually provision your infrastructure resources.
