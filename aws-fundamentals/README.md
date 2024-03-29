@@ -59,7 +59,7 @@ You’re already familiar with a form of SaaS if you have an email account with 
 SaaS is a great option for small businesses who don’t have the staff or bandwidth to handle software installation and updates, as well as for applications that don’t require much customization or that will only be used periodically. 
 What SaaS saves you in time and maintenance, however, it could cost you in control, security, and performance, so it’s important to choose a provider you can trust.
 
-`EX:` Dropbox, Salesforce, Google Apps, i.e gmail and Red Hat Insights are some examples of SaaS. 
+`EX:` Dropbox, Salesforce, Google Apps, i.e Amazon Rekognition and gmail are some examples of SaaS. 
 
 `Reference Link:` IaaS vs PaaS vs SaaS (redhat.com)
 
@@ -417,7 +417,7 @@ An edge location is a site that `Amazon CloudFront` uses to store `cached copies
 
 ## AWS Elastic Beanstalk ##
 
-With AWS Elastic Beanstalk, you provide code and configuration settings, and Elastic Beanstalk deploys the resources necessary to perform the following tasks:
+AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services developed with Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker on familiar servers such as Apache, Nginx, Passenger, and IIS. Simply upload your code and AWS Elastic Beanstalk automatically handles the deployment and deploys the resources necessary to perform the following tasks:
 •	Adjust capacity.
 •	Load balancing
 •	Automatic scaling
@@ -467,6 +467,12 @@ This private hallway provides the same type of dedicated connection as AWS Direc
 <img width="452" alt="Vpc" src="https://github.com/viswa2/devops/assets/34201574/278ec920-33cd-4ca3-bbc7-a25093ff5044">
 
 The private connection that AWS Direct Connect provides helps you to `reduce network costs and increase the amount of bandwidth` that can travel through your network.
+
+## AWS Virtual Private Network ##
+
+AWS Virtual Private Network (VPN) solutions establish secure connections between on-premises networks, remote offices, client devices, and the AWS global network. AWS VPN is comprised of two services: AWS Site-to-Site VPN and AWS Client VPN. Together, they deliver a highly-available, managed, and elastic cloud VPN solution to protect your network traffic.
+
+<img width="682" alt="VPN" src="https://github.com/viswa2/DevOps/assets/34201574/e15fd529-27f8-4c55-821f-df4d72962fec">
 
 ## Subnets ##
 
@@ -536,8 +542,8 @@ For example, suppose that you want to visit AnyCompany’s website.
 
 ## Amazon Route 53 ##
 
-Amazon Route 53 is a DNS web service. It gives developers and businesses a reliable way to route end users to internet applications hosted in AWS. 
-Amazon Route 53 connects user requests to infrastructure running in AWS (such as Amazon EC2 instances and load balancers). It can route users to infrastructure outside of AWS.
+Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS) web service. It is designed to give developers and businesses an extremely reliable and cost-effective way to route end users to `Internet applications by translating names like www.example.com into the numeric IP addresses like 192.0.2.1 that computers use to connect`. You cannot use Amazon Route 53 to connect your on-premises network with AWS Cloud.
+
 Another feature of Route 53 is the ability to `manage the DNS records for domain names`. `You can register new domain names directly in Route 53`. You can also transfer DNS records for existing domain names managed by other domain registrars. This enables you to manage all your domain names within a single location.
 
 `Note:` Features are available with Route53 i.e `Domain name Registrations(DNS), Health checks&performance of application and Routing Policy`.
@@ -941,9 +947,8 @@ The `CloudWatch dashboard` feature enables you to access all the metrics for you
 
 ## AWS CloudTrail ##
 
-`AWS CloudTrail` records API calls for your account. The recorded information includes the identity of the API caller, the time of the API call, the source IP address of the API caller, and more. You can think of CloudTrail as a “trail” of breadcrumbs (or a log of actions) that someone has left behind them.
-Recall that you can use API calls to provision, manage, and configure your AWS resources. With CloudTrail, you can view a complete history of user activity and API calls for your applications and resources. 
-Events are typically updated in CloudTrail within 15 minutes after an API call. You can filter events by specifying the time and date that an API call occurred, the user who requested the action, the type of resource that was involved in the API call, and more.
+AWS CloudTrail is an `AWS service that helps you enable operational and risk auditing, governance, and compliance of your AWS account`. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. Events include actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs.
+CloudTrail is active in your AWS account when you create it and doesn't require any manual setup. When activity occurs in your AWS account, that activity is recorded in a CloudTrail event.
 
 `Example: AWS CloudTrail event`
 
@@ -1191,7 +1196,7 @@ Reliability is the ability of a system to do the following:
 •	Dynamically acquire computing resources to meet demand.
 •	Mitigate disruptions such as misconfigurations or transient network issues.
 
-`Reliability` Fault tolerance describes the concept of a system (in our case a web application) to have failure in some of its components and still remain accessible (highly available). Fault tolerant web applications will have at least two web servers (in case one fails). `Fault tolerance comes under reliabilty frame work`.
+`Reliability` Refers to the ability of a system to recover from infrastructure or service disruptions, by dynamically acquiring computing resources to meet demand, and mitigate disruptions. `Fault tolerance comes under reliabilty frame work`.
 
 `Performance efficiency` pillar focuses on using IT and computing resources efficiently. Key topics include selecting the right resource types and sizes based on workload requirements, monitoring performance, and making informed decisions to maintain efficiency as business needs evolve.
 
