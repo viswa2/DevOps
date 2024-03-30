@@ -509,7 +509,7 @@ By default, your account’s default network ACL allows all inbound and outbound
 
 <img width="360" alt="Security-Group" src="https://github.com/viswa2/devops/assets/34201574/bd5e5012-35a2-463d-97ec-a1426320fc19">
 
-You can add custom rules to configure which traffic to allow or deny. Security groups are `stateful`. 
+You can add custom rules to configure which traffic to allow or deny. Security groups are `stateful`. You can specify allow rules, but not deny rules. When you create a security group it's does not have inbound rules. Therefor no inbound traffic from another host to your instance is allowed untill you add inbound rules to the security group.
 
 If you have multiple Amazon EC2 instances within a subnet, you can associate them with the same security group or use different security groups for each instance. 
 
@@ -1252,3 +1252,6 @@ Amazon Lex is a service for building `conversational interfaces using voice and 
 
 ## AWS X-Ray ##
 You can use `AWS X-Ray to analyze and debug serverless and distributed applications such as those built using a microservices architecture`. With X-Ray, you can understand how your application and its `underlying services are performing to identify and troubleshoot the root cause of performance issues and errors`.
+
+## Amazon Kendra ##
+Amazon Kendra is an intelligent search service powered by machine learning. Kendra reimagines enterprise search for your websites and applications so your employees and customers can easily find the content they are looking for, `Amazon Kendra supports unstructured and semi-structured data in .html, MS Office (.doc, .ppt), PDF, and text formats`.
