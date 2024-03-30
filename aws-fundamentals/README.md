@@ -394,6 +394,12 @@ Earlier in this module, you learned about Amazon EC2, a service that lets you ru
 • Another benefit of serverless computing is the flexibility to scale serverless applications automatically. Serverless computing can adjust the applications' capacity by modifying the units of consumptions, such as throughput and memory. 
 • An AWS service for serverless computing is AWS Lambda.
 
+## List of Serverless Services on AWS ##
+
+`Compute`: Aws Lambda, AWS fargate
+`Application Integration`: Amazon EventBridge, AWS Step Functions, Amazon SQS, SNS, Amazon API gateway, AWS Appsync
+`Data Store`: Amazon S3, EFS, DynamoDB, RDS Proxy, Amazon Auora serverless, Redshift servereless, Amazon Neptune serverless, Amazon Opensearch, Amazon ElastiCache serverless
+
 ## AWS Lambda ##
 
 AWS Lambda is a service that lets you run code without needing to provision or manage servers. 
@@ -608,8 +614,7 @@ The data might be an image, video, text document, or any other type of file. Met
 ## Amazon Simple Storage Service (Amazon S3) ##
 
 Amazon Simple Storage Service (Amazon S3) is a service that provides object-level storage. Amazon S3 stores data as objects in buckets.
-You can upload any type of file to Amazon S3, such as images, videos, text files, and so on. For example, you might use Amazon S3 to store backup files, media files for a website, or archived documents. Amazon S3 offers unlimited storage space. The maximum file size for an object in Amazon S3 is 5 TB.
-When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time. 
+You can upload any type of file to Amazon S3, such as images, videos, text files, and so on. For example, you might use Amazon S3 to store backup files, media files for a website, or archived documents. `The total volume of data and number of objects you can store in Amazon S3 are unlimited`. `Individual Amazon S3 objects can range in size from a minimum of 0 bytes to a maximum of 5 TB. The largest object that can be uploaded in a single PUT is 5 GB`.
 
 ## S3 Versioning ##
 
