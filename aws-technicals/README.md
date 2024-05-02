@@ -185,3 +185,26 @@ Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Ro
 Under the AWS Shared Responsibility Model, customer's responsibility is determined by the AWS Cloud services that a customer selects. For abstracted services, such as Amazon S3 and Amazon DynamoDB, AWS operates the infrastructure layer, the operating system, and platforms, and customers access the endpoints to store and retrieve data. Customers are responsible for managing their data (including encryption options), classifying their assets, and using IAM tools to apply the appropriate permissions.
 
 For the given use-case, the customer is responsible for maintaining the versions of an AWS Lambda function.
+
+## Create a VPC, launch EC2 Instance and Test Sample Application ##
+
+1. In AWS by default VPC should be available.
+2. Create a VPC and under VPC settings click on vpc and more
+3. Add the name of vpc, IPv4 CIDR block number AZ's and rest of the options are default and click on create vpc.
+4. Then vpc created with the name of demo-vpc, under you can see the resource map as below.
+
+<img width="1402" alt="vpc-resource-map -details" src="https://github.com/viswa2/DevOps/assets/34201574/0cb6740e-c95a-4feb-8a70-c6e91e7408b3">
+
+5. Launch EC2 instance by selecting ubuntu flavor with the key pair, network settings select as what we have created above, select one public subnet which we have created as above and enable the Auto-assign public IP and launch instance.
+
+6. Once EC2 instance start running try to connect the instance by using ssh
+EX: ssh -i "key pair name" ubuntu@<PUblic Ip of EC2 Instance>
+
+7. Then update the package by using `sudo apt update` command
+8. Just try with the simple application by using as below command `python3 -m http.server 8000`
+9. Then try to check in the browser `http://<public ip:8000>` it won't work since your Ec2 instance in bound rules are not enabled with the 8000 port. Enbale and try it's should works.
+
+<img width="491" alt="Testing-Pyhon3-app" src="https://github.com/viswa2/DevOps/assets/34201574/0caed047-c689-485c-962b-89ef9abcfa10">
+
+10. You can able to restrict the port on top of the subnet under network ACLs i.e under VPC--> Network ACLs --> Click on which VPC connected on top of NACL's and edit the inbound rules you allow or denay specific port, ip address and ranges of the ip addresses based on the rule number.
+
