@@ -202,6 +202,9 @@ EX: ssh -i "key pair name" ubuntu@<PUblic Ip of EC2 Instance>
 
 7. Then update the package by using `sudo apt update` command
 8. Just try with the simple application by using as below command `python3 -m http.server 8000`
+
+<img width="519" alt="App-launching" src="https://github.com/viswa2/DevOps/assets/34201574/fb06a01e-6faf-4669-9285-47246c1d2b46">
+
 9. Then try to check in the browser `http://<public ip:8000>` it won't work since your Ec2 instance in bound rules are not enabled with the 8000 port. Enbale and try it's should works.
 
 <img width="491" alt="Testing-Pyhon3-app" src="https://github.com/viswa2/DevOps/assets/34201574/0caed047-c689-485c-962b-89ef9abcfa10">
