@@ -209,5 +209,8 @@ EX: ssh -i "key pair name" ubuntu@<PUblic Ip of EC2 Instance>
 
 <img width="491" alt="Testing-Pyhon3-app" src="https://github.com/viswa2/DevOps/assets/34201574/0caed047-c689-485c-962b-89ef9abcfa10">
 
-10. You can able to restrict the port on top of the subnet under network ACLs i.e under VPC--> Network ACLs --> Click on which VPC connected on top of NACL's and edit the inbound rules you allow or denay specific port, ip address and ranges of the ip addresses based on the rule number.
+10. You can able to restrict the port on top of the subnet under network ACLs i.e under VPC--> Network ACLs --> Click on which VPC connected on top of NACL's and edit the inbound rules you allow or denay specific port, ip address and ranges of the ip addresses based on the rule numbers of assending order.
+
+<img width="1434" alt="nacl-inboud-rules" src="https://github.com/viswa2/DevOps/assets/34201574/24e7a66b-9b23-4a7c-9811-5b7a9cb58566">
+
 
