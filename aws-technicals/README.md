@@ -198,7 +198,7 @@ For the given use-case, the customer is responsible for maintaining the versions
 5. Launch EC2 instance by selecting ubuntu flavor with the key pair, network settings select as what we have created above, select one public subnet which we have created as above and enable the Auto-assign public IP and launch instance.
 
 6. Once EC2 instance start running try to connect the instance by using ssh
-EX: ssh -i "key pair name" ubuntu@<PUblic Ip of EC2 Instance>
+EX: ssh -i "key pair name" ubuntu@< PUblic IP of EC2 Instance >
 
 7. Then update the package by using `sudo apt update` command
 8. Just try with the simple application by using as below command `python3 -m http.server 8000`
@@ -209,8 +209,6 @@ EX: ssh -i "key pair name" ubuntu@<PUblic Ip of EC2 Instance>
 
 <img width="491" alt="Testing-Pyhon3-app" src="https://github.com/viswa2/DevOps/assets/34201574/0caed047-c689-485c-962b-89ef9abcfa10">
 
-10. You can able to restrict the port on top of the subnet under network ACLs i.e under VPC--> Network ACLs --> Click on which VPC connected on top of NACL's and edit the inbound rules you allow or denay specific port, ip address and ranges of the ip addresses based on the rule numbers of assending order.
+10. You can able to restrict the port on top of the subnet under network ACLs i.e under VPC--> Network ACLs --> Click on which VPC connected on top of NACL's and edit the inbound rules, allow or denay specific port, ip address and ranges of the ip addresses based on the rule number of assending order it's should work's on subnet level.
 
 <img width="1434" alt="nacl-inboud-rules" src="https://github.com/viswa2/DevOps/assets/34201574/24e7a66b-9b23-4a7c-9811-5b7a9cb58566">
-
-
