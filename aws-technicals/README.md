@@ -1,5 +1,13 @@
 ## AWS Cloud Practitioner Technical Essentials ##
 
+`Authentication:`
+
+Login with the AWS root user and create a IAM test user and don't add any permissions. Logout the root user and login with the IAM user and try to access with the services in AWS console, but not able to access. Here you have a access with the AWS console but not in the services here comes with the authorization.
+
+`Authorization:`
+
+Login with the AWS root user and and add the permissions i.e S3 full access or Ec2 admin access etc. and logout root login again login with the IAM user now you can check with the S3 and EC2 services you can able to see the existing buckets, create buckets and list the same similarway for the EC2 instace as well.
+
 1. Create IAM role --> Role --> Create role --> AWS service --> s3 --> AmazonDynamoDBFullAccess --> next --> Rolename
 2. Create s3 bucket for objects --> create bucket --> AWS region ex: us-east-1 --> bucket name Ex: employee-photo-bucket-00 --> Add the bucket policy --> Create bucket
 3. Launch Ec2 Instance --> Instance name --> AMI from catalog --> Instance type t2.micro --> Key pair you can select or create a new key pair to connect the instance --> VPC earlier I have create app-vpc select the same --> Subnet created earlier select the same --> Create security group for Http and Https --> Advandced details --> IAM Instance profile --> select the  AmazonDynamoDBFullAccess --> Under the user data add the script for the Employee directory app --> Create Instance --> Wait a minute and check the app is working or not with the public ip in the browser.
