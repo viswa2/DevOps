@@ -1,12 +1,32 @@
-## AWS Cloud Practitioner Technical Essentials ##
+## AWS Technical Essentials ##
+
+## IAM (Identity Access Management) ##
 
 `Authentication:`
 
-Login with the AWS root user and create a IAM test user and don't add any permissions. Logout the root user and login with the IAM user and try to access with the services in AWS console, but not able to access. Here you have a access with the AWS console but not in the services here comes with the authorization.
+Login with the AWS root user and `create a IAM test user and don't add any permissions`. Logout the root user and login with the IAM user and try to access with the services in AWS console, but not able to access. Here you have a access with the AWS console but not in the services here comes with the authorization.
 
 `Authorization:`
 
-Login with the AWS root user and and add the permissions i.e S3 full access or Ec2 admin access etc. and logout root login again login with the IAM user now you can check with the S3 and EC2 services you can able to see the existing buckets, create buckets and list the same similarway for the EC2 instace as well.
+Login with the AWS root user and and add the permissions i.e `S3 full access or Ec2 admin access etc`. and logout root login again login with the IAM user now you can check with the S3 and EC2 services you can able to see the existing buckets, create buckets and list the same similarway for the EC2 instace as well.
+
+## EC2 (Elastic Compute Cloud) ##
+
+As below link describes different types of EC2 Instances.
+
+https://github.com/viswa2/DevOps/tree/master/aws-fundamentals#different-type-of-ec2-instances
+
+`Go to EC2 console launch instance and deploy jenkins and test it.`
+
+1. Launch and Ubuntu Ec2 insatnce with the necessary details.
+2. After launch connect Ec2 with the ssh -i <key pair name> ubuntu@<public ip>
+3. Enter the super user i.e sudo su -
+4. Update the packages `apt update -y`
+5. Install java `apt install openjdk-17-jdk -y`
+6. Install jenkins by using official documentaion.
+7. check the status of Jenkins by using systemctl status jenkins
+8. By default jenkins is running 8080 port, we can't able to access the app, until we can allow the port in Ec2 instance i.e Security --> Inbound Rules --> edit Inboud Rules and add the custom tcp port 8080 and save the rule.
+9. Now the hit the http://<public ip>: 8080 you can able to access the jenkins application in the browser.
 
 1. Create IAM role --> Role --> Create role --> AWS service --> s3 --> AmazonDynamoDBFullAccess --> next --> Rolename
 2. Create s3 bucket for objects --> create bucket --> AWS region ex: us-east-1 --> bucket name Ex: employee-photo-bucket-00 --> Add the bucket policy --> Create bucket
