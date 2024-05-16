@@ -19,14 +19,14 @@ https://github.com/viswa2/DevOps/tree/master/aws-fundamentals#different-type-of-
 `Go to EC2 console launch instance and deploy jenkins and test it.`
 
 1. Launch and Ubuntu Ec2 insatnce with the necessary details.
-2. After launch connect Ec2 with the ssh -i <key pair name> ubuntu@<public ip>
+2. After launch connect Ec2 with the ssh -i <key pair name> ubuntu@public ip
 3. Enter the super user i.e sudo su -
 4. Update the packages `apt update -y`
 5. Install java `apt install openjdk-17-jdk -y`
 6. Install jenkins by using official documentaion.
 7. check the status of Jenkins by using systemctl status jenkins
 8. By default jenkins is running 8080 port, we can't able to access the app, until we can allow the port in Ec2 instance i.e Security --> Inbound Rules --> edit Inboud Rules and add the custom tcp port 8080 and save the rule.
-9. Now the hit the http://<public ip>: 8080 you can able to access the jenkins application in the browser.
+9. Now the hit the http://public ip: 8080 you can able to access the jenkins application in the browser.
 
 1. Create IAM role --> Role --> Create role --> AWS service --> s3 --> AmazonDynamoDBFullAccess --> next --> Rolename
 2. Create s3 bucket for objects --> create bucket --> AWS region ex: us-east-1 --> bucket name Ex: employee-photo-bucket-00 --> Add the bucket policy --> Create bucket
@@ -214,7 +214,9 @@ Under the AWS Shared Responsibility Model, customer's responsibility is determin
 
 For the given use-case, the customer is responsible for maintaining the versions of an AWS Lambda function.
 
-## Create a VPC, launch EC2 Instance and Test Sample Application ##
+## Create a VPC, launch EC2 Instance and Test Http Sample Application ##
+
+<img width="714" alt="VPC, EC2 Instance and Test with the sample http application" src="https://github.com/viswa2/DevOps/assets/34201574/52576a4f-df82-4edf-97a8-71a1d995bcf1">
 
 1. In AWS by default VPC should be available.
 2. Create a VPC and under VPC settings click on vpc and more
