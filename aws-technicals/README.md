@@ -214,9 +214,9 @@ Under the AWS Shared Responsibility Model, customer's responsibility is determin
 
 For the given use-case, the customer is responsible for maintaining the versions of an AWS Lambda function.
 
-## Create a VPC, launch EC2 Instance and Test Http Sample Application ##
+## Create a VPC, launch EC2 Instance and Test with Http Sample Application ##
 
-<img width="714" alt="VPC, EC2 Instance and Test with the sample http application" src="https://github.com/viswa2/DevOps/assets/34201574/52576a4f-df82-4edf-97a8-71a1d995bcf1">
+<img width="667" alt="VPC, Launch Ec2 instance and deploy httpp sample app" src="https://github.com/viswa2/DevOps/assets/34201574/2ffddc60-6904-4442-9013-5691713ad481">
 
 1. In AWS by default VPC should be available.
 2. Create a VPC and under VPC settings click on vpc and more
