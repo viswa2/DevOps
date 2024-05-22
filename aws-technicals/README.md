@@ -242,3 +242,27 @@ EX: ssh -i "key pair name" ubuntu@< PUblic IP of EC2 Instance >
 10. You can able to restrict the port on top of the subnet under network ACLs i.e under VPC--> Network ACLs --> Click on which VPC connected on top of NACL's and edit the inbound rules, allow or denay specific port, ip address and ranges of the ip addresses based on the rule number of assending order it's should work's on subnet level.
 
 <img width="1434" alt="nacl-inboud-rules" src="https://github.com/viswa2/DevOps/assets/34201574/24e7a66b-9b23-4a7c-9811-5b7a9cb58566">
+
+## Deploy a Sample Application in Private Subnet ## 
+
+<img width="768" alt="Deploy Sample App in Private Subnet " src="https://github.com/viswa2/DevOps/assets/34201574/305f2cc5-06d9-4c79-9adc-6050038630af">
+
+1. Create a VPC as per above diagram i.e 2 public and 2 private subnets 2 nat gateways and internet gateway with 2 AZ
+
+<img width="1414" alt="Resource Map after creating VPC" src="https://github.com/viswa2/DevOps/assets/34201574/1469215c-d950-4f8e-a658-9c5ecd37fba7">
+
+2. Create a auto scaling group with launch template and attach with the private subnet.
+3. Create a bastion host or jump server it’s should be work as a mediator b/w private subnets and public subnets to connect the EC2 instances.
+4. Create if you don't have key pair (.pem) and copy into the bastion host server
+   `Example command:` scp -i /Users/viswanathareddy/Downloads/.pem file /Users/viswanathareddy/Downloads/.pem file ubuntu@3.80.93.106:/home/ubuntu
+5. Try to connect bastion host with the ssh command i.e ssh -i .pem file ubuntu@public iP and then check /home/ubuntu path .pem file is available or not.
+6. Take the private ip address of first instance and try to connect by using ssh it should connect by using .pem file, what we have copied in the previous step.
+7. Create basic index.html file content
+8. Deploy the sample python http application. `python3 -m http.server 8000`
+9. Create a application load balancer with the public subnet.
+10. Copy of the load balancer of dns name and hit the url in browser It's should work as below.
+
+<img width="682" alt="Application with the load balancer" src="https://github.com/viswa2/DevOps/assets/34201574/e3029e48-6d6b-411e-983b-6680142ff887">
+
+`Observation:` I have tried with the 2 instances to create basic `index.html file` and deploy with the sample python application, Even though my 2 EC2 instances are healthy traffic is routing into the single instance only.
+
