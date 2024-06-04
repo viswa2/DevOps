@@ -154,6 +154,20 @@ https://github.com/viswa2/DevOps/tree/master/aws-fundamentals#different-type-of-
 
 <img width="1608" alt="replication-destination" src="https://github.com/viswa2/DevOps/assets/34201574/4454fdfd-a696-4319-9f6e-546df97108b1">
 
+## S3 Bucket Policy for Restrict Users ##
+
+This policy denies all S3 actions on the `my-demo-test-bucket-prod bucket` and its objects to any principal except the root user of the account with ID 407303443287. In other words, only the root user of this AWS account can access the bucket and its objects; all other users are denied access.
+
+This effectively restricts access to the bucket to only the specified root user, ensuring that no other IAM users or roles (even within the same account) can perform any actions on the bucket or its objects.
+
+`How This was Tested` ?
+
+1. In the root it's tested by creating a IAM test user with the permissions of policy IAMUserChangePassword AmazonS3FullAccess.
+2. In the root account we have created a bucket called `my-demo-test-bucket-prod` upload the objects and added the bucket policy called `s3-bucket-policy-restrict-users`
+3. Login with the IAM user account and click on s3 section you can't able to view the objects, permissions, listout objects etc. i.e as below image.
+
+<img width="1357" alt="s3-bucket-testing" src="https://github.com/viswa2/DevOps/assets/34201574/57f3862f-42c9-45df-8cfe-052be0c9e909">
+
 ## Cloud Formation ##
 
 CloudFormation, It's infrastructure as code. This means that you can build an environment by writing lines of code instead of using the AWS Management Console to individually provision your infrastructure resources.
