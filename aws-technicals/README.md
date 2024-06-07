@@ -190,7 +190,9 @@ CloudFormation, It's infrastructure as code. This means that you can build an en
 
 8. If you want to update stack click on update stack --> replace current template --> Upload a template file with the changes. Once done it will terminate the existing resources and re-create with the new one.
    
-9. If we want to delete the resources there is no need to go each and indivual resources to delete simply go and delete the stack 
+9. If we want to delete the resources there is no need to go each and indivual resources to delete simply go and delete the stack
+
+   `Note:` While creating the cloud formation template check the AZ and subnet in the same AZ.
 
 ## Cloud Front ##
 
