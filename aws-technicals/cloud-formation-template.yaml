@@ -1,7 +1,11 @@
+AWSTemplateFormatVersion: "2010-09-09"
 Resources:
   MyEC2Instance: #An inline comment
     Type: "AWS::EC2::Instance"
     Properties: 
-      ImageId: "ami-0277155c3f0ab2930" #Another comment -- This is a Linux AMI
+      ImageId: "ami-00beae93a2d981137" #Another comment -- This is a Linux AMI
       InstanceType: t2.micro
-      AvailabilityZone: us-east-1a
+      AvailabilityZone: us-east-1c
+      "Tags" : [
+            {"Key" : "Name", "Value" : "MYEC2CF"}
+      ]
