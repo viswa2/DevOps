@@ -6,28 +6,24 @@ on:
       - master  # Replace with your branch
 env:
   BUCKET_NAME : "github-action-demo-bucket"
-  AWS_REGION : "us-east-1"      
-
+  AWS_REGION : "us-east-1"  
+permissions:
+  id-token: write
+  contents: read      
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Configure AWS credentials from OpenID Connect
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           audience: sts.amazonaws.com
           role-to-assume: arn:aws:iam::407303461057:role/Githubactions-Role
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Deploy to AWS
+      - name: Copy myfile.txt to s3
         run: |
           # Your deployment commands here, e.g., AWS CLI commands
           aws s3 cp ./myfile.txt s3://${{ env.BUCKET_NAME }}/
