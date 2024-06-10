@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main  # Replace with your branch
+      - master  # Replace with your branch
 
 jobs:
   deploy:
