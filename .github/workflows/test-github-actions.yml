@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master  # Replace with your branch
+env:
+  BUCKET_NAME : "github-action-demo-bucket"
+  AWS_REGION : "us-east-1"      
 
 jobs:
   deploy:
@@ -26,4 +29,4 @@ jobs:
       - name: Deploy to AWS
         run: |
           # Your deployment commands here, e.g., AWS CLI commands
-          aws s3 cp myfile.txt s3://github-action-demo-bucket/
+          aws s3 cp ./myfile.txt s3://github-action-demo-bucket/
