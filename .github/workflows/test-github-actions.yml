@@ -25,9 +25,9 @@ jobs:
         with:
           audience: sts.amazonaws.com
           role-to-assume: arn:aws:iam::407303461057:role/Githubactions-Role
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to AWS
         run: |
           # Your deployment commands here, e.g., AWS CLI commands
-          aws s3 cp ./myfile.txt s3://github-action-demo-bucket/
+          aws s3 cp ./myfile.txt s3://${{ env.BUCKET_NAME }}/
