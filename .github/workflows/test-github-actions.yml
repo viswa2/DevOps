@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Example Github Action WorkFlow
 
 on:
   push:
