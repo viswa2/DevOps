@@ -25,5 +25,5 @@ jobs:
 
       - name: Copy myfile.txt to s3
         run: |
-          # Your deployment commands here, e.g., AWS CLI commands
+          # Your deployment commands here, e.g., Copying objects into s3 bucket
           aws s3 cp ./myfile.txt s3://${{ env.BUCKET_NAME }}/
