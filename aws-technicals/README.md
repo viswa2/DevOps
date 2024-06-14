@@ -280,5 +280,58 @@ EX: ssh -i "key pair name" ubuntu@< PUblic IP of EC2 Instance >
 
 <img width="682" alt="Application with the load balancer" src="https://github.com/viswa2/DevOps/assets/34201574/e3029e48-6d6b-411e-983b-6680142ff887">
 
-`Observation:` I have tried with the 2 instances to create basic `index.html file` and deploy with the sample python application, Even though my 2 EC2 instances are healthy traffic is routing into the single instance only.
+`Observation:ch` I have tried with the 2 instances to create basic `index.html file` and deploy with the sample python application, Even though my 2 EC2 instances are healthy traffic is routing into the single instance only.
 
+## AWS CodeCommit ##
+
+AWS CodeCommit is a f`ully-managed source control service that hosts secure Git-based repositories`. It makes it easy for teams to collaborate on code in a secure and highly scalable ecosystem.
+
+1. Create a IAM user Ex: `test-user` and add the permissions with the attach policies directly `policy name`: AWSCodeCommitPowerUser which allow the user full access to AWS CodeCommit repositories.
+2. Under IAM --> Users --> test-user --> Security credentials --> HTTPS Git credentials for AWS CodeCommit --> click on generate credentials and download the credentials.
+3. Search on AWS console codecommit and add the repository name, add meaningful description and click on create.
+4. Once create the repository, click on repositories, repository name clone https URL
+5. Git clone <Https Url name>
+6. It will ask username and password provide the credentials which was downloaded in 2nd step.
+7. Then add some files Ex: s3-bucket.yaml 
+8. Use git commands i.e git add, commit, and push the changes into the repo.
+9. Once pushed go to the AWS console and refresh the code commit repository we can able to see the `s3-bucket.yaml` file
+
+<img width="1335" alt="Code-Commit" src="https://github.com/viswa2/DevOps/assets/34201574/8512e0da-1c36-4fd3-aa4a-cde1d220c1a1">
+
+## AWS CodeBuild ##
+
+AWS CodeBuild is a fully managed continuous integration service that compiles source code, runs tests, and produces software packages that are ready to deploy. With CodeBuild, you don’t need to provision, manage, and scale your own build servers.
+
+1. Search codecommit and click on create project add the project name.
+2. Under source select source provider is Github since source code is present in Github. We can selectother options based on source code availability.
+3. GitHub repository Since i have been testing `iam-veeramalla` added the same.
+4. Click on connect form github it will open another window and add the details and click on connect.
+5. Under environment add the operating ssytem as Ubuntu, Runtime:standard, Image:latest and Image version: always use the latest image for this runtime version.
+6. Under build spec click on insert build commands `add the yaml configuration details`
+7. Go to IAM roles and add the `AWSCodeBuildAdminAccess` and create the role.
+8.  Under service role permissions `service role` updae the role created on 7th step and click on create build project.
+9.  Since we are using docker we need credentails for the docker authentication search on aws console `AWS Systems Manager`
+10.  Under Application Management --> parameter store --> Create parameter as per the screenshot and add the name and value of it.
+
+<img width="1603" alt="Parameter-Store-for credentials" src="https://github.com/viswa2/DevOps/assets/34201574/11471f53-a59a-4b5b-94be-1698c87729c2">
+
+11. Now Click on start build under CodeBuild project check the build history and build logs check the erros and resolve one by one. i.e Yaml indendation errors in the phases i have added `pre-build` but actually `pre_build` and check the spaces `python: 3.11` etc.
+12. Error docker buildx build" requires exactly 1 argument
+Fix: We need add the docker build command . in the last so that it's should identify the `Dockerfile` and build the process.
+13. I have added the credentails invaild refernce format under `AWS Systems Manager --> Parameter store`
+Fix: Check username and password correctly along the docker registry name Ex: docker.io
+14. Once everything fine it's should build and pushed the image into docker hub.
+15. Adding the build spec yaml file into the github for reference.
+
+## AWS CodePipeline ##
+
+AWS CodePipeline is a continuous delivery service you can use to model, visualize, and automate the steps required to release your software. You can quickly model and configure the different stages of a software release process.
+
+1. Click on codepipeline add the pipeline name, select the pipeline type V2 
+2. Add the existing service role if already have otherwise create and add it.
+3. Click on next add source --> source provider Github version2 --> Connection --> connect to github --> Add the repository name --> provide the default branch name.
+4. Click add on build stage i.e AWS CodeBuild click on next and skip on deploy stage review and click on code pipeline.
+5. Once done pipeline will trigger and it will complete with the succeeded.
+6. Now make a small change and push into the repo the codepipeline will trigger automatically.
+
+   
