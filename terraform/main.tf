@@ -7,7 +7,7 @@ resource "aws_iam_openid_connect_provider" "github" {
   thumbprint_list = [var.thumbprint_list_id]
 }
 
-# Create a github actions role for IAM in the trust relationship with the trusted entities that allows GitHub Actions to assume it.
+# Create a Oidc role for IAM in the trust relationship with the trusted entities that allows to assume it.
 resource "aws_iam_role" "oidc_role" {
   name = "OIDC_IAM_ROLE"
 

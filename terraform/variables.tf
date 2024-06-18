@@ -23,10 +23,11 @@ variable "thumbprint_list_id" {
 variable "s3_bucket_name" {
   description = "Name of the S3 bucket"
   type        = string
-  default     = "my-demo-test-bucket-prod" # Default value, replace with your actual thumbprint
+  default     = "my-demo-test-bucket-prod" # Default value, replace with your actual value in usecase
 }
 
 variable "dynamodb_table_name" {
   description = "Name of the DynamoDB table"
   type        = string
+  default     = "dynamodb-testing" # Default value, replace with your actual in usecase
 }
