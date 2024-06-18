@@ -1,11 +1,17 @@
-variable "aws_access_key" {
-  description = "Value of the AWS access key id"
+variable "aws_access_key_id" {
+  description = "Value of the iam user access key id"
   type        = string
 }
 
-variable "aws_secret_key" {
-  description = "Value of the AWS secret key id"
+variable "aws_secret_access_key" {
+  description = "Value of the iam user secret key id"
   type        = string
+}
+
+variable "aws_region" {
+  description = "The AWS region to create resources in"
+  type        = string
+  default     = "us-east-1"
 }
 
 variable "thumbprint_list_id" {
@@ -18,4 +24,9 @@ variable "s3_bucket_name" {
   description = "Name of the S3 bucket"
   type        = string
   default     = "my-demo-test-bucket-prod" # Default value, replace with your actual thumbprint
+}
+
+variable "dynamodb_table_name" {
+  description = "Name of the DynamoDB table"
+  type        = string
 }

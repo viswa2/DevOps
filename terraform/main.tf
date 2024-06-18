@@ -4,12 +4,12 @@ resource "aws_iam_openid_connect_provider" "github" {
 
   client_id_list = ["sts.amazonaws.com"]
 
-  thumbprint_list = ["var.thumbprint_list_id"]
+  thumbprint_list = [var.thumbprint_list_id]
 }
 
 # Create a github actions role for IAM in the trust relationship with the trusted entities that allows GitHub Actions to assume it.
-resource "aws_iam_role" "github_actions_role" {
-  name = "GitHubActionsRole"
+resource "aws_iam_role" "oidc_role" {
+  name = "OIDC_IAM_ROLE"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -31,9 +31,9 @@ resource "aws_iam_role" "github_actions_role" {
 }
 
 # Attach policies to the IAM role to grant the necessary permissions. Ex: if you need S3 access
-resource "aws_iam_role_policy" "github_actions_policy" {
-  name = "GitHubActionsPolicy"
-  role = aws_iam_role.github_actions_role.id
+resource "aws_iam_role_policy" "oidc_actions_policy" {
+  name = "OidcActionsPolicy"
+  role = aws_iam_role.oidc_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
