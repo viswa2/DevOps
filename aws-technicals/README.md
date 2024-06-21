@@ -319,7 +319,7 @@ AWS CodeBuild is a fully managed continuous integration service that compiles so
 12. Error docker buildx build" requires exactly 1 argument
 Fix: We need add the docker build command . in the last so that it's should identify the `Dockerfile` and build the process.
 13. I have added the credentails invaild refernce format under `AWS Systems Manager --> Parameter store`
-Fix: Check username and password correctly along the docker registry name Ex: docker.io
+Fix: Check username and password correctly along with the docker registry name Ex: docker.io
 14. Once everything fine it's should build and pushed the image into docker hub.
 15. Adding the build spec yaml file into the github for reference.
 
@@ -334,4 +334,43 @@ AWS CodePipeline is a continuous delivery service you can use to model, visualiz
 5. Once done pipeline will trigger and it will complete with the succeeded.
 6. Now make a small change and push into the repo the codepipeline will trigger automatically.
 
-   
+## AWS CodeDeploy ##
+
+CodeDeploy is a deployment service that automates application deployments to Amazon EC2 instances, on-premises instances, serverless Lambda functions, or Amazon ECS services.
+
+1. Create a role for Amazon Ec2 & AWSCodedeploy.
+2. Launch a Ec2 instance and attach the IAM role which we have created in 1st step.
+3. Install codedeploy agent for ubuntu server as per the reference link.
+
+`Reference Link`: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
+
+4. In the AWS console search for the codedeploy under --> Applications --> Create application.
+5. Click on application name and crete deployment group as per the options.
+6. Start authenticate for the github and deploy the application.
+
+## AWS CloudWatch ##
+
+Amazon CloudWatch monitors your resources and the applications you run on AWS in real time. You can use CloudWatch to collect and track metrics, which are variables you can measure for your resources and applications. i.e logs, metrics, alarms, custom metrics and cost-optimization etc.
+
+`For Testing:`
+1. AWS console search for cloudwatch and click on `Log groups` we can observe our recent activities are performed under our aws account. we chck on log group with the log stream what kind of different activities we are performed on particulatr event time. this logs are collected cloudwatch by default will track as per below screenshot.
+
+![Alt text](Cloudwatch-Logs.png)
+
+2. Create a EC2 instance and observe the monitoring section we have a CPU, Network in bytes, etc.
+3. Login into EC2 instance and run the command called `stress --cpu 4 --timeout 60` this will increase the CPU spike in EC2 instance.
+4. EC2 Instance --> Monitoring --> Enable the manage detailed monitoring and we can able to see the maximum spike of CPU.
+
+![Alt text](Cpu-Utilization-after-stress.png)
+
+5. In the Cloudwatch we can create the alarms In alarms --> Create alaram --> Select the metric --> Mettric --> EC2 --> Per instance metrics --> Serach per cpu --> Findout with the Instance-id --> Select Metric --> statistic --> maximum and period --> 1 minute and conditions greater or equals to 50 and click on next
+6. Under Notification Create a topic --> topic name and email to send a notification when thresold reaches to what we have configured and then click on next.
+7. Add a name and description and then reveiew and create.
+8. Once done you will receive a mail AWS Notification - Subscription Confirmation, click on confirm subscription.
+9. Once confirm the subscription your cloudwtach alarm should be as below.
+
+![Alt text](Cloudwtach-alarm-after-subscription-confirmation.png)
+
+10. After reaching the CPU spike we can get the notification through mail based on our configuration.
+
+11. Not only this we can able to see the diffrenet types of metrics based on our actvity on daily basis.
