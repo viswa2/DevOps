@@ -361,7 +361,7 @@ Amazon CloudWatch monitors your resources and the applications you run on AWS in
 3. Login into EC2 instance and run the command called `stress --cpu 4 --timeout 60` this will increase the CPU spike in EC2 instance.
 4. EC2 Instance --> Monitoring --> Enable the manage detailed monitoring and we can able to see the maximum spike of CPU.
 
-![Alt text](Cpu-Utilization-after-stress.png)
+![Alt text](Cloudwatch-Logs-1.png)
 
 5. In the Cloudwatch we can create the alarms In alarms --> Create alaram --> Select the metric --> Mettric --> EC2 --> Per instance metrics --> Serach per cpu --> Findout with the Instance-id --> Select Metric --> statistic --> maximum and period --> 1 minute and conditions greater or equals to 50 and click on next
 6. Under Notification Create a topic --> topic name and email to send a notification when thresold reaches to what we have configured and then click on next.
@@ -374,3 +374,7 @@ Amazon CloudWatch monitors your resources and the applications you run on AWS in
 10. After reaching the CPU spike we can get the notification through mail based on our configuration.
 
 11. Not only this we can able to see the diffrenet types of metrics based on our actvity on daily basis.
+
+## AWS Lambda ##
+
+
