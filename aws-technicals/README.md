@@ -210,7 +210,7 @@ Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Ro
 
 <img width="775" alt="Cloudfront demo object url" src="https://github.com/viswa2/DevOps/assets/34201574/bd672d96-9a45-47ac-bebb-8ce6ccc1823f">
 
-4. Next in Amaznon search i.e cloudfront & Create distribution ie choose the name of bucket object url which we was created the bucket in 1st step
+4. Next in Amazon console search i.e cloudfront & Create distribution ie choose the name of bucket object url which we was created the bucket in 1st step
 5. Name of this origin i.e demo-cloudfront10.s3.us-east-1.amazonaws.com (it's same like the distrubution)
 6. Origin access public 
 7. Under Web Application Firewall (WAF) select Do not enable security protections
@@ -376,5 +376,14 @@ Amazon CloudWatch monitors your resources and the applications you run on AWS in
 11. Not only this we can able to see the diffrenet types of metrics based on our actvity on daily basis.
 
 ## AWS Lambda ##
+
+1. In AWS console search for lambda and create function.
+2. While creating we have different options i.e Author from scratch, Use a blueprint and container image
+3. Select the author from scratch and add the function name
+4. In the runtime we can select the different programing languages i.e .net, python, java etc. in our case select python 3.10
+5. In the Advanced settings select the Enable function URL and auth type select node as of now. `Usually we can select AWS_Iam users only not allowed for outsiderrs` and select create function.
+6. Under our lanbda function .py file has been created with the sample lambda function app.
+7. When we click on test the event can trigger and provide the execution results i.e `response code 200 and msg called hello from lambda`. 
+
 
 
