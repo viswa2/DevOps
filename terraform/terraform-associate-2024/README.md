@@ -7,13 +7,19 @@ As below Official link of terraform we can use and download and install the terr
 ## Terraform Commands ##
 
 terraform init # Command uses initiliaze and download the providers associated with the terraform provider.tf file `Ex:` .terraform/providers/registry.terraform.io/hashicorp
+
 terraform plan # Command is execute the actual plan before creating the resources.
+
 terraform apply # Command is create the resources are defined in terraform configuration.
+
 terraform fmt # Command is used to rewrite Terraform configuration files to a canonical format and style
+
 terraform destroy # Command is used to destroy the resourtces are created from the terraform configuration.
+
 terraform destory `-target <resource type.local resource name>` # If you want destroy for specific resource need to use -target option.
 
 `EX:` resource "aws_instance" "example_instance" 
+
 `Details:` aws_instance is resource type, . is a separator and example_instance is a local resource name
 
 terraform show # Command showcase the state file resources.
@@ -69,11 +75,14 @@ terraform {
 ## Controlling the versions of terraform provider ## 
 
 >= 1.0.0 - Versions greater than or equal to the 1.0.0.
+
 <= 1.0.0 - Versions lesser than or equal to 1.0.0.
+
 >= 1.0.0, <= 2.0.0 - Any version b/w the 1.0.0 and 2.0.0
+
 ~> 1.0.0 - Any version in the 1.X range
 
-For version testing earlier i'm not specified any version for provider as below. it's downloaded latest version of aws provider.
+`Note:` For version testing earlier i'm not specified any version for provider as below. it's downloaded latest version of aws provider.
 
 # Configure the AWS Provider
 
@@ -122,8 +131,11 @@ By using `terraform init -upgrade` command you can upgrade the provider version.
 4. Run the `aws configure` and provide the access key id and secret access key from the downloaded credentails from 2nd step.
 
 AWS Access Key ID [****************SD2U]: cxxxxxxxxxxxxxxxxx
+
 AWS Secret Access Key [****************X1GY]: Dxxxxxxxxxxxxxxx
+
 Default region name [us-east-1]: 
+
 Default output format [None]:
 
 5. Now run the terraform commands it's works
