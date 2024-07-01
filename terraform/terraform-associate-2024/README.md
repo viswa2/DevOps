@@ -112,9 +112,9 @@ terraform {
 ```
 
 `Error: Failed to query available provider packages`
-│ 
-│ Could not retrieve the list of available versions for provider hashicorp/aws: locked provider registry.terraform.io/hashicorp/aws 5.55.0 does not match configured version
-│ constraint <= 5.0.0; must use terraform init -upgrade to allow selection of new versions
+
+ Could not retrieve the list of available versions for provider hashicorp/aws: locked provider registry.terraform.io/hashicorp/aws 5.55.0 does not match configured version
+ constraint <= 5.0.0; must use terraform init -upgrade to allow selection of new versions.
 
 `Fix:` Delete the `.terraform.lock.hcl` file and re-run the `terraform init` command it's download the `version = "<= 5.0"`
 
