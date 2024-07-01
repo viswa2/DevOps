@@ -32,19 +32,24 @@ terraform show # Command showcase the state file resources.
 
 Terraform's primary function is to create, modify and destroy the infrastrucrture resources to match the desired state described in terraform configuration.
 
-`Ex:` resource "aws_instance" "example_Instance" {
+`Ex:` 
+```bash
+    resource "aws_instance" "example_Instance" {
     ami           = "ami-01b799c439fd5516a"
     instance_type = "t2.micro"
 }  
-
+```
 ## Current State ##
 
 Current is a actual state of resource that is currently deployed.
 
-`Ex:` resource "aws_instance" "example_Instance" {
+`Ex:` 
+```bash
+      resource "aws_instance" "example_Instance" {
       ami           = "ami-01b799c439fd5516a"
       instance_type = "t2.medium"
-}  
+}
+```
 
 `Important Note:` Terraform tries to ensure that the deployed infrastructure is based on the desired state. If there is a difference b/w the two, terraform plan presents a description of the changes necessary to acheive the desired state.
 
@@ -63,6 +68,7 @@ During terraform init, if version argument is not specified the most recent prov
 
 `Example code snippet:` 
 
+```bash
 terraform {
   required_providers {
     aws = {
@@ -71,27 +77,30 @@ terraform {
     }
   }
 }
+```
 
 ## Controlling the versions of terraform provider ## 
 
->= 1.0.0 - Versions greater than or equal to the 1.0.0.
+`>= 1.0.0 - Versions greater than or equal to the 1.0.0.`
 
-<= 1.0.0 - Versions lesser than or equal to 1.0.0.
+`<= 1.0.0 - Versions lesser than or equal to 1.0.0.`
 
->= 1.0.0, <= 2.0.0 - Any version b/w the 1.0.0 and 2.0.0
+`>= 1.0.0, <= 2.0.0 - Any version b/w the 1.0.0 and 2.0.0`
 
-~> 1.0.0 - Any version in the 1.X range
+`~> 1.0.0 - Any version in the 1.X range`
 
 `Note:` For version testing earlier i'm not specified any version for provider as below. it's downloaded latest version of aws provider.
 
 # Configure the AWS Provider
 
+```bash
 provider "aws" {
   region     = "us-east-1"
 }
-
+```
 But when i add the as below provider with the specific version constraint terraform lock file is not allowing me to dowload the specific version, due to earlier which is dowloaded the latest version and locked with the file name called `.terraform.lock.hcl`
 
+```bash
 terraform {
   required_providers {
     aws = {
@@ -100,6 +109,7 @@ terraform {
     }
   }
 }
+```
 
 `Error: Failed to query available provider packages`
 │ 
