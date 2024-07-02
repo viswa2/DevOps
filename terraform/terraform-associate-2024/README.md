@@ -251,7 +251,7 @@ Terraform allows us to refernce the attribute of one resource to be used in a di
 
 `Syntax:`
 
-Ex: <RESOURCE TYPE>.<NAME>. <ATTRIBUTE>>
+Ex: `<RESOURCE TYPE>.<NAME>. <ATTRIBUTE>>`
 
 We can specify the resource address with the attribute for cross-referencing.
 
@@ -278,3 +278,58 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
 ${...}): This syntx indicates that Terraform will replace the expression inside the curly braces with it's calculated value.
 
 `Ex:` cidr_ipv4         = "${aws_eip.lb.public_ip}/32"
+
+### Output Values
+
+Terraform Output values make information about your infrastructure available on the commandline, and can expose information for terraform configurations to use.
+
+Referer the terraform code for `output-values/output-values.tf` file.
+
+`Ex1:` Yo want a `pubic ip` attribute as a output value.
+
+```bash
+resource "aws_eip" "lb" {
+    domain = "vpc"
+}
+
+output "public_ip" {
+    value = aws_eip.lb
+}
+```
+
+![alt text](Terraform-Output-Values.png)
+
+`Ex2:` Since you were not decided which attribute needs to output the code block should be like as below and it's output the values are domain, public ip, public dns etc.
+
+```bash
+resource "aws_eip" "lb" {
+    domain = "vpc"
+}
+
+output "public_ip" {
+    value = aws_eip.lb
+}
+```
+![alt text](Terraform-Output-Values-all.png)
+
+`Note:` Output values defined in Project A can be referenced from code in project B as well.
+
+### Variables
+
+Update important values in one central place instead of searching and replacing them throught your code, saving time and potential mistakes. Managing the variables in production env. is one of the very important aspect to keep the code clean and reusable.
+
+Refer `variables/main.tf, variables.tf` for more details.
+
+### TF Vars 
+
+tfvars files are used to store variable definitions. This allows you to externalize your variable definitions and makes it easier to manage them, especially if you have a large number of variables or need to use the same variables in multiple environments.
+
+1. Terraform knows if the values doesn't part of the variables.tf file it will pick from the `terraform.tfvars` file.
+2. If you keep the empty `terraform.tfvars` file and it will take value from the `varaibles.tf `file.
+3. Even though if the value presents in `varaibles.tf` file it will took value from the `terraform.tfvars` file only.
+4. `Note:` HashiCorp recomands creating a separate file with the name of `*.tfvars` to define all variable value in a project.
+5. Organization have wide set of environments: Dev, Stage, Prod etc. In this case you need pass the command line arguments explictly.
+
+Ex: `terraform plan -var-file dev.tfvars`
+
+
