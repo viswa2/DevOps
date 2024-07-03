@@ -1,10 +1,38 @@
+## What Is Terraform ? ##
+
+HashiCorp Terraform is an infrastructure as code tool that lets you define both cloud and on-prem resources in human-readable configuration files that you can version, reuse, and share.
+
+### How does Terraform work? 
+
+Terraform creates and manages resources on cloud platforms and other services through their application programming interfaces (APIs). Providers enable Terraform to work with virtually any platform or service with an accessible API.
+
+![alt text](<How terraform works.png>)
+
+## Advantages of Terraform ##
+
+Infrastructure as Code (IaC) tools allow you to manage infrastructure with configuration files rather than through a graphical user interface.
+
+`Manage any infrastructure` --> Terraform plugins called providers let Terraform interact with cloud platforms and other services via their application programming interfaces (APIs).
+
+`Standardize your deployment workflow` --> Providers define individual units of infrastructure, for example compute instances or private networks, as resources. You can compose resources from different providers into reusable Terraform configurations called modules, and manage them with a consistent language and workflow. 
+
+![alt text](Deployment-Workflow.png)
+
+`Track your infrastructure` --> Terraform keeps track of your real infrastructure in a state file, which acts as a source of truth for your environment.
+
+`Collaborate` --> Terraform allows you to collaborate on your infrastructure with its remote state backends.
+
+`Reference Link:` https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code
+
 ## Installtion of Terraform ##
 
-As below Official link of terraform we can use and download and install the terraform in diffrenet operating systems i.e Windows, Linux, Mac etc.
+As below Official link of terraform we can use to download and install the terraform in diffrenet operating systems i.e Windows, Linux, Mac etc.
 
 `Download Link:` https://developer.hashicorp.com/terraform/install
 
 ## Terraform Commands ##
+
+terraform validate # It's validates syntax configuration, If no syntax errors the output is Success! The configuration is valid
 
 terraform init # Command uses initiliaze and download the providers associated with the terraform provider.tf file `Ex:` .terraform/providers/registry.terraform.io/hashicorp
 
@@ -152,4 +180,156 @@ Default output format [None]:
 6. Another way is add the variables in your terraform configuration and run the terraform commands. i.e refer varaibles.tf 
 
 `For More Details and ways:` https://registry.terraform.io/providers/hashicorp/aws/5.53.0/docs
+
+`Important Note for terraform Versions`: Just because a better approach is recommended, does not always mean that older approach will stop working. Search for specific version documents you will get the example usage based on your requiremnets.
+
+`Example of New version 5.53.0 approach:`
+
+```bash
+resource "aws_security_group" "allow_tls" {
+  name        = "allow_tls"
+  description = "Allow TLS inbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+  tags = {
+    Name = "allow_tls"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
+  security_group_id = aws_security_group.allow_tls.id
+  cidr_ipv4         = aws_vpc.main.cidr_block
+  from_port         = 443
+  ip_protocol       = "tcp"
+  to_port           = 443
+}
+```
+
+`Example of Old Version 4.48.0 Approach:`
+
+```bash
+resource "aws_security_group" "allow_tls" {
+  name        = "allow_tls"
+  description = "Allow TLS inbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description      = "TLS from VPC"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = [aws_vpc.main.cidr_block]
+    ipv6_cidr_blocks = [aws_vpc.main.ipv6_cidr_block]
+  }
+}
+```
+`Reference document:` https://registry.terraform.io/providers/hashicorp/aws/5.53.0/docs
+
+## Basics Of Attributes ##
+
+Each resource has its associated set of attributes.
+Attributes are the fields in a resource that holds the values that end up in the state.
+
+When you run the terraform apply commands in the `.terraform.tfstate` file we can able to see the attributes.
+
+`Example Attribute`
+
+{
+          "schema_version": 0,
+          "attributes": {
+          "private_dns": null,
+          "public_dns": "ec2-100-29-169-75.compute-1.amazonaws.com",
+          "public_ip": "100.29.169.75",
+          }
+}            
+
+`For more Details:` https://registry.terraform.io/providers/hashicorp/aws/5.53.0/docs/resources/instance#attribute-reference
+
+## Cross Referencing Resource Attribute ##
+
+Terraform allows us to refernce the attribute of one resource to be used in a different resource.
+
+`Syntax:`
+
+Ex: `<RESOURCE TYPE>.<NAME>. <ATTRIBUTE>>`
+
+We can specify the resource address with the attribute for cross-referencing.
+
+1. Creating the elastic ip 
+2. Creating the security group
+3. Creating the inbould rule which we are cross referencing the elastic ip for the cidr ipv4 block.
+4. For More details check the cross-reference-attributes.tf file
+
+`Ex:` 
+
+```bash
+resource "aws_eip" "lb" {
+  domain   = "vpc"
+}
+```
+```bash
+resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
+  security_group_id = aws_security_group.allow_tls.id
+  cidr_ipv4         = "${aws_eip.lb.public_ip}/32"
+}
+```
+## String Interpolation in Terraform ##
+
+${...}): This syntx indicates that Terraform will replace the expression inside the curly braces with it's calculated value.
+
+`Ex:` cidr_ipv4         = "${aws_eip.lb.public_ip}/32"
+
+### Output Values
+
+Terraform Output values make information about your infrastructure available on the commandline, and can expose information for terraform configurations to use.
+
+Referer the terraform code for `output-values/output-values.tf` file.
+
+`Ex1:` Yo want a `pubic ip` attribute as a output value.
+
+```bash
+resource "aws_eip" "lb" {
+    domain = "vpc"
+}
+
+output "public_ip" {
+    value = aws_eip.lb
+}
+```
+
+![alt text](Terraform-Output-Values.png)
+
+`Ex2:` Since you were not decided which attribute needs to output the code block should be like as below and it's output the values are domain, public ip, public dns etc.
+
+```bash
+resource "aws_eip" "lb" {
+    domain = "vpc"
+}
+
+output "public_ip" {
+    value = aws_eip.lb
+}
+```
+![alt text](Terraform-Output-Values-all.png)
+
+`Note:` Output values defined in Project A can be referenced from code in project B as well.
+
+### Variables
+
+Update important values in one central place instead of searching and replacing them throught your code, saving time and potential mistakes. Managing the variables in production env. is one of the very important aspect to keep the code clean and reusable.
+
+Refer `variables/main.tf, variables.tf` for more details.
+
+### TF Vars 
+
+tfvars files are used to store variable definitions. This allows you to externalize your variable definitions and makes it easier to manage them, especially if you have a large number of variables or need to use the same variables in multiple environments.
+
+1. Terraform knows if the values doesn't part of the variables.tf file it will pick from the `terraform.tfvars` file.
+2. If you keep the empty `terraform.tfvars` file and it will take value from the `varaibles.tf `file.
+3. Even though if the value presents in `varaibles.tf` file it will took value from the `terraform.tfvars` file only.
+4. `Note:` HashiCorp recomands creating a separate file with the name of `*.tfvars` to define all variable value in a project.
+5. Organization have wide set of environments: Dev, Stage, Prod etc. In this case you need pass the command line arguments explictly.
+
+Ex: `terraform plan -var-file dev.tfvars`
+
 
