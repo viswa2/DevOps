@@ -206,21 +206,20 @@ Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Ro
 
 <img width="1371" alt="S3-bucket for Cloudfront" src="https://github.com/viswa2/DevOps/assets/34201574/e46ec12b-8c6a-47c3-a6b7-17e307adaf48">
 
-3. Now open the Object url it won't work due to AccessDenied error because we blocked the public access. This we can able to acheive by using cloudfront.
+3. Under properties --> Enable Static website hosting, index document add `index.html` and Error document  is `optional` click on save changes.
 
 <img width="775" alt="Cloudfront demo object url" src="https://github.com/viswa2/DevOps/assets/34201574/bd672d96-9a45-47ac-bebb-8ce6ccc1823f">
 
 4. Next in Amazon console search i.e cloudfront & Create distribution ie choose the name of bucket object url which we was created the bucket in 1st step
 5. Name of this origin i.e demo-cloudfront10.s3.us-east-1.amazonaws.com (it's same like the distrubution)
-6. Origin access public 
-7. Under Web Application Firewall (WAF) select Do not enable security protections
-8. under Default root object type `index.html` which we were uploaded earlier in s3 bucket and then click create distribution.
-9. Need to copy the policy of cloud front and paste under the bucket policy.
-10. Once the distribution status is enabled click on Distribution domain name and see the magic.
+6. Origin access as Legacy access identities, under Origin access identity:Create new OAI, Bucket Policy:Yes, update the bucket policy
+7. Under Web Application Firewall (WAF) select Do not enable security protections.
+8. Under Default root object type `index.html` which we were uploaded earlier in s3 bucket and then click create distribution.
+9. Once the distribution status is enabled click on Distribution domain name and see the magic.
 
 <img width="358" alt="Cloudfront Image" src="https://github.com/viswa2/DevOps/assets/34201574/897a9dcd-6062-47ab-8d2d-557d76df830a">
 
-11. You can try with the domain name with the index.html and image.jpg etc.
+10. You can try with the domain name with the index.html and image.jpg etc.
 
 ## AWS Shared Responsibility Model ##
 
@@ -377,6 +376,16 @@ Amazon CloudWatch monitors your resources and the applications you run on AWS in
 
 ## AWS Lambda ##
 
+`Event-Driven Execution:` Lambda functions are triggered by events. An event could be anything, like a new file being uploaded to Amazon S3, a request hitting an API, or a specific time on the clock. When an event occurs, Lambda executes the corresponding function.
+
+`No Server Management:` As a developer, you don't need to worry about managing servers. AWS handles everything behind the scenes. You just upload your code, configure the trigger, and Lambda takes care of the rest.
+
+`Automatic Scaling:` Whether you have one user or one million users, Lambda scales automatically. Each function instance runs independently, ensuring that your application can handle any level of incoming traffic without manual intervention.
+
+`Pay-per-Use:` One of the most attractive features of serverless computing is cost efficiency. With Lambda, you pay only for the compute time your code consumes. When your code isn't running, you're not charged.
+
+`Supported Languages:` Lambda supports multiple programming languages like Node.js, Python, Java, Go, and more. You can choose the language you are comfortable with or that best fits your application's needs.
+
 1. In AWS console search for lambda and create function.
 2. While creating we have different options i.e Author from scratch, Use a blueprint and container image
 3. Select the author from scratch and add the function name
@@ -385,5 +394,26 @@ Amazon CloudWatch monitors your resources and the applications you run on AWS in
 6. Under our lanbda function .py file has been created with the sample lambda function app.
 7. When we click on test the event can trigger and provide the execution results i.e `response code 200 and msg called hello from lambda`. 
 
+## AWS CostOptimization ##
+
+In Any snapshot is belongs to volume that is not attached to EC2 instance need to identify and remove the snapshot by using AWS lambda function.
+
+1. Create a EC2 instance
+2. Create a snapshot with the volume of Ec2 instance as above
+3. Create a lambda function with the name of cost-optimization-EBS-snapshot.
+4. Runtime select a python 3.10
+5. Click on create function
+6. Click on function name and code remove the existing code and add the python code `iam-veeramalla/aws-devops-zero-to-hero/tree/main/day-18/ebs_stale_snapshosts.py` available in the github repo.
+5. Save the code click on deploy and configure the event.
+6.  Click on Test we can able to see the output in `Execution results`.
+7. Got an error called timeout error. Go to configuration --> Edit --> Increase the `Timeout from 3 seconds to 10.` We need to keep the timeout option is less due to based on time execution lambda function cost will occour.
+8. Next error is you are not authorized to perform the actions, since we don't have enough permissions to test the lambda function.
+9. Create a policy --> Choose a service as Ec2 and in filter options select DeleteSnapshot, DescribeSnapshots and create a policy.
+10. Create a policy --> Choose a service as Ec2 and in filter options select DescribeInstances, DescribeVolumes and create a policy.
+11. Under configuration --> `Execution role`--> Role name --> click  attach a policies we have created in 11th and 12th step.
+12. Now Click on code and Test the lambda function. It was succeded still snapshot was available.
+13. Go to EC2 instance and terminate the EC2 manually, Once terminates volume also got deletes.
+14. Now re-run the lambda function again this time snapshot got deleted. find the reference screenshot as below.
+15. This Lambda is we are triggering manually, we can able to configure by event driven i.e cloud watch --> Events --> Rules --> Create a role, schedule based on project requirements.
 
 
