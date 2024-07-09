@@ -279,7 +279,7 @@ ${...}): This syntx indicates that Terraform will replace the expression inside 
 
 `Ex:` cidr_ipv4         = "${aws_eip.lb.public_ip}/32"
 
-## Output Values ##
+### Output Values
 
 Terraform Output values make information about your infrastructure available on the commandline, and can expose information for terraform configurations to use.
 
@@ -314,7 +314,7 @@ output "public_ip" {
 
 `Note:` Output values defined in Project A can be referenced from code in project B as well.
 
-## Variables ##
+### Variables
 
 Update important values in one central place instead of searching and replacing them throught your code, saving time and potential mistakes. Managing the variables in production env. is one of the very important aspect to keep the code clean and reusable.
 
@@ -324,7 +324,7 @@ Refer `variables/main.tf, variables.tf` for more details.
 
 tfvars files are used to store variable definitions. This allows you to externalize your variable definitions and makes it easier to manage them, especially if you have a large number of variables or need to use the same variables in multiple environments.
 
-1. Terraform knows if the values doesn't part of the `variables.tf` file it will pick from the `terraform.tfvars` file.
+1. Terraform knows if the values doesn't part of the variables.tf file it will pick from the `terraform.tfvars` file.
 2. If you keep the empty `terraform.tfvars` file and it will take value from the `varaibles.tf `file.
 3. Even though if the value presents in `varaibles.tf` file it will took value from the `terraform.tfvars` file only.
 4. `Note:` HashiCorp recomands creating a separate file with the name of `*.tfvars` to define all variable value in a project.
