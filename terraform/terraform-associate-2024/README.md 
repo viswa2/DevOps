@@ -279,7 +279,7 @@ ${...}): This syntx indicates that Terraform will replace the expression inside 
 
 `Ex:` cidr_ipv4         = "${aws_eip.lb.public_ip}/32"
 
-### Output Values
+## Output Values ##
 
 Terraform Output values make information about your infrastructure available on the commandline, and can expose information for terraform configurations to use.
 
@@ -314,7 +314,7 @@ output "public_ip" {
 
 `Note:` Output values defined in Project A can be referenced from code in project B as well.
 
-### Variables
+## Variables ##
 
 Update important values in one central place instead of searching and replacing them throught your code, saving time and potential mistakes. Managing the variables in production env. is one of the very important aspect to keep the code clean and reusable.
 
@@ -324,7 +324,7 @@ Refer `variables/main.tf, variables.tf` for more details.
 
 tfvars files are used to store variable definitions. This allows you to externalize your variable definitions and makes it easier to manage them, especially if you have a large number of variables or need to use the same variables in multiple environments.
 
-1. Terraform knows if the values doesn't part of the variables.tf file it will pick from the `terraform.tfvars` file.
+1. Terraform knows if the values doesn't part of the `variables.tf` file it will pick from the `terraform.tfvars` file.
 2. If you keep the empty `terraform.tfvars` file and it will take value from the `varaibles.tf `file.
 3. Even though if the value presents in `varaibles.tf` file it will took value from the `terraform.tfvars` file only.
 4. `Note:` HashiCorp recomands creating a separate file with the name of `*.tfvars` to define all variable value in a project.
@@ -332,4 +332,55 @@ tfvars files are used to store variable definitions. This allows you to external
 
 Ex: `terraform plan -var-file dev.tfvars`
 
+### Variable  Defination Precedence
 
+Terraform loads variables in the following order, with later sources taking precendence over earlier one.
+
+1. Environment variables
+2. The terraform.tfvars files, if it's present.
+3. The terraform.tfvars.json file, if it's present.
+4. Any *.auto.tfvars or *.auto.tfvars.json files, processed in the lexical order of their file names.
+5. Any -var and -file-var options on the command line.
+
+**Testing Example1:** Even you have `variables.tf file` in the terraform configuration with the `intsance_type = t2.micro` in the system env `TF_VAR_instance_type=t2.medium`. While running `terraform plan` it's should be considered as a system env only, due it's having higher Precedence.
+
+**Testing Example2:** Even when you have added as a sytem env `TF_VAR_instance_type=t2.micro` or value in `terraform.tfvars` file having `t2.large` while executing the command line `terraform plan -var="instance_type=m5.large"` it's should be considered as a command line only, due it's having higher Precedence.
+
+**Testing Example3:** Even when you have `variables.tf file` in the terraform configuration with the `intsance_type = t2.micro` and `terraform.tfvars` having `instance_type = t2.large` it's should be considered as `t2.large` due it's having higher Precedence.
+
+## Data Types ##
+
+Data type referes to the `type of the value.` Depending on the requirement we can use wide variety of values in terraform configuration.
+
+**Example Data type:** `Hello world` is `string` Refer data-types/string-type/
+                       `7576` is a `number`
+                       `true` or `false` is a `boolean`
+                       `list` or `tuple` collection of values, like `["us-west-1a", "us-west-1c"]` i.e See the example of `datatypes/data-type-list.tf`
+                       `set` is acollection of unique values that do not have any secondary identifiers or ordering.
+                       `map` or `object` collection of of key values identified by named labels, like `{name = "Mabel", age = 52}.` Refer data-types/map-type=map-type.tf
+                       `null` a value that represents absence or omission. If you set an argument of a resource to null, Terraform behaves as though you had completely omitted it.
+`Reference Link`: https://developer.hashicorp.com/terraform/language/expressions/types#types
+
+## Count and Count Index ##
+
+count referes total no. of instances, users etc. want's to create Ex: Refer `count/count.tf`
+
+count.index allows us to fetch the index of each iteration in the loop. Ex: Refer `count-index/count-index.tf`
+
+`Note:` Having a username like loadbalancer0, loadbalancer1 might not always suitable. Better names like dev-loadbalancer, test-loadbalancer etc. count.index help such scenario as well.
+
+## Conditional Expression ##
+
+A conditional expression uses the value of `bool` expression to select one of two values.
+
+`Syntax:` condition ? true_val : false_val
+
+Example: `count = var.istest == true ? 3 : 0` `var.test` is condition as per above syntax then `?` symbol then `3: 0` `3 is true and 0 is false`. Based on the `terraform.tfvars` we can change the condition.
+
+## Local Values ##
+
+A local value assigns a name to an expression, allowing it to be used multiple times with in a module without repeating it.
+
+Local values can be helpful to avoid repeating the same values or expressions multiple times in a configuration.
+
+Refer for more details `local-values/local-values.tf`
