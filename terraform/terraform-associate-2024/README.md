@@ -353,12 +353,19 @@ Terraform loads variables in the following order, with later sources taking prec
 Data type referes to the `type of the value.` Depending on the requirement we can use wide variety of values in terraform configuration.
 
 **Example Data type:** `Hello world` is `string` Refer data-types/string-type/
+
                        `7576` is a `number`
+
                        `true` or `false` is a `boolean`
+
                        `list` or `tuple` collection of values, like `["us-west-1a", "us-west-1c"]` i.e See the example of `datatypes/data-type-list.tf`
+
                        `set` is acollection of unique values that do not have any secondary identifiers or ordering.
+
                        `map` or `object` collection of of key values identified by named labels, like `{name = "Mabel", age = 52}.` Refer data-types/map-type=map-type.tf
+
                        `null` a value that represents absence or omission. If you set an argument of a resource to null, Terraform behaves as though you had completely omitted it.
+
 `Reference Link`: https://developer.hashicorp.com/terraform/language/expressions/types#types
 
 ## Count and Count Index ##
@@ -367,7 +374,7 @@ count referes total no. of instances, users etc. want's to create Ex: Refer `cou
 
 count.index allows us to fetch the index of each iteration in the loop. Ex: Refer `count-index/count-index.tf`
 
-`Note:` Having a username like loadbalancer0, loadbalancer1 might not always suitable. Better names like dev-loadbalancer, test-loadbalancer etc. count.index help such scenario as well.
+`Note:` Having a username like loadbalancer0, loadbalancer1 might not always suitable. Better names like `dev-loadbalancer`, `test-loadbalancer` etc. count.index help such scenario as well.
 
 ## Conditional Expression ##
 
