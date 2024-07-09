@@ -382,7 +382,7 @@ A conditional expression uses the value of `bool` expression to select one of tw
 
 `Syntax:` condition ? true_val : false_val
 
-Example: `count = var.istest == true ? 3 : 0` `var.test` is condition as per above syntax then `?` symbol then `3: 0` `3 is true and 0 is false`. Based on the `terraform.tfvars` we can change the condition.
+Example: `count = var.istest == true ? 3 : 0` `var.test` is condition as per above syntax then `?` symbol then in `3: 0` `3 is true and 0 is false`. Based on the `terraform.tfvars` we can change the condition.
 
 ## Local Values ##
 
