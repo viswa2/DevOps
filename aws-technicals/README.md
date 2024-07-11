@@ -416,4 +416,21 @@ In Any snapshot is belongs to volume that is not attached to EC2 instance need t
 14. Now re-run the lambda function again this time snapshot got deleted. find the reference screenshot as below.
 15. This Lambda is we are triggering manually, we can able to configure by event driven i.e cloud watch --> Events --> Rules --> Create a role, schedule based on project requirements.
 
+## ECR (Elastic Container Registry) ##
 
+Amazon Elastic Container Registry (Amazon ECR) is an AWS managed container image registry service that is secure, scalable, and reliable. Amazon ECR supports private repositories with resource-based permissions using AWS IAM.
+
+1. Go to AWS console search with the ecr and it will popup elastic container registry click on.
+2. Click on create repository General settings --> Visibility settings by default private only and add the repository name i.e demo-repository.
+3. Tag immutability enable the option (Enable tag immutability to prevent image tags from being overwritten by subsequent image pushes using the same tag.)
+4. Image scan settings enable the scan on push each image automatically scanned after being pushed to a repository.
+5. Click on create repository.
+6. In your system available to aws cli installation. if not install the same.
+7. Since i'm using the root account doesn't have any issue with the permissions. if you were using IAM user check the necessary permissions to login with the registry.
+8. Click on view push commands based on your operating system perform the commands as given i.e login with the docker registry.
+9. Build the sample Dockerfile.
+10. Tag your docker iamge for push.
+11. Push the docker iamge into the ECR repository.
+12. Once push click on repository name and then see the docker image. Find the reference screeshot after pushing the image into ECR.
+
+![alt text](ECR-Image-Registry.png)
