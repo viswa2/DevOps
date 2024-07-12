@@ -391,3 +391,21 @@ A local value assigns a name to an expression, allowing it to be used multiple t
 Local values can be helpful to avoid repeating the same values or expressions multiple times in a configuration.
 
 Refer for more details `local-values/local-values.tf`
+
+## Terraform Functions ##
+
+A function is a block of code that performs a specific task.
+
+file()reads the contents of a file at the given path and returns them as a string.
+
+We can use a `terraform console` command for functions in terraform as below screenshot.
+
+![alt text](terraform-console-1.png)
+
+`Importance of file function:` File function can reduce the overall terraform code size by loading contents from external sources during terraform operations. 
+
+`Example:` We have a `functions/functions.tf` we can add the code of `iam-user-policy.json` file also in the same `functions.tf` file. Since we are using the file function to reduce the size of the code and unfortunatley we can change any line of json it won't work.
+
+Refer how we used file function for `iam-user-policy.json` file in the `functions.tf` file.
+
+
