@@ -384,14 +384,6 @@ A conditional expression uses the value of `bool` expression to select one of tw
 
 Example: `count = var.istest == true ? 3 : 0` `var.test` is condition as per above syntax then `?` symbol then in `3: 0` `3 is true and 0 is false`. Based on the `terraform.tfvars` we can change the condition.
 
-## Local Values ##
-
-A local value assigns a name to an expression, allowing it to be used multiple times with in a module without repeating it.
-
-Local values can be helpful to avoid repeating the same values or expressions multiple times in a configuration.
-
-Refer for more details `local-values/local-values.tf`
-
 ## Terraform Functions ##
 
 A function is a block of code that performs a specific task.
@@ -400,12 +392,65 @@ file()reads the contents of a file at the given path and returns them as a strin
 
 We can use a `terraform console` command for functions in terraform as below screenshot.
 
-![alt text](terraform-console-1.png)
+![alt text](terraform-console.png)
 
 `Importance of file function:` File function can reduce the overall terraform code size by loading contents from external sources during terraform operations. 
 
 `Example:` We have a `functions/functions.tf` we can add the code of `iam-user-policy.json` file also in the same `functions.tf` file. Since we are using the file function to reduce the size of the code and unfortunatley we can change any line of json it won't work.
 
 Refer how we used file function for `iam-user-policy.json` file in the `functions.tf` file.
+
+### Lookup Function
+
+lookup retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
+
+`syntax:` lookup(map, key, default) ==> lookup({a="ay", b="bee"}, "a", "what?") ==> map is `{a="ay", b="bee"}` then `"a"` is key and default is `"what?`"
+
+`Realtime Example:` lookup({"us-east-1" = "ami-08a0d1e16fc3f61ea", "us-west-2" = "ami-0b20a6f09484773af", "ap-south-1" = "ami-0e1d06225679bc1c5"},"us-east-1")
+
+### Length Function
+
+length determines the length of a given list, map, or string.
+
+If given a list or map, the result is the number of elements in that collection. If given a string, the result is the number of characters in the string.
+
+`Syntax:` length(["a", "b"]) ==> The output should be `2` while executing in terminal with the `teraaform console.`
+
+`Realtime Example:` length("firstec2","secondec2")
+
+### Element Function
+
+element retrieves a single element from a list. The `index is zero-based`. This function produces an error if used with an empty list. The index must be a non-negative integer.
+
+`Syntax:` element(list, index) ==> element(["a", "b", "c"], 1) ==> The output should be `"b"` since index count starts from zero.
+
+`Realtime Example:` element(["firstec2","secondec2"], 2)
+
+### Formatdate Function
+
+formatdate converts a timestamp into a different time format. n the Terraform language, timestamps are conventionally represented as strings using RFC 3339 "Date and Time format" syntax. formatdate requires the timestamp argument to be a string conforming to this syntax.
+
+`Syntax:` formatdate("DD MMM YYYY hh:mm ZZZ", "2018-01-02T23:12:01Z")
+
+`Realtime Example`: formatdate("DD MMM YYYY hh:mm ZZZ",timestamp()) ==> It will printout the current date in UTC format, in Date, Month, Year, and time.
+
+For More details check `functions/functions-challange/functions-challange.tf` file for execution.
+
+`For More Functions Reference:` https://developer.hashicorp.com/terraform/language/functions
+
+## Local Values ##
+
+A local value assigns a name to an expression, allowing it to be used multiple times with in a module without repeating it.
+
+Local values can be `helpful to avoid repeating the same values or expressions multiple times in a configuration.`
+
+Refer for more details `local-values/local-values.tf`
+
+## Data Sources ##
+
+Data sources allow Terraform to use/fetch information defined outside of Terraform.
+
+`${path.module}` returns the current file system path where your code is located.
+
 
 
