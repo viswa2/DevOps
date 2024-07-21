@@ -1,17 +1,15 @@
 provider "aws" {
-  region     = "us-west-2"
+   region = "us-east-1"
+}
+variable "environment" {
+  default = "production"
 }
 
-variable "istest" {}
-
-resource "aws_instance" "dev" {
-   ami = "ami-082b5a644766e0e6f"
-   instance_type = "t2.micro"
-   count = var.istest == true ? 3 : 0
+variable "region" {
+  default = "ap-south-1"
 }
 
-resource "aws_instance" "prod" {
-   ami = "ami-082b5a644766e0e6f"
-   instance_type = "t2.large"
-   count = var.istest == false ? 1 : 0
+resource "aws_instance" "myec2" {
+    ami = "ami-00c39f71452c08778"
+    instance_type = var.environment == "production" && var.region == "us-east-1" ? "m5.large" : "t2.micro"
 }
