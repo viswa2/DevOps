@@ -40,7 +40,7 @@ terraform plan # Command is execute the actual plan before creating the resource
 
 terraform apply # Command is create the resources are defined in terraform configuration.
 
-terraform fmt # Command is used to rewrite Terraform configuration files to a canonical format and style
+terraform fmt # Command is used to rewrite Terraform configuration files to a canonical format and style.
 
 terraform destroy # Command is used to destroy the resourtces are created from the terraform configuration.
 
@@ -370,9 +370,9 @@ Data type referes to the `type of the value.` Depending on the requirement we ca
 
 ## Count and Count Index ##
 
-count referes total no. of instances, users etc. want's to create Ex: Refer `count/count.tf`
+Count referes total no. of instances, users etc. want's to create Ex: Refer `count/count.tf`
 
-count.index allows us to fetch the index of each iteration in the loop. Ex: Refer `count-index/count-index.tf`
+Count Index allows us to fetch the index of each iteration in the loop. `${count.index}` will start from zereo. Ex: Refer `count-index/count-index.tf`
 
 `Note:` Having a username like loadbalancer0, loadbalancer1 might not always suitable. Better names like `dev-loadbalancer`, `test-loadbalancer` etc. count.index help such scenario as well.
 
@@ -382,7 +382,7 @@ A conditional expression uses the value of `bool` expression to select one of tw
 
 `Syntax:` condition ? true_val : false_val
 
-Example: `count = var.istest == true ? 3 : 0` `var.test` is condition as per above syntax then `?` symbol then in `3: 0` `3 is true and 0 is false`. Based on the `terraform.tfvars` we can change the condition.
+`Example:` var.environment == "production" && var.region == "us-east-1" ? "m5.large" : "t2.micro" i.e `production && var.region` is condition as per above syntax then `?` symbol then in `m5.large: t2.micro` `m5.large` is true and `t2.micro` is false. Check more details on code `conditional-expression/conditional.tf`
 
 ## Terraform Functions ##
 
@@ -448,9 +448,107 @@ Refer for more details `local-values/local-values.tf`
 
 ## Data Sources ##
 
-Data sources allow Terraform to use/fetch information defined outside of Terraform.
+Data sources allow Terraform to use/fetch information defined outside of Terraform. A data source is accessed via special kind of resource known as data resource, declared using as as data block. The clde block of `data-source/data-source.tf` while applying the terraform apply it will read the content of `demo.txt` and available in `terraform.tfstate` attributes: contenet.
+
+![alt text](Data-Source.png)
+
+`Example Syntax`: data "aws_instance" "foo" {}
 
 `${path.module}` returns the current file system path where your code is located.
+
+## Fetching the Latest OS Image Using Data Source ##
+
+We can fetch the Latset AMI id by using the data source block. check for more details `data-source/data-source-ami.tf`. By using theis code we can test by different regions.
+
+## Debugging In Terraform ##
+
+Terraform has detailed logs which can be enabled by setting the `TF_LOG` environment variable to any value. You can set TF_LOG to one of the log levels TRACE one of the log levels TRACE, DEBUG, INFO, WARN and ERROR to change the verbosoity of the logs.
+
+When you pass the environment variables i.e `export TF_LOG=TRACE` and apply the terraform commands we can able to get the complete log details about the terraform configuration.
+
+Instead of getting the logs in command line if you want to store the logs in any file path we can add the variable `export TF_LOG_PATH=/tmp/terraform-crash.log`
+
+## Understanding Semantics ##
+
+Terraform generally loads all the configuration files with in the directory specified in the alphabetical order.
+
+The file loaded must be end in either `.tf or .tf.json` to specify the format that is in use.
+
+## Dynamic Block ##
+
+In Many of use-case, there are repeatble nested blocks that needs to defined. THis can leads at longer code and it's difficult to manage.
+
+Dynamic block allows us to dynamically construct repeatable nested blocks which is supported inside resource, data, provider, and provisioner blocks. check the details in `dyanamic-block/dyanmic.tf`
+
+## Terraform Replace (Taint) ##
+
+The -replace option with terraform apply to force terraform to replace an object even though there are no configuration changes that would require it. we have code block `terraform-replace/replace.tf`
+
+1. We have created EC2 instance normally for `terraform-replace/replace.tf`
+2. terraform apply -replace="aws_instance.web"
+3. After 2nd step EC2 instance will terminate and re-create.
+
+`Note:` Similar kind of functionality was acheived using terraform taint command in older versions of terraform. For terraform V0.15.2 and later, HashiCorp recommended using the `-replace` option with terraform apply.
+
+## Terraform Graph ##
+
+Terraform graph refers to a visual representation of the dependency relationship b/w sources defined in your terraform configuration.
+
+1. Under terraform-graph/graph.tf run `terrfaorm init`
+2. Run the terraform graph we can able to see the output.
+3. Copy the contntet and paste into the Graphviz Online site we can able to see the graphical represenation of dependencies.
+4. Instead of apsting in the public sites we can install the graphviz in the system
+5. Install the graphviz in the system based on operating system i.e `brew install graphviz`
+6. Get the content of terraform graph to .svg file i.e `terraform graph | dot -Tsvg >graph.svg`
+7. Open the file `graph.svg` in any browser we can able to see the graphical represenation of dependencies like as below screenshot.
+
+![alt text](graph.png)
+
+## Save Terraform Plan to File ##
+
+You can run terrform apply by referencing the terraform plan file. This ensures the infrastrucrure state remains exactly as shown in the paln to ensure consistency.
+
+Even though the the resource block changed when applying the `terraform apply` based on the `terraform plan -out infra.plan` file content only works. `terraform apply "infra.plan"`
+
+If you want to read the content of `infra.plan` file use `terraform show infra.plan` command.
+
+**Use-Cases:** Many organizations require documented proof of planned changes before implementation.
+
+## Terraform Output ##
+
+Terraform output command is used to extract the value of an output variable from the state file.
+
+We can use `terrform apply` we can able to see the output and  use the command `terraform output iam_arn` and more details check the code block `terraform-output/output.tf`
+
+## Terraform Settings ##
+
+Terrform settings are used to  project specific terraform behaviors. such as requiring a minimum Terraform version to apply your configuration.
+
+```bash
+terraform {
+  required_version = "0.13.6"
+}
+```
+Specifying required provider
+
+```bash
+terraform {
+  required_providers {
+    aws = {
+      version = ">= 2.7.0"
+      source = "hashicorp/aws"
+    }
+  }
+}
+```
+`Reference:` https://developer.hashicorp.com/terraform/language/settings
+
+## Dealing with Larger Infrastructure ##
+
+The -target=resource flag can be used to target a specific resource. Generally used as means to operate an isolated portions of very large configurations.
+
+
+
 
 
 
