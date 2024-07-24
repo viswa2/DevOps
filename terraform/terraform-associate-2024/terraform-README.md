@@ -610,7 +610,7 @@ List of meta arguments available with in the life cycle block.
 |  replace_triggered_by  | Replaces the resources when any of the referenced items                                                                |
 |                        |                                                                                                                        |
 |  for_each              | for_each meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set.    |
-|                        |
+|                        |                                                                                                                         
 |  depends_on            | Use the depends_on meta-argument to handle hidden resource or module dependencies that Terraform cannot automatically  |
 |                        |                                                                                                                        |
 
@@ -630,8 +630,10 @@ lifecycle {
 
 ![alt text](prevent-destroy.png)
 
-**count Meta argument**: If a resource or module block includes a count argument whose value is a whole number, Terraform will create that many no. of resources. Check `count/count.tf`
+**count Meta argument**: If a resource or module block includes a count argument whose value is a number, Terraform will create that many no. of resources. Check `count/count.tf`
 
+**for each meta argument**: for each argument code block expects to create a key pair, created manually in AWS console and downloaded .pem file. By using generated .pub key
+`ssh-keygen -f file.pem -y > public.pub` and then executed. for more details check `life-cycle-metaargument/for-each.tf` 
 
 
 
