@@ -520,6 +520,8 @@ Terraform output command is used to extract the value of an output variable from
 
 We can use `terrform apply` we can able to see the output and  use the command `terraform output iam_arn` and more details check the code block `terraform-output/output.tf`
 
+![alt text](Terraform-Output-Values-1.png)
+
 ## Terraform Settings ##
 
 Terrform settings are used to  project specific terraform behaviors. such as requiring a minimum Terraform version to apply your configuration.
@@ -545,7 +547,94 @@ terraform {
 
 ## Dealing with Larger Infrastructure ##
 
-The -target=resource flag can be used to target a specific resource. Generally used as means to operate an isolated portions of very large configurations.
+We can prevent terraform from querying the current state during opertions like terraform plan.
+
+This can be acheived with the `-refresh=false` flag.
+
+The `-target=resource` flag can be used to target a specific resource. Generally used as means to operate an isolated portions of very large configurations.
+
+## Zipmap Function ##
+
+`zipmap constructs a map from a list of keys and a corresponding list of values`. Both keyslist and valueslist must be of the same length. keyslist must be a list of strings, while valueslist can be a list of any type.
+
+`Syntax:` zipmap(keyslist, valueslist)
+
+`Example:` zipmap(["a", "b"], [1, 2]) ==> Output should be as below.
+           zipmap(["pineapple","oranges","strawberry"], ["yellow","orange","red"])
+
+```bash
+{
+  "a" = 1
+  "b" = 2
+}
+```
+```bash
+{
+  "oranges" = "orange"
+  "pineapple" = "yellow"
+  "strawberry" = "red"
+}
+```
+
+`Realtime Example:` Check in the `zipmap-function/zip.tf` and output find the screenshot as below.
+
+![alt text](zip-map-outputs.png)
+
+## Resource Behaviour and Meta Arguments ##
+
+A resource block declares that you want particular infrastructure object to exist with the given settings.
+
+How terraform applies a configuration?
+
+1. Create a resources that exists in the configuration but are not associated with the real infrastructure object in the state.
+2. Destory the resources that exist in the state but no longer exists in the configuration.
+3. Update-in place resources whose arguments have changed.i.e in the terrfaorm configuration if changes some configuration.
+
+**What happens if we want to change the default behaviour?**
+
+`Example of Default Behaviour:` By using terraform configuration we have created the EC2 instance with the tag name called `my-first-ec2`. Some one added manually one more tag called `production`. If you run the terraform apply command production tag will be remove since it's not part of terraform configuration.
+
+`Changing the default Behaviour:` By using terraform configuration we have created the EC2 instance. Now we are changing the `AMIID` of Ec2 which is not associated with the linux. now when you run the `terraform plan` command existing Ec2 instance will destory and re-create with the windows `AMIID`.
+
+List of meta arguments available with in the life cycle block.
+
+|   Arguments            |                Description                                                                                             |
+|   ----------           |                ---------                                                                                               |
+| create_before_destroy  | New replacement object is created first and prior object is destroyed after the replacement is created.                |
+|                        |                                                                                                                        |
+|  prevent_destroy       | Terraform to reject with an error any plan that woukld be destroy the infrastructure associated with the resource.     |
+|                        | Useful for production environments.                                                                                    |
+|                        |                                                                                                                        |
+|  ignore_changes        | Ignore certain changes to the live resource that does not match the configuration.                                     |
+|                        |                                                                                                                        |
+|  replace_triggered_by  | Replaces the resources when any of the referenced items                                                                |
+|                        |                                                                                                                        |
+|  for_each              | for_each meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set.    |
+|                        |                                                                                                                         
+|  depends_on            | Use the depends_on meta-argument to handle hidden resource or module dependencies that Terraform cannot automatically  |
+|                        |                                                                                                                        |
+
+**How to use meta arguments?**
+
+Terraform allow us to include meta-argument with in the resource block which allows details of this standard resource behaviour to be customized on pre-resource basis.
+
+`Note for ignore changes:` When you add one of the meta argument block as below, Even though if you changed manuallay in AWS console it would ignore and even though if you change in terrfaorm configuration i.e instance_type, tags etc. if you add `ignore_changes =all` in life cycle option, when you execute `terraform plan` command it will shows as no changes in terrafrom configuration and AWS console also. For more details check in `life-cycle-metaarguments/ignore-changes.tf`
+
+```bash
+lifecycle {
+        ignore_changes = [tags]
+}
+````
+
+**Note for prevent destroy**: After adding the `prevent_destroy = true` you resources shouldn't be deleted even though if you apply the `terrform destroy` command. check the configuration details `life-cycle-metaargument/prevent-destroy`.  
+
+![alt text](prevent-destroy.png)
+
+**count Meta argument**: If a resource or module block includes a count argument whose value is a number, Terraform will create that many no. of resources. Check `count/count.tf`
+
+**for each meta argument**: for each argument code block expects to create a key pair, created manually in AWS console and downloaded .pem file. By using generated .pub key
+`ssh-keygen -f file.pem -y > public.pub` and then executed. for more details check `life-cycle-metaargument/for-each.tf` 
+
 
 
 
