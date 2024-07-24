@@ -36,13 +36,13 @@ resource "aws_security_group" "allow_ssh_conn" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-#   ingress {
-#     description = "HTTPS into VPC"
-#     from_port   = 443
-#     to_port     = 443
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+  ingress {
+    description = "HTTPS into VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     description = "Outbound Allowed"
     from_port   = 0
@@ -55,6 +55,6 @@ resource "aws_security_group" "allow_ssh_conn" {
 
 resource "aws_instance" "myec2" {
    ami = "ami-0ec0e125bb6c6e8ec"
-   instance_type = "t2.micro"
+   instance_type = "t2.small"
    vpc_security_group_ids  = [aws_security_group.allow_ssh_conn.id]
 }
