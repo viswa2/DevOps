@@ -612,8 +612,8 @@ List of meta arguments available with in the life cycle block.
 |  for_each              | for_each meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set.    |
 |                        |                                                                                                                         
 |  depends_on            | Use the depends_on meta-argument to handle hidden resource or module dependencies that Terraform cannot automatically  |
-|                        |                                                                                                                        |
-
+|                        | infer.
+                                                                                                                       
 **How to use meta arguments?**
 
 Terraform allow us to include meta-argument with in the resource block which allows details of this standard resource behaviour to be customized on pre-resource basis.
@@ -626,7 +626,7 @@ lifecycle {
 }
 ````
 
-**Note for prevent destroy**: After adding the `prevent_destroy = true` you resources shouldn't be deleted even though if you apply the `terrform destroy` command. check the configuration details `life-cycle-metaargument/prevent-destroy`.  
+**Note for prevent destroy**: After adding the `prevent_destroy = true` your resources shouldn't be deleted even though if you apply the `terrform destroy` command. check the configuration details `life-cycle-metaargument/prevent-destroy`.  
 
 ![alt text](prevent-destroy.png)
 
@@ -635,7 +635,25 @@ lifecycle {
 **for each meta argument**: for each argument code block expects to create a key pair, created manually in AWS console and downloaded .pem file. By using generated .pub key
 `ssh-keygen -f file.pem -y > public.pub` and then executed. for more details check `life-cycle-metaargument/for-each.tf` 
 
+## Provisioners ##
 
+Provisioners are used to execute scripts on a local or remote machine as part of resource creation or destruction.
+
+Example: After VM launched, install software package required for application.
+
+Types of provisioners:
+
+1. local-exec ==> provisioner is the important block.
+Example: After EC2 instance launched, fetch the IP and store it in the file server_ip.txt. check the code block for details `provisioners/local-exec.tf`
+
+2. remote-exec ==> connection and provisioner are important blocks. 
+Example: After EC2 instance launched, install "apache" software. Since commands are executed on remote server, we have to provide way for Terraform to connect to remote server. Manually create a security group and add the security group id in the terraform code block. For details check on `provisioners/remote-exec.tf`
+
+**Trouble shooting**: While connecting EC2 instance with the terraform some times faces the issue. Try to login with the manually if you can bale to do it or not. If not we can able to trouble shoot as per the issue.
+
+**Create time and destroy time provisioner** While executing the terraform code, when resource creating, creation provisioner will execute and when resource is destroying, destroy provisioner will execute. Check the code block `provisioner/create-destroy-time-provisioner`. 
+
+**Points to note**: Provisioners are used not only `aws_instance` resources, but also We can use other resources as well. Whenever the provisioner failed to execute resource are `tainted` we can check in`terrfaorm.tfstate` file. When you ran again with `terraform apply` it will destroy and re-create the resource.
 
 
 
