@@ -584,7 +584,7 @@ The `-target=resource` flag can be used to target a specific resource. Generally
 
 A resource block declares that you want particular infrastructure object to exist with the given settings.
 
-How terraform applies a configuration?
+**How terraform applies a configuration?**
 
 1. Create a resources that exists in the configuration but are not associated with the real infrastructure object in the state.
 2. Destory the resources that exist in the state but no longer exists in the configuration.
@@ -612,7 +612,7 @@ List of meta arguments available with in the life cycle block.
 |  for_each              | for_each meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set.    |
 |                        |                                                                                                                         
 |  depends_on            | Use the depends_on meta-argument to handle hidden resource or module dependencies that Terraform cannot automatically  |
-|                        | infer.
+|                        | infer.                                                                                                                 |
                                                                                                                        
 **How to use meta arguments?**
 
@@ -649,11 +649,15 @@ Example: After EC2 instance launched, fetch the IP and store it in the file serv
 2. remote-exec ==> connection and provisioner are important blocks. 
 Example: After EC2 instance launched, install "apache" software. Since commands are executed on remote server, we have to provide way for Terraform to connect to remote server. Manually create a security group and add the security group id in the terraform code block. For details check on `provisioners/remote-exec.tf`
 
-**Trouble shooting**: While connecting EC2 instance with the terraform some times faces the issue. Try to login with the manually if you can bale to do it or not. If not we can able to trouble shoot as per the issue.
+**Trouble shooting**: While connecting EC2 instance with the terraform some times faces the issue. Try to login with the manually if you can able to do it or not. If not troubleshoot as per the error.
 
 **Create time and destroy time provisioner** While executing the terraform code, when resource creating, creation provisioner will execute and when resource is destroying, destroy provisioner will execute. Check the code block `provisioner/create-destroy-time-provisioner`. 
 
 **Points to note**: Provisioners are used not only `aws_instance` resources, but also We can use other resources as well. Whenever the provisioner failed to execute resource are `tainted` we can check in`terrfaorm.tfstate` file. When you ran again with `terraform apply` it will destroy and re-create the resource.
+
+## Terraform Modules ##
+
+Terraform modules allows us to centralize the resource configuration and it makes it easier for multiple projects to re-use the terraform code for projects.
 
 
 

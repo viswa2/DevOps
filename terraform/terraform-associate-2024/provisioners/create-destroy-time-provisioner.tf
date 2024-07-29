@@ -7,6 +7,6 @@ resource "aws_iam_user" "lb" {
 
   provisioner "local-exec" {
     command = "echo This is destroy time provisioner"
-    when    =  destroy
+    when    = destroy
   }
 }
