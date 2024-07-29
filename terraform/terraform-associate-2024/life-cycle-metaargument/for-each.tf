@@ -1,6 +1,6 @@
- provider "aws" {
-    region = "us-east-2"
- }
+provider "aws" {
+  region = "us-east-2"
+}
 
 resource "aws_key_pair" "example" {
   for_each = {
@@ -13,12 +13,12 @@ resource "aws_key_pair" "example" {
 
 resource "aws_instance" "ec2-instance" {
   ami = "ami-00db8dadb36c9815e"
-  for_each  = {
+  for_each = {
     key1 = "t2.micro"
     key2 = "t2.medium"
   }
   instance_type = each.value
-  key_name      = aws_key_pair.example[each.key].key_name  # Reference the created key pairs
+  key_name      = aws_key_pair.example[each.key].key_name # Reference the created key pairs
   tags = {
     Name = each.value
   }
