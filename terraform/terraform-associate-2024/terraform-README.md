@@ -659,6 +659,15 @@ Example: After EC2 instance launched, install "apache" software. Since commands 
 
 Terraform modules allows us to centralize the resource configuration and it makes it easier for multiple projects to re-use the terraform code for projects.
 
+## Choosing the Right Module ##
+
+Inspect the modules source code on Github or another platform. Clean and well-structured code is a good sign. Number of forks and starts of the repo. Modules maintained by hashicorp partner.
+
+** Which modules do organizations Use?**
+
+IN most of the scenarios, Organizations maintain their own set of modules. They might initially fork a modules from the terraform registry and modify it based on their use case.
+
+`Reference Link for Modules:` https://registry.terraform.io/search/modules?namespace=terraform-aws-modules
 
 
 
