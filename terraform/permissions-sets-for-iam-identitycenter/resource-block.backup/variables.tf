@@ -1,6 +1,13 @@
+variable "instance_arn" {
+  type = string
+}
+
+variable "aws_account_id" {
+  type = string
+}
+
 variable "store_id" {
-  type    = string
-  default = "d-9067ebe7bd"
+  type = string
 }
 
 variable "users" {
@@ -32,12 +39,13 @@ variable "users" {
 variable "groups" {
   type = map(object({
     display_name = string
+    description  = string
   }))
   default = {
     "developer" = {
       display_name = "Developers"
       description  = "This is all about Developer group details description"
-    }
+    }  
     "testers" = {
       display_name = "Testers"
       description  = "This is all about Testers group details description"
@@ -49,30 +57,6 @@ variable "group_memberships" {
   type = map(list(string))
   default = {
     "developer" = ["viswa", "viswanath"]
-    "testers"   = ["viswanath", "viswa"]
+    "testers"    = ["viswanath", "viswa"]
   }
-}
-
-variable "instance_arn" {
-  type    = string
-  default = "Instance ARN of IAM identity center" # Add instance ARN 
-}
-
-variable "aws_account_id" {
-  type    = string
-  default = "aws account id number" # Aws Account id
-}
-
-variable "name" {
-  type    = string
-  default = "Example-Permissionset"
-}
-
-variable "managed_policies" {
-  description = "List of managed policy ARNs to attach to the permission set"
-  type        = list(string)
-  default = [
-    "arn:aws:iam::aws:policy/ReadOnlyAccess",
-    "arn:aws:iam::aws:policy/PowerUserAccess"
-  ]
 }

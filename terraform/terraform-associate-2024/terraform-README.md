@@ -659,7 +659,60 @@ Example: After EC2 instance launched, install "apache" software. Since commands 
 
 Terraform modules allows us to centralize the resource configuration and it makes it easier for multiple projects to re-use the terraform code for projects.
 
+## Choosing the Right Module ##
 
+Inspect the modules source code on Github or another platform. Clean and well-structured code is a good sign. Number of forks and starts of the repo. Modules maintained by hashicorp partner.
 
+** Which modules do organizations Use?**
 
+IN most of the scenarios, Organizations maintain their own set of modules. They might initially fork a modules from the terraform registry and modify it based on their use case.
 
+`Reference Link for Modules:` https://registry.terraform.io/search/modules?namespace=terraform-aws-modules
+
+`Root Modules`: Root modules resides in the main working directory of your terraform configuration. This is the entry point of your infrastructure defination.
+
+```bash
+module "ec2" {
+    source = "../../../modules/ec2-module"
+}
+```
+
+`Child Modules`: A module that has been called by another module is often refered to as child module.
+
+```bash
+resource "aws_instance" "my-ec2" {
+  ami = "ami-085f9c64a9b75eed5"
+  instance_type = "t2.micro"
+}
+```
+
+**Publishing Modules**
+
+Anyonbe can publish and share the modules on the terraform registry. Published modules can support versioning, automatically generate documentation allow browsing version histories, shows examples and READMEs, and more.
+
+|   Requirements           |                Description                                                                                                  |
+|   -----------            |                -----------                                                                                                  |
+| GitHub                   | The module must be on GitHub and must be a public repo. This is only a requirement for the public registry.                 |
+|                          |                                                                                                                             |
+| Named                    | Module repositories must use this three-part name format, where <NAME> reflects the type of infrastructure the module       |
+|                          | manages and <PROVIDER> is the main provider where it creates that infrastructure.                                           |
+|                          |                                                                                                                             |     
+| Repository description   | The GitHub repository description is used to populate the short description of the module.                                  |
+|                          |                                                                                                                             |
+| Standard module structure| The module must adhere to the standard module structure.                                                                    |
+|                          |                                                                                                                             |
+| x.y.z tags for releases  | The registry uses tags to identify module versions. Release tag names must be a semantic version, which can  optionally be  |
+|                          | prfixed with a V.                                                                                                           |
+
+`Reference Link:` https://developer.hashicorp.com/terraform/registry/modules/publish
+
+## Terraform Workspace ##
+
+Terraform workspaces enables us to manage multiple set of deployments form the same sets of configuration file. Each workspace having it's own .tf state file. Workspaces containing `terraform.tfstate.d` file.
+
+terraform workspace # It will give the list of subcommand options 
+terraform workspace `list` # List out the available workpsaces
+terraform workspace `show` # It will shows the current workspace 
+terraform workspace `select dev` # If you want to switch the workspace
+terraform workspace `new prod` # It will create the new workspace name called prod and switch the same workspace.
+terraform workspace `delete`   # If you want to delete the workspace.
