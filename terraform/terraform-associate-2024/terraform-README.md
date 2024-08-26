@@ -759,10 +759,10 @@ terraform state list # List out the resources with the state file.
 
 terraform state show `aws_instance.myec2` # Here `aws_instance.myec2` is one of the resource of state file, the command gives fulll details of resouce.
 
-terraform state pull # Pull current state and output to stdout
+terraform state pull  # Pull current state and output to stdout
 
-terraform state push # Update remote state from a local state file
+terraform state push  # Update remote state from a local state file
 
-terraform state rm # Is used to remove items from the terraform state 
+terraform state rm  # Is used to remove items from the terraform state 
 
-terraform state mv aws_instance.myec2 aws_instance.my-demo-ec2 # It's moving the resoure name without destroying and re-creating the resource.
+terraform state mv aws_instance.myec2 aws_instance.my-demo-ec2  # It's moving the resoure name without destroying and re-creating the resource.

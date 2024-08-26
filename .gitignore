@@ -1,4 +1,4 @@
-# Ignore the .DS files
+# Ignore as below files
 
 .DS_Store
 .terraform
