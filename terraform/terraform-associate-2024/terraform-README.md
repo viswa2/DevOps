@@ -38,6 +38,8 @@ terraform init # Command uses initiliaze and download the providers associated w
 
 terraform plan # Command is execute the actual plan before creating the resources.
 
+terraform plan -refresh-only # command is specifically designed to only refresh the Terraform state to match any changes made to remote objects outside of Terraform.
+
 terraform apply # Command is create the resources are defined in terraform configuration.
 
 terraform fmt # Command is used to rewrite Terraform configuration files to a canonical format and style.
@@ -707,7 +709,7 @@ Anyonbe can publish and share the modules on the terraform registry. Published m
 
 ## Terraform Workspace ##
 
-Terraform workspaces enables us to manage multiple set of deployments form the same sets of configuration file. Each workspace having it's own .tf state file. Workspaces containing `terraform.tfstate.d` file.
+Terraform workspaces enables us to manage multiple set of deployments form the same sets of configuration file. Each workspace having it's own `.tf state file`. Workspaces containing `terraform.tfstate.d` file as well.
 
 terraform workspace # It will give the list of subcommand options 
 
@@ -755,6 +757,8 @@ State locking with the dynamodb check the details `remote-backend/backend.tf`
 
 **Terraform State Management**
 
+The `terraform state` command can indeed be used to modify the current state by removing items. This is useful for managing the state of resources in Terraform.
+
 terraform state list # List out the resources with the state file.
 
 terraform state show `aws_instance.myec2` # Here `aws_instance.myec2` is one of the resource of state file, the command gives fulll details of resouce.
@@ -766,3 +770,33 @@ terraform state push  # Update remote state from a local state file
 terraform state rm  # Is used to remove items from the terraform state 
 
 terraform state mv aws_instance.myec2 aws_instance.my-demo-ec2  # It's moving the resoure name without destroying and re-creating the resource.
+
+**Fetching the Remote State Data**
+
+We have a network team and security team, under network team creating the elastic ip with the remote backend. Under security team creating the security group and fetching the output value of elastic ip with the help of remote state backend.
+
+`For more details:` fetch-remote-state-data/network/ and fetch-remote-state-data/sg 
+
+**Terraform Import**
+
+Terraform can import existing infrastructure resources. This functionality lets you bring existing resources under Terraform management.
+
+1. Create a resource manually for the security group with the inbound rules i.e http, https, ssh etc.
+2. Added the terraform configuration with the import rules
+
+```bash
+import {
+  to = aws_security_group.mysg
+  id = "sg-0dd1bd5484b8c30c6"
+}
+```
+
+3. Now run the terraform plan command with the output generate `terraform plan -generate-config-out=mysg.tf` this command will import the manual configuration resource in file named called `mysg.tf`
+
+4. Run the `terraform apply` command it will create the terraform configuration with the imported resource data.
+
+5. Manually modified the terraform configuration in the file `mysg.tf` and re-run the `terraform apply` command will take apply the changes.
+
+6. Finally run the `terraform destroy` command to delete the terraform resource configuration.
+
+`Check the details:` terraform-import/import.tf
