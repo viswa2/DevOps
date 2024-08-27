@@ -38,6 +38,8 @@ terraform init # Command uses initiliaze and download the providers associated w
 
 terraform plan # Command is execute the actual plan before creating the resources.
 
+terraform plan -refresh-only # command is specifically designed to only refresh the Terraform state to match any changes made to remote objects outside of Terraform.
+
 terraform apply # Command is create the resources are defined in terraform configuration.
 
 terraform fmt # Command is used to rewrite Terraform configuration files to a canonical format and style.
@@ -598,21 +600,20 @@ A resource block declares that you want particular infrastructure object to exis
 
 List of meta arguments available with in the life cycle block.
 
-|   Arguments            |                Description                                                                                             |
-|   ----------           |                ---------                                                                                               |
-| create_before_destroy  | New replacement object is created first and prior object is destroyed after the replacement is created.                |
-|                        |                                                                                                                        |
-|  prevent_destroy       | Terraform to reject with an error any plan that woukld be destroy the infrastructure associated with the resource.     |
-|                        | Useful for production environments.                                                                                    |
-|                        |                                                                                                                        |
-|  ignore_changes        | Ignore certain changes to the live resource that does not match the configuration.                                     |
-|                        |                                                                                                                        |
-|  replace_triggered_by  | Replaces the resources when any of the referenced items                                                                |
-|                        |                                                                                                                        |
-|  for_each              | for_each meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set.    |
+|   Arguments            |                Description                                                                                                  |
+|   ----------           |                ---------                                                                                                    |
+| create_before_destroy  | New replacement object is created first and prior object is destroyed after the replacement is created.                     |
+|                        |                                                                                                                             |
+|  prevent_destroy       | Terraform to reject with an error any plan that woukld be destroy the infrastructure associated with the resource.          |
+|                        | Useful for production environments.                                                                                         |
+|                        |                                                                                                                             |
+|  ignore_changes        | Ignore certain changes to the live resource that does not match the configuration.                                          |
+|                        |                                                                                                                             |
+|  replace_triggered_by  | Replaces the resources when any of the referenced items                                                                     |
+|                        |                                                                                                                             |
+|  for_each              | for_each meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set.         |
 |                        |                                                                                                                         
-|  depends_on            | Use the depends_on meta-argument to handle hidden resource or module dependencies that Terraform cannot automatically  |
-|                        | infer.                                                                                                                 |
+|  depends_on            | Use the depends_on meta-argument to handle hidden resource or module dependencies that Terraform cannot automatically infer |
                                                                                                                        
 **How to use meta arguments?**
 
@@ -690,29 +691,112 @@ resource "aws_instance" "my-ec2" {
 
 Anyonbe can publish and share the modules on the terraform registry. Published modules can support versioning, automatically generate documentation allow browsing version histories, shows examples and READMEs, and more.
 
-|   Requirements           |                Description                                                                                                  |
-|   -----------            |                -----------                                                                                                  |
-| GitHub                   | The module must be on GitHub and must be a public repo. This is only a requirement for the public registry.                 |
-|                          |                                                                                                                             |
-| Named                    | Module repositories must use this three-part name format, where <NAME> reflects the type of infrastructure the module       |
-|                          | manages and <PROVIDER> is the main provider where it creates that infrastructure.                                           |
-|                          |                                                                                                                             |     
-| Repository description   | The GitHub repository description is used to populate the short description of the module.                                  |
-|                          |                                                                                                                             |
-| Standard module structure| The module must adhere to the standard module structure.                                                                    |
-|                          |                                                                                                                             |
-| x.y.z tags for releases  | The registry uses tags to identify module versions. Release tag names must be a semantic version, which can  optionally be  |
-|                          | prfixed with a V.                                                                                                           |
+|   Requirements           |                Description                                                                                                       |
+|   -----------            |                -----------                                                                                                       |
+| GitHub                   | The module must be on GitHub and must be a public repo. This is only a requirement for the public registry.                      |
+|                          |                                                                                                                                  |
+| Named                    | Module repositories must use this three-part name format, where <NAME> reflects the type of infrastructure the module            |
+|                          | manages and <PROVIDER> is the main provider where it creates that infrastructure.                                                |
+|                          |                                                                                                                                  |
+| Repository description   | The GitHub repository description is used to populate the short description of the module.                                       |
+|                          |                                                                                                                                  |
+| Standard module structure| The module must adhere to the standard module structure.                                                                         |
+|                          |                                                                                                                                  |
+| x.y.z tags for releases  | The registry uses tags to identify module versions. Release tag names must be a semantic version, which can  optionally be       |
+|                          | prefixed with a V.
 
 `Reference Link:` https://developer.hashicorp.com/terraform/registry/modules/publish
 
 ## Terraform Workspace ##
 
-Terraform workspaces enables us to manage multiple set of deployments form the same sets of configuration file. Each workspace having it's own .tf state file. Workspaces containing `terraform.tfstate.d` file.
+Terraform workspaces enables us to manage multiple set of deployments form the same sets of configuration file. Each workspace having it's own `.tf state file`. Workspaces containing `terraform.tfstate.d` file as well.
 
 terraform workspace # It will give the list of subcommand options 
+
 terraform workspace `list` # List out the available workpsaces
+
 terraform workspace `show` # It will shows the current workspace 
+
 terraform workspace `select dev` # If you want to switch the workspace
+
 terraform workspace `new prod` # It will create the new workspace name called prod and switch the same workspace.
+
 terraform workspace `delete`   # If you want to delete the workspace.
+
+**Terraform .gitignore**
+
+When you ran the terraform init, plan and apply commands there are certain folders were created i.e .`terraform, .terraform.lock.hcl, terraform.tfstate, terraform.tfstate.backup` etc. All this folders and files not required to push into the source code repo.
+
+Create a `.gitignore` and add the names of all this folder and file names git will ignore while pushing the changes into the git repo.
+
+## Terraform Backends ##
+
+`Challange with local backend`: Nowadays terraform project is handled and collaborated by an entire team. Storing the state file in local laptop will not allow collaboration.
+
+`Remote Backend`: Terraform uses persisted state data to keep track of the resources it manages. There are so many available backends are there i.e remote, azurerm, consual, s3, kubernetes etc. In our use case we are using s3 backend.
+
+1. Create the bucket manually in any region.
+2. Create a folder path where you want to store the `terraform.tfstate` file.
+3. Add backend configuration in your terraform configuration files `backend.tf`.
+4. Check the more detilas for `remote-backend/backend.tf`
+
+**State File Locking**
+
+ Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terrafoirm apply operations, if others also try the same, it can corrupt the state file.
+
+ `Note:` Teraaform has a `force-unlock` command to manually unlock the state if unlocking failed. Where unlock should be used to unlock your own lock in the situation where unlocking failed.
+
+**State locking in S3**
+
+1. Create the dynamodb table and add the Partition key name `LockID` with type of String.
+2. Add the dyanmodb_table name in the `backend.tf` configuration.
+
+By default s3 doesn't support state locking functionality. You need to make use of `dynamodb table to acheive state locking functionality`.
+
+State locking with the dynamodb check the details `remote-backend/backend.tf`
+
+**Terraform State Management**
+
+The `terraform state` command can indeed be used to modify the current state by removing items. This is useful for managing the state of resources in Terraform.
+
+terraform state list # List out the resources with the state file.
+
+terraform state show `aws_instance.myec2` # Here `aws_instance.myec2` is one of the resource of state file, the command gives fulll details of resouce.
+
+terraform state pull  # Pull current state and output to stdout
+
+terraform state push  # Update remote state from a local state file
+
+terraform state rm  # Is used to remove items from the terraform state 
+
+terraform state mv aws_instance.myec2 aws_instance.my-demo-ec2  # It's moving the resoure name without destroying and re-creating the resource.
+
+**Fetching the Remote State Data**
+
+We have a network team and security team, under network team creating the elastic ip with the remote backend. Under security team creating the security group and fetching the output value of elastic ip with the help of remote state backend.
+
+`For more details:` fetch-remote-state-data/network/ and fetch-remote-state-data/sg 
+
+**Terraform Import**
+
+Terraform can import existing infrastructure resources. This functionality lets you bring existing resources under Terraform management.
+
+1. Create a resource manually for the security group with the inbound rules i.e http, https, ssh etc.
+2. Added the terraform configuration with the import rules
+
+```bash
+import {
+  to = aws_security_group.mysg
+  id = "sg-0dd1bd5484b8c30c6"
+}
+```
+
+3. Now run the terraform plan command with the output generate `terraform plan -generate-config-out=mysg.tf` this command will import the manual configuration resource in file named called `mysg.tf`
+
+4. Run the `terraform apply` command it will create the terraform configuration with the imported resource data.
+
+5. Manually modified the terraform configuration in the file `mysg.tf` and re-run the `terraform apply` command will take apply the changes.
+
+6. Finally run the `terraform destroy` command to delete the terraform resource configuration.
+
+`Check the details:` terraform-import/import.tf
