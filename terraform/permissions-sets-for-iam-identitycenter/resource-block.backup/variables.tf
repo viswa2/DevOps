@@ -45,7 +45,7 @@ variable "groups" {
     "developer" = {
       display_name = "Developers"
       description  = "This is all about Developer group details description"
-    }  
+    }
     "testers" = {
       display_name = "Testers"
       description  = "This is all about Testers group details description"
@@ -57,6 +57,6 @@ variable "group_memberships" {
   type = map(list(string))
   default = {
     "developer" = ["viswa", "viswanath"]
-    "testers"    = ["viswanath", "viswa"]
+    "testers"   = ["viswanath", "viswa"]
   }
 }

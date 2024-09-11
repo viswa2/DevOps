@@ -1,9 +1,9 @@
 resource "aws_eip" "lb" {
-  domain   = "vpc"
+  domain = "vpc"
 }
 
 resource "aws_security_group" "example" {
-  name        = "attribute-sg"
+  name = "attribute-sg"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "example" {

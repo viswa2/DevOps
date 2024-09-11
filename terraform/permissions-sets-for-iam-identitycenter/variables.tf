@@ -1,78 +1,62 @@
 variable "store_id" {
   type    = string
-  default = "d-9067ebe7bd"
-}
-
-variable "users" {
-  type = map(object({
-    display_name = string
-    user_name    = string
-    given_name   = string
-    family_name  = string
-    email        = string
-  }))
-  default = {
-    "viswa" = {
-      display_name = "Viswa"
-      user_name    = "viswa"
-      given_name   = "Viswa"
-      family_name  = "Nayak"
-      email        = "viswa@gmail.com"
-    }
-    "viswanath" = {
-      display_name = "Viswanath"
-      user_name    = "viswanath"
-      given_name   = "Viswanath"
-      family_name  = "Reddy"
-      email        = "viswanathreddy2608@gmail.com"
-    }
-  }
-}
-
-variable "groups" {
-  type = map(object({
-    display_name = string
-  }))
-  default = {
-    "developer" = {
-      display_name = "Developers"
-      description  = "This is all about Developer group details description"
-    }
-    "testers" = {
-      display_name = "Testers"
-      description  = "This is all about Testers group details description"
-    }
-  }
-}
-
-variable "group_memberships" {
-  type = map(list(string))
-  default = {
-    "developer" = ["viswa", "viswanath"]
-    "testers"   = ["viswanath", "viswa"]
-  }
+  default = "IDENTITY_STORE_ID"
 }
 
 variable "instance_arn" {
   type    = string
-  default = "Instance ARN of IAM identity center" # Add instance ARN 
+  default = "INSTANCE_ARN_FOR_IAM_IDENTITY_CENTER"
 }
 
 variable "aws_account_id" {
   type    = string
-  default = "aws account id number" # Aws Account id
+  default = "AWS_ACCOUNT_ID"
 }
 
-variable "name" {
-  type    = string
-  default = "Example-Permissionset"
-}
-
-variable "managed_policies" {
-  description = "List of managed policy ARNs to attach to the permission set"
-  type        = list(string)
+variable "permission_sets" {
+  description = "List of permission sets"
+  type = list(object({
+    name             = string
+    description      = string
+    session_duration = string
+  }))
   default = [
-    "arn:aws:iam::aws:policy/ReadOnlyAccess",
-    "arn:aws:iam::aws:policy/PowerUserAccess"
+    {
+      name             = "Example-PermissionSet"
+      description      = "Permission set for example purposes"
+      session_duration = "PT1H"
+    }
+  ]
+}
+
+variable "policy_attachments" {
+  description = "List of policy attachments"
+  type = list(object({
+    permission_set_name = string
+    managed_policies    = list(string)
+    custom_policies     = list(string)
+  }))
+  default = [
+    {
+      permission_set_name = "Example-PermissionSet"
+      managed_policies    = ["arn:aws:iam::aws:policy/ReadOnlyAccess", "arn:aws:iam::aws:policy/PowerUserAccess"]
+      custom_policies     = ["arn:aws:iam::123456789012:policy/CustomPolicy1", "arn:aws:iam::123456789012:policy/CustomPolicy2"]
+    }
+  ]
+}
+
+variable "account_assignments" {
+  description = "List of account assignments"
+  type = list(object({
+    permission_set_name = string
+    group_names         = list(string)
+    aws_account_id      = string
+  }))
+  default = [
+    {
+      permission_set_name = "Example-PermissionSet"
+      group_names         = ["admin_group", "dev_group", "test_group"]
+      aws_account_id      = "AWS_ACCOUNT_ID"
+    }
   ]
 }

@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 resource "aws_eip" "lb" {
-  domain   = "vpc"
+  domain = "vpc"
 }
 
 # Create a security group
 resource "aws_security_group" "allow_tls" {
-  name        = "terraform-firewall"
+  name = "terraform-firewall"
 }
 
 # Add a inbound rule

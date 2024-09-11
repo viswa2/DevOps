@@ -1,12 +1,12 @@
- provider "aws" {
-  region     = "us-east-2"
+provider "aws" {
+  region = "us-east-2"
 }
 
 locals {
   instance_type = {
-    default  = "t2.nano"
-    dev      = "t2.micro"
-    prod     = "m5.large"
+    default = "t2.nano"
+    dev     = "t2.micro"
+    prod    = "m5.large"
   }
 }
 
