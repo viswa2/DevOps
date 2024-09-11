@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 variable "tags" {
-  type = map
+  type = map(any)
   default = {
     Team = "security-team"
   }
@@ -11,8 +11,8 @@ variable "tags" {
 
 locals {
   default = {
-    Team = "security-teams"
-    CreationDate = "date-${formatdate("DD/MM/YYYY",timestamp())}"
+    Team         = "security-teams"
+    CreationDate = "date-${formatdate("DD/MM/YYYY", timestamp())}"
   }
 }
 

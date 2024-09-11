@@ -1,18 +1,18 @@
 variable "instance_arn" {
   description = "The ARN of the AWS SSO instance"
   type        = string
-  default = "Instance ARN of IAM identity center"
 }
 
-variable "permission_set_arn" {
-  type = string
+variable "policy_attachments" {
+  description = "List of policy attachments"
+  type = list(object({
+    permission_set_name = string
+    managed_policies    = list(string)
+    custom_policies     = list(string)
+  }))
 }
 
-variable "managed_policies" {
-  description = "List of managed policy ARNs to attach to the permission set"
-  type        = list(string)
-  default = [
-    "arn:aws:iam::aws:policy/ReadOnlyAccess",
-    "arn:aws:iam::aws:policy/PowerUserAccess" 
- ] 	 
+variable "permission_set_arns" {
+  description = "Map of permission set names to their ARNs"
+  type        = map(string)
 }

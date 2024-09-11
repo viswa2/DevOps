@@ -1,3 +1,3 @@
 data "local_file" "foo" {
-    filename = "${path.module}/demo.txt"
+  filename = "${path.module}/demo.txt"
 }

@@ -1,10 +1,10 @@
 variable "my-map" {
-    type = map
-    default = {
-        Name = "alice"
-    }
+  type = map(any)
+  default = {
+    Name = "alice"
+  }
 }
 
 output "variable_value" {
-    value = var.my-map
+  value = var.my-map
 }

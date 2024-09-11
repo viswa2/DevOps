@@ -1,5 +1,5 @@
 provider "aws" {
-  region     = "ap-south-1"
+  region = "ap-south-1"
 }
 
 module "vpc" {
@@ -13,7 +13,7 @@ module "vpc" {
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
   }
 }
@@ -54,7 +54,7 @@ resource "aws_security_group" "allow_ssh_conn" {
 
 
 resource "aws_instance" "myec2" {
-   ami = "ami-0ec0e125bb6c6e8ec"
-   instance_type = "t2.small"
-   vpc_security_group_ids  = [aws_security_group.allow_ssh_conn.id]
+  ami                    = "ami-0ec0e125bb6c6e8ec"
+  instance_type          = "t2.small"
+  vpc_security_group_ids = [aws_security_group.allow_ssh_conn.id]
 }

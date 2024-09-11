@@ -1,0 +1,15 @@
+{
+  "admin_group": {
+    "Description": "Group for administrators",
+    "display_name": "admin"
+  },
+  "dev_group": {
+    "description": "Group for developers",
+    "display_name": "developer"
+  },
+  "test_group": {
+    "description": "Group for testers",
+    "display_name": "testers"
+  }
+}
+

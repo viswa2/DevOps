@@ -5,5 +5,5 @@ data "terraform_remote_state" "vpc" {
     bucket = "demo-backend-terraform"
     key    = "eip.tfstate"
     region = "us-east-2"
-    }
   }
+}

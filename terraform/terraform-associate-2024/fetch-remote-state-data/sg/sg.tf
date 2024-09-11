@@ -12,7 +12,7 @@ resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
 }
 resource "aws_security_group" "allow_tls" {
-  name        = "allow_tls"
+  name = "allow_tls"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {

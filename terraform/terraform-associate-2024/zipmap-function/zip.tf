@@ -1,11 +1,11 @@
 provider "aws" {
-  region     = "us-east-1"
+  region = "us-east-1"
 }
 
 resource "aws_iam_user" "lb" {
-  name = "demo-user.${count.index}"
+  name  = "demo-user.${count.index}"
   count = 3
-  path = "/system/"
+  path  = "/system/"
 }
 
 output "arns" {
@@ -13,7 +13,7 @@ output "arns" {
 }
 
 output "names" {
-    value = aws_iam_user.lb[*].name
+  value = aws_iam_user.lb[*].name
 }
 
 output "zipmap" {

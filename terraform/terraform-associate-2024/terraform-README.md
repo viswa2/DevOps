@@ -30,13 +30,19 @@ As below Official link of terraform we can use to download and install the terra
 
 `Download Link:` https://developer.hashicorp.com/terraform/install
 
+## What is Terraform Provider? ##
+
+`A provider is a plugin that enables Terraform to interact with a specific cloud or service provider, such as Amazon Web Services (AWS), Microsoft Azure, or Google Cloud Platform (GCP). Providers are responsible for understanding the APIs and resources the target` infrastructure platform provides and for translating Terraform configuration code into API calls.
+
 ## Terraform Commands ##
 
 terraform validate # It's validates syntax configuration, If no syntax errors the output is Success! The configuration is valid
 
-terraform init # Command uses initiliaze and download the providers associated with the terraform provider.tf file `Ex:` .terraform/providers/registry.terraform.io/hashicorp
+terraform init # Command uses initiliaze and download the providers associated with the terraform provider.tf file, downloads the required modules referenced in the configuration, initializes the backend configuration
 
-terraform plan # Command is execute the actual plan before creating the resources.
+`Ex:` .terraform/providers/registry.terraform.io/hashicorp
+
+terraform plan # Command creates an execution plan and determines what changes are required to achieve the desired state in the configuration files.
 
 terraform plan -refresh-only # command is specifically designed to only refresh the Terraform state to match any changes made to remote objects outside of Terraform.
 
@@ -45,6 +51,8 @@ terraform apply # Command is create the resources are defined in terraform confi
 terraform fmt # Command is used to rewrite Terraform configuration files to a canonical format and style.
 
 terraform destroy # Command is used to destroy the resourtces are created from the terraform configuration.
+
+`Note:` You can also simply remove the resource configuration from your code and run `terraform apply`. This will also destroy the resource.
 
 terraform destory `-target <resource type.local resource name>` # If you want destroy for specific resource need to use -target option.
 
@@ -56,7 +64,12 @@ terraform show # Command showcase the state file resources.
 
 ## Terraform State File ##
 
-`Terraform state file` When you run the `terraform apply` command it will create the `terraform.tfstate` file with the resources are provided in the terraform configuration.
+`Terraform state file` When you run the `terraform apply` command it will create the `terraform.tfstate` file with the resources are provided in the terraform configuration. State file is a requirement for terraform function.
+
+1. When using local state, the state file is stored in plain-text
+2. Terraform Cloud always encrypts state at rest
+3. The Terraform state can contain sensitive data, therefore the state file should be protected from unauthorized access.
+4. Storing state remotely can provide better security.
 
 ## Desired State ##
 
@@ -149,6 +162,10 @@ terraform {
 `Fix:` Delete the `.terraform.lock.hcl` file and re-run the `terraform init` command it's download the `version = "<= 5.0"`
 
 By using `terraform init -upgrade` command you can upgrade the provider version.
+
+** Why it is important to declare a required version in Terraform?**
+
+`Note:` providers are released on a separate schedule from Terraform itself; therefore, a newer version could introduce breaking changes.
 
 ## Terraform Refresh ##
 
@@ -466,9 +483,23 @@ We can fetch the Latset AMI id by using the data source block. check for more de
 
 Terraform has detailed logs which can be enabled by setting the `TF_LOG` environment variable to any value. You can set TF_LOG to one of the log levels TRACE one of the log levels TRACE, DEBUG, INFO, WARN and ERROR to change the verbosoity of the logs.
 
-When you pass the environment variables i.e `export TF_LOG=TRACE` and apply the terraform commands we can able to get the complete log details about the terraform configuration.
+When you pass the environment variables i.e `export TF_LOG=TRACE` and apply the terraform commands we can able to get the complete log details about the terraform configuration. This `provides the MOST verbose logging`.
 
 Instead of getting the logs in command line if you want to store the logs in any file path we can add the variable `export TF_LOG_PATH=/tmp/terraform-crash.log`
+
+`Note:` export TF_LOG=TRACE having the more verbosity comapre to DEBUG
+
+**Debugging Models in Terraform**
+
+![alt text](terraform-troubleshooting.png)
+
+1. `Language errors`: When Terraform encounters a syntax error in your configuration, it prints out the line numbers and an explanation of the error.
+
+2. `State errors`: If state is out of sync, Terraform may destroy or change your existing resources. After you rule out configuration errors, review your state. 
+
+3. `Core errors`: Errors produced at this level may be a bug. Later in this tutorial, you will learn best practices for opening a GitHub issue for the core development team.
+
+4. `Provider errors`: The provider plugins handle authentication, API calls, and mapping resources to services. Later in this tutorial, you will learn best practices for opening a GitHub issue for the provider development team.
 
 ## Understanding Semantics ##
 
@@ -549,11 +580,11 @@ terraform {
 
 ## Dealing with Larger Infrastructure ##
 
-We can prevent terraform from querying the current state during opertions like terraform plan.
+The `terraform plan -target=resource` flag can be used to target a specific resource. Generally used as means to operate an isolated portions of very large configurations.
 
-This can be acheived with the `-refresh=false` flag.
+Usually if additional rsource will add to existing terraform configuration again we need to run the `terraform plan` command it will refersh the state file along with display what we have added the newly resource.
 
-The `-target=resource` flag can be used to target a specific resource. Generally used as means to operate an isolated portions of very large configurations.
+Instaed we can add  terraform plan `-refresh=false` We can prevent terraform from querying the current state during opertions like terraform plan. It will reduce the No. of API calls here.
 
 ## Zipmap Function ##
 
@@ -687,6 +718,10 @@ resource "aws_instance" "my-ec2" {
 }
 ```
 
+**By default, a child module will have access to all variables set in the calling (parent) module?**
+
+`Note:` No, A child module in Terraform does not inherit all variables set in the calling (parent) module. The parent module must explicitly pass variables to the child module by defining input variables in the child module's configuration. This approach helps maintain clear boundaries between modules and prevents unintended variable leakage.
+
 **Publishing Modules**
 
 Anyonbe can publish and share the modules on the terraform registry. Published modules can support versioning, automatically generate documentation allow browsing version histories, shows examples and READMEs, and more.
@@ -725,7 +760,7 @@ terraform workspace `delete`   # If you want to delete the workspace.
 
 **Terraform .gitignore**
 
-When you ran the terraform init, plan and apply commands there are certain folders were created i.e .`terraform, .terraform.lock.hcl, terraform.tfstate, terraform.tfstate.backup` etc. All this folders and files not required to push into the source code repo.
+When you ran the terraform init, plan and apply commands there are certain folders were created i.e .`terraform, .terraform.lock.hcl, terraform.tfstate, terraform.tfvars, terraform.tfstate.backup` etc. All this folders and files not required to push into the source code repo.
 
 Create a `.gitignore` and add the names of all this folder and file names git will ignore while pushing the changes into the git repo.
 
@@ -800,3 +835,107 @@ import {
 6. Finally run the `terraform destroy` command to delete the terraform resource configuration.
 
 `Check the details:` terraform-import/import.tf
+
+## Multiple Provider Configurationss ##
+
+To create multiple configurations for a given provider, include multiple provider blocks with the same provider name. For each additional non-default configuration, use the `alias` meta-argument to provide an extra name segment.
+
+`Example Check for More Details:` terraform-associate-2024/multi-provider/multiprovider.tf
+`Reference Link`: https://developer.hashicorp.com/terraform/language/providers/configuration
+
+**Sensitive Parameter**
+
+Adding sensitive parameter ensures that you do not accidently expose this data in CLI output and log output. While we ran `terraform plan` the content will display in the terminal, to avoid such sensitive information we can use variable parameter as below. We can use local sensitive file resource type as well.
+
+```bash
+resource "local_file" "foo" {
+  content  = "supersecretpassw0rd"
+  filename = "password.txt"
+}
+```
+```bash
+variable "password" {
+  default = "supersecretpassw0rd"
+  sensitive = "true"
+}
+resource "local_file" "foo" {
+  content  = var.password
+  filename = "password.txt"
+}
+```
+
+```bash
+resource "local_sensitive_file" "foo" {
+  content  = "supersecretpassw0rd"
+  filename = "password.txt"
+}
+
+output "pass" {
+  value = local_sensitive_file.foo.content
+}
+```
+
+`Reference Links:` https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file
+                   https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/sensitive_file
+
+**Hashicorp Vault**
+
+Hashicorp Vault allows organizations to securly store secrets like tokens, passwords, certificates along with the access management for protecting secrets. Vault provider allows terrform to read from, write to and configure HashiCorp Vault.
+`Note:` Interacting with Vault from terraform causes any `secrets that you read and write to be persisted in both terraform's state file.`
+
+## Terraform Cloud ##
+
+Terraform cloud manaages Terraform runs in a  consistent and reliable environment with various features like access controls, private registry for sharing modules, policy controls and others.
+
+**How to access the Terraform Cloud**?
+
+1. Create a free account i.e https://app.terraform.io/
+2. Login with the user credentials i.e usename and password.
+3. Create a organization under organizations and create a workspace under organization. i.e demo-workspace
+4. Under workspace click on varaibels and add i.e aws_access_key_id, aws_secret_access_key with the sensitive check mark.
+5. Create a sample github repo for demo purpose and add the terraform code for testing in terraform cloud.
+6. Authenticate Github with the terraform cloud --> Select the repo you want to authorize and connect.
+7. Then go back to workspace click on new run select plan apply start.
+8. It will trigger the plan code it will finish, if it's having any issue through an error fix it re-run again.
+9. Confirm & apply with comments i.e `terraform apply` it will run and execute the resource as per the terraform configuration.
+10. Go and observere the AWS console GUI either the resource has been created or not.
+11. Finally if you want to destroy the resource under demo-workspace settings click on Destruction and Deletion --> Queue destroy plan --> Enter the name of the workspace.
+12. Your terraform configuration resource will be destroyed.
+13. There is no need to manual run everytime is there any changes to your repo, once push the changes terraform cloud will identify the changes and `terraform plan` will start automatically.
+
+**Sentinel Policy**
+
+Sentinel is an embeddable policy as code framework to enable fine-grained, logic-based policy decisions that can be extended to source external information to make decisions.
+
+`Note:` Sentinel policies are paid feature.
+
+**Remote Backends For Terraform Cloud**
+
+When using full remote operations, like terraform plan or terraform apply can be executed in Terraform cloud's run environment, with log output streaming to the local terminal.
+
+If you want authenticate terrafrom cloud by using CLI in your system terminal
+
+1. terraform login --> Do you want to proceed --> yes --> Terraform must now open a web browser to the tokens page for app.terraform.io.
+2. Generate a token using your browser, and copy-paste it into the CLI terminal.
+3. terraform init
+4. terraform plan
+5. terraform apply 
+
+`Note:` The workspace which we are working if it's connected to version control system it won't work. SInce it requires single source of truth.
+
+![alt text](Remote-backend-terraform-cloud.png)
+
+6. Eventhough if you ran from the CLI for `terraform plan` terraform cloud has been triggered  i.e Triggered via CLI.
+
+![alt text](terraform-plan.png)
+
+7. If you want to Remove the authentication based VCS and run the `terraform apply` from CLI based i.e under demo-workspace--> Version Control select the CLI based driven.
+8. Now run the `terraform apply` in the CLI and observe in the `terraform cloud UI` under demo-workspace runs.
+
+**Air Gap Environments**
+
+Air gap is a network security measure employed to ensure that a secure computer network is physically isolated from unsecured networks, such as a public netwwork.
+
+Air gap based method is possible for terraform enterprise editions.
+
+`Reference Link:` https://www.hashicorp.com/blog/deploying-terraform-enterprise-in-airgapped-environments
