@@ -841,6 +841,7 @@ import {
 To create multiple configurations for a given provider, include multiple provider blocks with the same provider name. For each additional non-default configuration, use the `alias` meta-argument to provide an extra name segment.
 
 `Example Check for More Details:` terraform-associate-2024/multi-provider/multiprovider.tf
+
 `Reference Link`: https://developer.hashicorp.com/terraform/language/providers/configuration
 
 **Sensitive Parameter**
@@ -899,7 +900,7 @@ Terraform cloud manaages Terraform runs in a  consistent and reliable environmen
 8. It will trigger the plan code it will finish, if it's having any issue through an error fix it re-run again.
 9. Confirm & apply with comments i.e `terraform apply` it will run and execute the resource as per the terraform configuration.
 10. Go and observere the AWS console GUI either the resource has been created or not.
-11. Finally if you want to destroy the resource under demo-workspace settings click on Destruction and Deletion --> Queue destroy plan --> Enter the name of the workspace.
+11. Finally if you want to destroy the resource under demo-workspace settings click on Destruction and Deletion--> Queue destroy plan--> Enter the name of the workspace.
 12. Your terraform configuration resource will be destroyed.
 13. There is no need to manual run everytime is there any changes to your repo, once push the changes terraform cloud will identify the changes and `terraform plan` will start automatically.
 
