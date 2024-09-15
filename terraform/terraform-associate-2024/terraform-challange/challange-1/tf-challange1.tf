@@ -9,12 +9,12 @@
 
 resource "aws_eip" "example" {
   domain = "vpc"
-     tags = {
-       name = "Testing EIP"
+  tags = {
+    name = "Testing EIP"
 
-    }
+  }
 }
- 
+
 resource "aws_security_group" "security_group_payment_app" {
   name        = "payment_app"
   description = "Application Security Group"
@@ -35,7 +35,7 @@ resource "aws_security_group" "security_group_payment_app" {
     protocol    = "tcp"
     cidr_blocks = [var.ingress_cidr_block]
   }
-  
+
   # Below ingress allows APIs access from Prod App Public IP.
 
   ingress {
@@ -45,13 +45,13 @@ resource "aws_security_group" "security_group_payment_app" {
     cidr_blocks = ["${aws_eip.example.public_ip}/32"]
   }
   egress {
-  from_port   = var.splunk
-  to_port     = var.splunk
-  protocol    = "tcp"
-  cidr_blocks = [var.egress_cidr_block]
+    from_port   = var.splunk
+    to_port     = var.splunk
+    protocol    = "tcp"
+    cidr_blocks = [var.egress_cidr_block]
   }
 
   tags = {
     name = "Payment app security group"
-    }
+  }
 }

@@ -1,6 +1,6 @@
 ## What Is Terraform ? ##
 
-HashiCorp Terraform is an infrastructure as code tool that lets you define both cloud and on-prem resources in human-readable configuration files that you can version, reuse, and share.
+HashiCorp Terraform is an immutable, declarative infrastructure as code tool that lets you define both cloud and on-prem resources in human-readable configuration files that you can version, reuse, and share. The language is based on HashiCorp Configuration Language (HCL) or JSON for configuration files.
 
 ### How does Terraform work? 
 
@@ -23,6 +23,16 @@ Infrastructure as Code (IaC) tools allow you to manage infrastructure with confi
 `Collaborate` --> Terraform allows you to collaborate on your infrastructure with its remote state backends.
 
 `Reference Link:` https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code
+
+## Terraform Core Functions ##
+
+The core Terraform workflow has three steps:
+
+  - Write - Author infrastructure as code.
+
+  - Plan - Preview changes before applying.
+
+  - Apply - Provision reproducible infrastructure
 
 ## Installtion of Terraform ##
 
@@ -48,11 +58,19 @@ terraform plan -refresh-only # command is specifically designed to only refresh 
 
 terraform apply # Command is create the resources are defined in terraform configuration.
 
+terraform apply --refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
+
+terraform apply -replace # command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
+
+`Note:` This command replaces terraform taint, which was the command that would be used up until 0.15.x. You may still see terraform taint on the actual exam until it is updated.
+
 terraform fmt # Command is used to rewrite Terraform configuration files to a canonical format and style.
+
+terraform fmt -check -recursive # The `-check option` will make the command return a non-zero exit code if any of the files are not properly formatted and `-recursive` option instructs it go into the sub-directories.
 
 terraform destroy # Command is used to destroy the resourtces are created from the terraform configuration.
 
-`Note:` You can also simply remove the resource configuration from your code and run `terraform apply`. This will also destroy the resource.
+`Note:` You can also simply remove or comment the resource configuration from your code and run `terraform apply`. This will also destroy the resource.
 
 terraform destory `-target <resource type.local resource name>` # If you want destroy for specific resource need to use -target option.
 
@@ -409,7 +427,7 @@ A function is a block of code that performs a specific task.
 
 file()reads the contents of a file at the given path and returns them as a string.
 
-We can use a `terraform console` command for functions in terraform as below screenshot.
+`terraform console` allows you to interactively explore your Terraform configuration and state. It is more useful for debugging and exploring the Terraform environment.
 
 ![alt text](terraform-console.png)
 
@@ -695,9 +713,15 @@ Terraform modules allows us to centralize the resource configuration and it make
 
 Inspect the modules source code on Github or another platform. Clean and well-structured code is a good sign. Number of forks and starts of the repo. Modules maintained by hashicorp partner.
 
+## Benfits of Modules ##
+
+1. Enables code reuse
+2. supports modules stored locally or remotely
+3. supports versioning to maintain compatibility
+
 ** Which modules do organizations Use?**
 
-IN most of the scenarios, Organizations maintain their own set of modules. They might initially fork a modules from the terraform registry and modify it based on their use case.
+In most of the scenarios, Organizations maintain their own set of modules. They might initially fork a modules from the terraform registry and modify it based on their use case.
 
 `Reference Link for Modules:` https://registry.terraform.io/search/modules?namespace=terraform-aws-modules
 
@@ -779,7 +803,7 @@ Create a `.gitignore` and add the names of all this folder and file names git wi
 
  Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terrafoirm apply operations, if others also try the same, it can corrupt the state file.
 
- `Note:` Teraaform has a `force-unlock` command to manually unlock the state if unlocking failed. Where unlock should be used to unlock your own lock in the situation where unlocking failed.
+ `Note:` Teraaform has a `terraform force-unlock` command is specifically designed to force unlock the state file and allow modifications to be made.
 
 **State locking in S3**
 
@@ -794,9 +818,9 @@ State locking with the dynamodb check the details `remote-backend/backend.tf`
 
 The `terraform state` command can indeed be used to modify the current state by removing items. This is useful for managing the state of resources in Terraform.
 
-terraform state list # List out the resources with the state file.
+terraform state list # List out the resources with in the state file.
 
-terraform state show `aws_instance.myec2` # Here `aws_instance.myec2` is one of the resource of state file, the command gives fulll details of resouce.
+terraform state show `aws_instance.myec2` # Here `aws_instance.myec2` is one of the resource of state file, the command displays detailed state data about one resource.
 
 terraform state pull  # Pull current state and output to stdout
 
@@ -817,7 +841,7 @@ We have a network team and security team, under network team creating the elasti
 Terraform can import existing infrastructure resources. This functionality lets you bring existing resources under Terraform management.
 
 1. Create a resource manually for the security group with the inbound rules i.e http, https, ssh etc.
-2. Added the terraform configuration with the import rules
+2. Added the terraform configuration with the import block or we can use `terraform import `command to import the existing resources into Terraform.
 
 ```bash
 import {
@@ -836,9 +860,13 @@ import {
 
 `Check the details:` terraform-import/import.tf
 
+`Reference Link for More Details:` https://developer.hashicorp.com/terraform/cli/commands/import
+
 ## Multiple Provider Configurationss ##
 
 To create multiple configurations for a given provider, include multiple provider blocks with the same provider name. For each additional non-default configuration, use the `alias` meta-argument to provide an extra name segment.
+
+`Note:` A provider alias is used to differentiate between multiple instances of the same provider within a Terraform configuration file. This allows you to configure and use the `same provider with different settings for different resources`, ensuring flexibility and customization in your infrastructure deployment.
 
 `Example Check for More Details:` terraform-associate-2024/multi-provider/multiprovider.tf
 
@@ -886,7 +914,7 @@ Hashicorp Vault allows organizations to securly store secrets like tokens, passw
 
 ## Terraform Cloud ##
 
-Terraform cloud manaages Terraform runs in a  consistent and reliable environment with various features like access controls, private registry for sharing modules, policy controls and others.
+Terraform cloud manaages Terraform runs in a  consistent and reliable environment with various features like access controls, private registry for sharing modules, policy controls, remote runs, VCS connection and others.
 
 **How to access the Terraform Cloud**?
 
@@ -904,9 +932,15 @@ Terraform cloud manaages Terraform runs in a  consistent and reliable environmen
 12. Your terraform configuration resource will be destroyed.
 13. There is no need to manual run everytime is there any changes to your repo, once push the changes terraform cloud will identify the changes and `terraform plan` will start automatically.
 
-**Sentinel Policy**
+**What is the primary function of Terraform Cloud agents?**
 
-Sentinel is an embeddable policy as code framework to enable fine-grained, logic-based policy decisions that can be extended to source external information to make decisions.
+Terraform Cloud `agents are primarily responsible for executing Terraform plans and applying changes to infrastructure`. They act as the bridge between the Terraform Cloud service and the target infrastructure.
+
+**Sentinel and OPA Policy**
+
+Sentinel is an embeddable policy as code framework to enable fine-grained, logic-based policy decisions that can be extended to source external information to make decisions. Ensuring standardization and cost controls are in place before resources are provisioned with Terraform
+
+HashiCorp also supports Open Policy Agent (OPA) in Terraform Cloud.
 
 `Note:` Sentinel policies are paid feature.
 
@@ -917,7 +951,7 @@ When using full remote operations, like terraform plan or terraform apply can be
 If you want authenticate terrafrom cloud by using CLI in your system terminal
 
 1. terraform login --> Do you want to proceed --> yes --> Terraform must now open a web browser to the tokens page for app.terraform.io.
-2. Generate a token using your browser, and copy-paste it into the CLI terminal.
+2. Generate a api token using your browser, and copy-paste it into the CLI terminal.
 3. terraform init
 4. terraform plan
 5. terraform apply 
