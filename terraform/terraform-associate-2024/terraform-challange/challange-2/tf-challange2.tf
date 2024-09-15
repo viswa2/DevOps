@@ -6,7 +6,7 @@
 ######################################################################
 
 provider "aws" {
-    region = "us-east-2"
+  region = "us-east-2"
 }
 
 #Fetch the IAM users present in the AWS account
