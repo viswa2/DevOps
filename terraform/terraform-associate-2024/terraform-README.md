@@ -2,7 +2,7 @@
 
 HashiCorp Terraform is an immutable, declarative infrastructure as code tool that lets you define both cloud and on-prem resources in human-readable configuration files that you can version, reuse, and share. The language is based on HashiCorp Configuration Language (HCL) or JSON for configuration files.
 
-### How does Terraform work? 
+### How does Terraform works? 
 
 Terraform creates and manages resources on cloud platforms and other services through their application programming interfaces (APIs). Providers enable Terraform to work with virtually any platform or service with an accessible API.
 
@@ -46,21 +46,27 @@ As below Official link of terraform we can use to download and install the terra
 
 ## Terraform Commands ##
 
-terraform validate # It's validates syntax configuration, If no syntax errors the output is Success! The configuration is valid
-
 terraform init # Command uses initiliaze and download the providers associated with the terraform provider.tf file, downloads the required modules referenced in the configuration, initializes the backend configuration
 
 `Ex:` .terraform/providers/registry.terraform.io/hashicorp
 
+terraform init `-backend-config` # Initiliazes the backend with the provided configuration.
+
+terraform init `-migrate-state` # To migrate the state file to the new remote backend.
+
+terraform validate # It's validates syntax configuration, If no syntax errors the output is Success! The configuration is valid
+
 terraform plan # Command creates an execution plan and determines what changes are required to achieve the desired state in the configuration files.
 
-terraform plan -refresh-only # command is specifically designed to only refresh the Terraform state to match any changes made to remote objects outside of Terraform.
+terraform plan -refresh-only # Command is specifically designed to only refresh the Terraform state to match any changes made to remote objects outside of Terraform.
 
 terraform apply # Command is create the resources are defined in terraform configuration.
 
 terraform apply --refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
 
-terraform apply -replace # command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
+terraform apply -replace # Command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
+
+terraform apply -destroy # By using the `-destroy` flag with the `apply` command, you can achieve the same result as the `destroy` command.
 
 `Note:` This command replaces terraform taint, which was the command that would be used up until 0.15.x. You may still see terraform taint on the actual exam until it is updated.
 
@@ -330,7 +336,7 @@ resource "aws_eip" "lb" {
 }
 
 output "public_ip" {
-    value = aws_eip.lb
+    value = aws_eip.lb.public_ip
 }
 ```
 
@@ -389,19 +395,21 @@ Terraform loads variables in the following order, with later sources taking prec
 
 Data type referes to the `type of the value.` Depending on the requirement we can use wide variety of values in terraform configuration.
 
-**Example Data type:** `Hello world` is `string` Refer data-types/string-type/
+**Example Data type:** 
 
-                       `7576` is a `number`
+`Hello world` is `string` Refer `data-types/string-type/`
 
-                       `true` or `false` is a `boolean`
+`7576` is a `number`
 
-                       `list` or `tuple` collection of values, like `["us-west-1a", "us-west-1c"]` i.e See the example of `datatypes/data-type-list.tf`
+`true` or `false` is a `boolean`
 
-                       `set` is acollection of unique values that do not have any secondary identifiers or ordering.
+`list` or `tuple` collection of values, like `["us-west-1a", "us-west-1c"]` i.e See the example of `datatypes/data-type-list.tf`
 
-                       `map` or `object` collection of of key values identified by named labels, like `{name = "Mabel", age = 52}.` Refer data-types/map-type=map-type.tf
+`set` is acollection of unique values that do not have any secondary identifiers or ordering.
 
-                       `null` a value that represents absence or omission. If you set an argument of a resource to null, Terraform behaves as though you had completely omitted it.
+`map` or `object` collection of of key values identified by named labels, like `{name = "Mabel", age = 52}.` Refer `data-types/map-type/map-type.tf`
+
+`null` a value that represents absence or omission. If you set an argument of a resource to null, Terraform behaves as though you had completely omitted it.
 
 `Reference Link`: https://developer.hashicorp.com/terraform/language/expressions/types#types
 
@@ -420,6 +428,8 @@ A conditional expression uses the value of `bool` expression to select one of tw
 `Syntax:` condition ? true_val : false_val
 
 `Example:` var.environment == "production" && var.region == "us-east-1" ? "m5.large" : "t2.micro" i.e `production && var.region` is condition as per above syntax then `?` symbol then in `m5.large: t2.micro` `m5.large` is true and `t2.micro` is false. Check more details on code `conditional-expression/conditional.tf`
+
+`Reference Link:` https://developer.hashicorp.com/terraform/language/expressions/conditionals#conditional-expressions
 
 ## Terraform Functions ##
 
@@ -453,7 +463,7 @@ If given a list or map, the result is the number of elements in that collection.
 
 `Syntax:` length(["a", "b"]) ==> The output should be `2` while executing in terminal with the `teraaform console.`
 
-`Realtime Example:` length("firstec2","secondec2")
+`Realtime Example:` length(["firstec2","secondec2"])
 
 ### Element Function
 
@@ -465,7 +475,7 @@ element retrieves a single element from a list. The `index is zero-based`. This 
 
 ### Formatdate Function
 
-formatdate converts a timestamp into a different time format. n the Terraform language, timestamps are conventionally represented as strings using RFC 3339 "Date and Time format" syntax. formatdate requires the timestamp argument to be a string conforming to this syntax.
+formatdate converts a timestamp into a different time format. In the Terraform language, timestamps are conventionally represented as strings using RFC 3339 "Date and Time format" syntax. formatdate requires the timestamp argument to be a string conforming to this syntax.
 
 `Syntax:` formatdate("DD MMM YYYY hh:mm ZZZ", "2018-01-02T23:12:01Z")
 
@@ -485,7 +495,7 @@ Refer for more details `local-values/local-values.tf`
 
 ## Data Sources ##
 
-Data sources allow Terraform to use/fetch information defined outside of Terraform. A data source is accessed via special kind of resource known as data resource, declared using as as data block. The clde block of `data-source/data-source.tf` while applying the terraform apply it will read the content of `demo.txt` and available in `terraform.tfstate` attributes: contenet.
+Data sources allow Terraform to use/fetch information defined outside of Terraform. A data source is accessed via special kind of resource known as data resource, declared using as as data block. The code block of `data-source/data-source.tf` while applying the terraform apply it will read the content of `demo.txt` and available in `terraform.tfstate` attributes: contenet.
 
 ![alt text](Data-Source.png)
 
@@ -499,13 +509,13 @@ We can fetch the Latset AMI id by using the data source block. check for more de
 
 ## Debugging In Terraform ##
 
-Terraform has detailed logs which can be enabled by setting the `TF_LOG` environment variable to any value. You can set TF_LOG to one of the log levels TRACE one of the log levels TRACE, DEBUG, INFO, WARN and ERROR to change the verbosoity of the logs.
+Terraform has detailed logs which can be enabled by setting the `TF_LOG` environment variable to any value. You can set `TF_LOG` to one of the log levels TRACE, DEBUG, INFO, WARN and ERROR to change the verbosoity of the logs.
 
-When you pass the environment variables i.e `export TF_LOG=TRACE` and apply the terraform commands we can able to get the complete log details about the terraform configuration. This `provides the MOST verbose logging`.
+When you pass the environment variables i.e `export TF_LOG=TRACE` and apply the terraform commands we can able to get the complete log details about the terraform configuration. 
+
+`Note:` export `TF_LOG=TRACE` having the more verbosity comapre to DEBUG.
 
 Instead of getting the logs in command line if you want to store the logs in any file path we can add the variable `export TF_LOG_PATH=/tmp/terraform-crash.log`
-
-`Note:` export TF_LOG=TRACE having the more verbosity comapre to DEBUG
 
 **Debugging Models in Terraform**
 
@@ -527,13 +537,13 @@ The file loaded must be end in either `.tf or .tf.json` to specify the format th
 
 ## Dynamic Block ##
 
-In Many of use-case, there are repeatble nested blocks that needs to defined. THis can leads at longer code and it's difficult to manage.
+In Many of use-case, there are repeatble nested blocks that needs to defined. This can leads at longer code and it's difficult to manage.
 
 Dynamic block allows us to dynamically construct repeatable nested blocks which is supported inside resource, data, provider, and provisioner blocks. check the details in `dyanamic-block/dyanmic.tf`
 
 ## Terraform Replace (Taint) ##
 
-The -replace option with terraform apply to force terraform to replace an object even though there are no configuration changes that would require it. we have code block `terraform-replace/replace.tf`
+The `-replace` option with terraform apply to force terraform to replace an object even though there are no configuration changes that would require it. we have code block `terraform-replace/replace.tf`
 
 1. We have created EC2 instance normally for `terraform-replace/replace.tf`
 2. terraform apply -replace="aws_instance.web"
@@ -546,7 +556,7 @@ The -replace option with terraform apply to force terraform to replace an object
 Terraform graph refers to a visual representation of the dependency relationship b/w sources defined in your terraform configuration.
 
 1. Under terraform-graph/graph.tf run `terrfaorm init`
-2. Run the terraform graph we can able to see the output.
+2. Run the `terraform graph` we can able to see the output.
 3. Copy the contntet and paste into the Graphviz Online site we can able to see the graphical represenation of dependencies.
 4. Instead of apsting in the public sites we can install the graphviz in the system
 5. Install the graphviz in the system based on operating system i.e `brew install graphviz`
@@ -602,7 +612,7 @@ The `terraform plan -target=resource` flag can be used to target a specific reso
 
 Usually if additional rsource will add to existing terraform configuration again we need to run the `terraform plan` command it will refersh the state file along with display what we have added the newly resource.
 
-Instaed we can add  terraform plan `-refresh=false` We can prevent terraform from querying the current state during opertions like terraform plan. It will reduce the No. of API calls here.
+Instead we can add  terraform plan `-refresh=false` We can prevent terraform from querying the current state during opertions like terraform plan. It will reduce the No. of API calls here.
 
 ## Zipmap Function ##
 
@@ -653,7 +663,7 @@ List of meta arguments available with in the life cycle block.
 |   ----------           |                ---------                                                                                                    |
 | create_before_destroy  | New replacement object is created first and prior object is destroyed after the replacement is created.                     |
 |                        |                                                                                                                             |
-|  prevent_destroy       | Terraform to reject with an error any plan that woukld be destroy the infrastructure associated with the resource.          |
+|  prevent_destroy       | Terraform to reject with an error any plan that would be destroy the infrastructure associated with the resource.          |
 |                        | Useful for production environments.                                                                                         |
 |                        |                                                                                                                             |
 |  ignore_changes        | Ignore certain changes to the live resource that does not match the configuration.                                          |
@@ -716,8 +726,8 @@ Inspect the modules source code on Github or another platform. Clean and well-st
 ## Benfits of Modules ##
 
 1. Enables code reuse
-2. supports modules stored locally or remotely
-3. supports versioning to maintain compatibility
+2. Supports modules stored locally or remotely
+3. Supports versioning to maintain compatibility
 
 ** Which modules do organizations Use?**
 
@@ -784,7 +794,7 @@ terraform workspace `delete`   # If you want to delete the workspace.
 
 **Terraform .gitignore**
 
-When you ran the terraform init, plan and apply commands there are certain folders were created i.e .`terraform, .terraform.lock.hcl, terraform.tfstate, terraform.tfvars, terraform.tfstate.backup` etc. All this folders and files not required to push into the source code repo.
+When you ran the terraform init, plan and apply commands there are certain folders were created i.e .`terraform, .terraform.lock.hcl, terraform.tfstate, terraform.tfvars, terraform.tfstate.backup` etc. All this folders and files not required to push into the source code repo, due to security/sensitive constraints.
 
 Create a `.gitignore` and add the names of all this folder and file names git will ignore while pushing the changes into the git repo.
 
@@ -803,7 +813,7 @@ Create a `.gitignore` and add the names of all this folder and file names git wi
 
  Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terrafoirm apply operations, if others also try the same, it can corrupt the state file.
 
- `Note:` Teraaform has a `terraform force-unlock` command is specifically designed to force unlock the state file and allow modifications to be made.
+ `Note:` Teraaform has a `terraform force-unlock <LOCK_ID>` command is specifically designed to force unlock the state file and allow modifications to be made.
 
 **State locking in S3**
 
@@ -829,6 +839,10 @@ terraform state push  # Update remote state from a local state file
 terraform state rm  # Is used to remove items from the terraform state 
 
 terraform state mv aws_instance.myec2 aws_instance.my-demo-ec2  # It's moving the resoure name without destroying and re-creating the resource.
+
+`Note:` 1. variables marked as sensitive are still stored in the state file, even though the values are obfuscated from the CLI output.
+        2. The default value will be found in the state file if no other value was set for the variable.
+        3. The variable name itself is not stored in the state file and description of a variable is not written to the state file.
 
 **Fetching the Remote State Data**
 
@@ -930,7 +944,7 @@ Terraform cloud manaages Terraform runs in a  consistent and reliable environmen
 10. Go and observere the AWS console GUI either the resource has been created or not.
 11. Finally if you want to destroy the resource under demo-workspace settings click on Destruction and Deletion--> Queue destroy plan--> Enter the name of the workspace.
 12. Your terraform configuration resource will be destroyed.
-13. There is no need to manual run everytime is there any changes to your repo, once push the changes terraform cloud will identify the changes and `terraform plan` will start automatically.
+13. When workspaces are linked to a VCS repository, Terraform Cloud can automatically initiate terraform runs when changes are committed to specified branch `terraform plan` automatically trigger a speculative plan.
 
 **What is the primary function of Terraform Cloud agents?**
 
@@ -942,7 +956,7 @@ Sentinel is an embeddable policy as code framework to enable fine-grained, logic
 
 HashiCorp also supports Open Policy Agent (OPA) in Terraform Cloud.
 
-`Note:` Sentinel policies are paid feature.
+`Note:` Sentinel policies are paid feature. Sentinel policies are enforced after the plan, run tasks, and cost estimation phases but before the apply phase in Terraform Cloud.
 
 **Remote Backends For Terraform Cloud**
 
