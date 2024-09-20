@@ -2,7 +2,7 @@
 
 HashiCorp Terraform is an immutable, declarative infrastructure as code tool that lets you define both cloud and on-prem resources in human-readable configuration files that you can version, reuse, and share. The language is based on HashiCorp Configuration Language (HCL) or JSON for configuration files.
 
-### How does Terraform work? 
+### How does Terraform works? 
 
 Terraform creates and manages resources on cloud platforms and other services through their application programming interfaces (APIs). Providers enable Terraform to work with virtually any platform or service with an accessible API.
 
@@ -429,6 +429,8 @@ A conditional expression uses the value of `bool` expression to select one of tw
 
 `Example:` var.environment == "production" && var.region == "us-east-1" ? "m5.large" : "t2.micro" i.e `production && var.region` is condition as per above syntax then `?` symbol then in `m5.large: t2.micro` `m5.large` is true and `t2.micro` is false. Check more details on code `conditional-expression/conditional.tf`
 
+`Reference Link:` https://developer.hashicorp.com/terraform/language/expressions/conditionals#conditional-expressions
+
 ## Terraform Functions ##
 
 A function is a block of code that performs a specific task.
@@ -541,7 +543,7 @@ Dynamic block allows us to dynamically construct repeatable nested blocks which 
 
 ## Terraform Replace (Taint) ##
 
-The -replace option with terraform apply to force terraform to replace an object even though there are no configuration changes that would require it. we have code block `terraform-replace/replace.tf`
+The `-replace` option with terraform apply to force terraform to replace an object even though there are no configuration changes that would require it. we have code block `terraform-replace/replace.tf`
 
 1. We have created EC2 instance normally for `terraform-replace/replace.tf`
 2. terraform apply -replace="aws_instance.web"
@@ -661,7 +663,7 @@ List of meta arguments available with in the life cycle block.
 |   ----------           |                ---------                                                                                                    |
 | create_before_destroy  | New replacement object is created first and prior object is destroyed after the replacement is created.                     |
 |                        |                                                                                                                             |
-|  prevent_destroy       | Terraform to reject with an error any plan that woukld be destroy the infrastructure associated with the resource.          |
+|  prevent_destroy       | Terraform to reject with an error any plan that would be destroy the infrastructure associated with the resource.          |
 |                        | Useful for production environments.                                                                                         |
 |                        |                                                                                                                             |
 |  ignore_changes        | Ignore certain changes to the live resource that does not match the configuration.                                          |
@@ -724,8 +726,8 @@ Inspect the modules source code on Github or another platform. Clean and well-st
 ## Benfits of Modules ##
 
 1. Enables code reuse
-2. supports modules stored locally or remotely
-3. supports versioning to maintain compatibility
+2. Supports modules stored locally or remotely
+3. Supports versioning to maintain compatibility
 
 ** Which modules do organizations Use?**
 
@@ -792,7 +794,7 @@ terraform workspace `delete`   # If you want to delete the workspace.
 
 **Terraform .gitignore**
 
-When you ran the terraform init, plan and apply commands there are certain folders were created i.e .`terraform, .terraform.lock.hcl, terraform.tfstate, terraform.tfvars, terraform.tfstate.backup` etc. All this folders and files not required to push into the source code repo.
+When you ran the terraform init, plan and apply commands there are certain folders were created i.e .`terraform, .terraform.lock.hcl, terraform.tfstate, terraform.tfvars, terraform.tfstate.backup` etc. All this folders and files not required to push into the source code repo, due to security/sensitive constraints.
 
 Create a `.gitignore` and add the names of all this folder and file names git will ignore while pushing the changes into the git repo.
 
@@ -811,7 +813,7 @@ Create a `.gitignore` and add the names of all this folder and file names git wi
 
  Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terrafoirm apply operations, if others also try the same, it can corrupt the state file.
 
- `Note:` Teraaform has a `terraform force-unlock` command is specifically designed to force unlock the state file and allow modifications to be made.
+ `Note:` Teraaform has a `terraform force-unlock <LOCK_ID>` command is specifically designed to force unlock the state file and allow modifications to be made.
 
 **State locking in S3**
 
