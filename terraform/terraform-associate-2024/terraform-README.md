@@ -800,9 +800,21 @@ Create a `.gitignore` and add the names of all this folder and file names git wi
 
 ## Terraform Backends ##
 
-`Challange with local backend`: Nowadays terraform project is handled and collaborated by an entire team. Storing the state file in local laptop will not allow collaboration.
+**Local Backend**
 
-`Remote Backend`: Terraform uses persisted state data to keep track of the resources it manages. There are so many available backends are there i.e remote, azurerm, consual, s3, kubernetes etc. In our use case we are using s3 backend.
+```bash
+terraform {
+    backend "local" {
+        path = "DevOps/terraform/terraform-associate-2024/terraform.tfstate"
+    }
+}
+```
+
+`Challanges with local backend`: Not versioned, No state locking, State file corruption, Not suitable for collaboration etc.
+
+**Remote Backend**
+
+Terraform uses persisted state data to keep track of the resources it manages. There are so many available backends are there i.e remote, azurerm, consual, s3, kubernetes etc. In our use case we are using s3 backend.
 
 1. Create the bucket manually in any region.
 2. Create a folder path where you want to store the `terraform.tfstate` file.
@@ -956,7 +968,7 @@ Sentinel is an embeddable policy as code framework to enable fine-grained, logic
 
 HashiCorp also supports Open Policy Agent (OPA) in Terraform Cloud.
 
-`Note:` Sentinel policies are paid feature. Sentinel policies are enforced after the plan, run tasks, and cost estimation phases but before the apply phase in Terraform Cloud.
+`Note:` Sentinel policies are paid feature. Sentinel policies are enforced after the terraform plan, run tasks, and cost estimation phases but before the apply phase in Terraform Cloud.
 
 **Remote Backends For Terraform Cloud**
 
@@ -988,3 +1000,33 @@ Air gap is a network security measure employed to ensure that a secure computer 
 Air gap based method is possible for terraform enterprise editions.
 
 `Reference Link:` https://www.hashicorp.com/blog/deploying-terraform-enterprise-in-airgapped-environments
+
+`Scenario-1`: Create any resource in AWS by using terraform, then go to AWS console change some modification manually and come back to terminal and run the terraform apply and observe the changes.
+
+1. Created a tag manually for Ec2 instance after creation of EC2 by using terraform
+2. In the terminal ran the `terraform apply` it's showing your resource is in update in-place and manual modifications are destroying since those resource are not available in terraform configuration.
+
+![alt text](Scenario1-EC2.png)
+
+`Scenario-2`: Create 2 EC2 instances with terraform, delete one from state file, run the terraform apply and check the behaviour?
+
+1. Created 2 EC2 instances by using terraform code
+2. Removed one instance from state file `terraform state rm resource_type.resource_name`
+3. Ran the terraform apply created the one EC2 instance since we have removed the state file for one EC2
+4. When we check the AWS console now 3 EC2 instances, but when you ran the `terraform destroy` 2 instances were destroyed and 1 is available since state was removed.
+
+`Scenario-3`: You need to sync your state file with the manual changes in AWS console.
+
+1. There is already some existing setup in AWS by using terraform configurations.
+2. Your teammate changed manullay some configurations in AWS console.
+3. You want to sync those changes into your state file `terraform apply -refresh-only`
+4. Find as below screenshot for more reference details.
+
+![alt text](<terraform apply -refresh-only.png>)
+
+`Scenario-4`: If you want replace the existing resource how you will do?
+
+1. There is already existing configuration which you have provisioned already.
+2. You want replace the existing resource `terraform apply -replace <resource_tye.resource_name> it will destroy the existing resource and recreate with new one.
+
+
