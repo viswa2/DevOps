@@ -62,7 +62,7 @@ terraform plan -refresh-only # Command is specifically designed to only refresh 
 
 terraform apply # Command is create the resources are defined in terraform configuration.
 
-terraform apply --refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
+terraform apply -refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
 
 terraform apply -replace # Command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
 
@@ -1012,10 +1012,10 @@ Air gap based method is possible for terraform enterprise editions.
 
 1. Created 2 EC2 instances by using terraform code
 2. Removed one instance from state file `terraform state rm resource_type.resource_name`
-3. Ran the terraform apply created the one EC2 instance since we have removed the state file for one EC2
+3. Ran the `terraform apply`, created the one EC2 instance since we have removed the state file for one EC2
 4. When we check the AWS console now 3 EC2 instances, but when you ran the `terraform destroy` 2 instances were destroyed and 1 is available since state was removed.
 
-`Scenario-3`: You need to sync your state file with the manual changes in AWS console.
+`Scenario-3`: What Terraform command can you use to reconcile the state with the real-world infrastructure in order to detect any drift from the last-known state?
 
 1. There is already some existing setup in AWS by using terraform configurations.
 2. Your teammate changed manullay some configurations in AWS console.
@@ -1028,5 +1028,22 @@ Air gap based method is possible for terraform enterprise editions.
 
 1. There is already existing configuration which you have provisioned already.
 2. You want replace the existing resource `terraform apply -replace <resource_tye.resource_name> it will destroy the existing resource and recreate with new one.
+
+`Scenario-5`: Amit is calling a child module to deploy infrastructure for organization. Just as a good architect does (and suggested by HashiCorp), Amit specifies the module version he wants to use even though there are newer versions available. During a terrafom init, Terraform downloads v5.4.0 just as expected.
+
+What would happen if Amit removed the version parameter in the module block and ran a terraform init again?
+
+```bash
+module "iam" {
+  source  = "terraform-aws-modules/iam/aws"
+  version = "5.4.0"
+}
+```
+1. Create a folder structure for modules which you want to test.
+2. Add as above code in the modules.tf file and run the `terraform init` command
+3. And observe the `./terraform/modules/modules.json` file the version should be 5.4.0
+4. Remove the version part and re-run the `terraform init` command it's did not downalod the newer version of module. It reused the existing module already downloaded because once a specific version is dowloaded, Terraform caches it locally unless explicitly updated.
+
+
 
 
