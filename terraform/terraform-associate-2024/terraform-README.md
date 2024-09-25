@@ -439,6 +439,8 @@ file()reads the contents of a file at the given path and returns them as a strin
 
 `terraform console` allows you to interactively explore your Terraform configuration and state. It is more useful for debugging and exploring the Terraform environment.
 
+`Note:` In order to use this command, the CLI must be able to `lock the state` to prevent changes, ensuring that the state remains consistent during the interactive exploration process.
+
 ![alt text](terraform-console.png)
 
 `Importance of file function:` File function can reduce the overall terraform code size by loading contents from external sources during terraform operations. 
