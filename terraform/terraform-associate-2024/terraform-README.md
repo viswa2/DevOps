@@ -62,7 +62,7 @@ terraform plan -refresh-only # Command is specifically designed to only refresh 
 
 terraform apply # Command is create the resources are defined in terraform configuration.
 
-terraform apply --refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
+terraform apply -refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
 
 terraform apply -replace # Command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
 
@@ -439,6 +439,8 @@ file()reads the contents of a file at the given path and returns them as a strin
 
 `terraform console` allows you to interactively explore your Terraform configuration and state. It is more useful for debugging and exploring the Terraform environment.
 
+`Note:` In order to use this command, the CLI must be able to `lock the state` to prevent changes, ensuring that the state remains consistent during the interactive exploration process.
+
 ![alt text](terraform-console.png)
 
 `Importance of file function:` File function can reduce the overall terraform code size by loading contents from external sources during terraform operations. 
@@ -800,9 +802,21 @@ Create a `.gitignore` and add the names of all this folder and file names git wi
 
 ## Terraform Backends ##
 
-`Challange with local backend`: Nowadays terraform project is handled and collaborated by an entire team. Storing the state file in local laptop will not allow collaboration.
+**Local Backend**
 
-`Remote Backend`: Terraform uses persisted state data to keep track of the resources it manages. There are so many available backends are there i.e remote, azurerm, consual, s3, kubernetes etc. In our use case we are using s3 backend.
+```bash
+terraform {
+    backend "local" {
+        path = "DevOps/terraform/terraform-associate-2024/terraform.tfstate"
+    }
+}
+```
+
+`Challanges with local backend`: Not versioned, No state locking, State file corruption, Not suitable for collaboration etc.
+
+**Remote Backend**
+
+Terraform uses persisted state data to keep track of the resources it manages. There are so many available backends are there i.e remote, azurerm, consual, s3, kubernetes etc. In our use case we are using s3 backend.
 
 1. Create the bucket manually in any region.
 2. Create a folder path where you want to store the `terraform.tfstate` file.
@@ -956,7 +970,7 @@ Sentinel is an embeddable policy as code framework to enable fine-grained, logic
 
 HashiCorp also supports Open Policy Agent (OPA) in Terraform Cloud.
 
-`Note:` Sentinel policies are paid feature. Sentinel policies are enforced after the plan, run tasks, and cost estimation phases but before the apply phase in Terraform Cloud.
+`Note:` Sentinel policies are paid feature. Sentinel policies are enforced after the terraform plan, run tasks, and cost estimation phases but before the apply phase in Terraform Cloud.
 
 **Remote Backends For Terraform Cloud**
 
@@ -988,3 +1002,50 @@ Air gap is a network security measure employed to ensure that a secure computer 
 Air gap based method is possible for terraform enterprise editions.
 
 `Reference Link:` https://www.hashicorp.com/blog/deploying-terraform-enterprise-in-airgapped-environments
+
+`Scenario-1`: Create any resource in AWS by using terraform, then go to AWS console change some modification manually and come back to terminal and run the terraform apply and observe the changes.
+
+1. Created a tag manually for Ec2 instance after creation of EC2 by using terraform
+2. In the terminal ran the `terraform apply` it's showing your resource is in update in-place and manual modifications are destroying since those resource are not available in terraform configuration.
+
+![alt text](Scenario1-EC2.png)
+
+`Scenario-2`: Create 2 EC2 instances with terraform, delete one from state file, run the terraform apply and check the behaviour?
+
+1. Created 2 EC2 instances by using terraform code
+2. Removed one instance from state file `terraform state rm resource_type.resource_name`
+3. Ran the `terraform apply`, created the one EC2 instance since we have removed the state file for one EC2
+4. When we check the AWS console now 3 EC2 instances, but when you ran the `terraform destroy` 2 instances were destroyed and 1 is available since state was removed.
+
+`Scenario-3`: What Terraform command can you use to reconcile the state with the real-world infrastructure in order to detect any drift from the last-known state?
+
+1. There is already some existing setup in AWS by using terraform configurations.
+2. Your teammate changed manullay some configurations in AWS console.
+3. You want to sync those changes into your state file `terraform apply -refresh-only`
+4. Find as below screenshot for more reference details.
+
+![alt text](<terraform apply -refresh-only.png>)
+
+`Scenario-4`: If you want replace the existing resource how you will do?
+
+1. There is already existing configuration which you have provisioned already.
+2. You want replace the existing resource `terraform apply -replace <resource_tye.resource_name> it will destroy the existing resource and recreate with new one.
+
+`Scenario-5`: Amit is calling a child module to deploy infrastructure for organization. Just as a good architect does (and suggested by HashiCorp), Amit specifies the module version he wants to use even though there are newer versions available. During a terrafom init, Terraform downloads v5.4.0 just as expected.
+
+What would happen if Amit removed the version parameter in the module block and ran a terraform init again?
+
+```bash
+module "iam" {
+  source  = "terraform-aws-modules/iam/aws"
+  version = "5.4.0"
+}
+```
+1. Create a folder structure for modules which you want to test.
+2. Add as above code in the modules.tf file and run the `terraform init` command
+3. And observe the `./terraform/modules/modules.json` file the version should be 5.4.0
+4. Remove the version part and re-run the `terraform init` command it's did not downalod the newer version of module. It reused the existing module already downloaded because once a specific version is dowloaded, Terraform caches it locally unless explicitly updated.
+
+
+
+
