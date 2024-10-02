@@ -52,7 +52,7 @@ terraform init # Command uses initiliaze and download the providers associated w
 
 terraform init `-backend-config` # Initiliazes the backend with the provided configuration.
 
-terraform init `-migrate-state` # To migrate the state file to the new remote backend.
+terraform init `-migrate-state` # To migrate the existing state file to the specified backend.
 
 terraform validate # It's validates syntax configuration, If no syntax errors the output is Success! The configuration is valid
 
@@ -63,6 +63,8 @@ terraform plan -refresh-only # Command is specifically designed to only refresh 
 terraform apply # Command is create the resources are defined in terraform configuration.
 
 terraform apply -refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
+
+terraform apply -refresh=false # Is used to prevent Terraform from refreshing the state of the infrastructure resources before applying changes
 
 terraform apply -replace # Command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
 
