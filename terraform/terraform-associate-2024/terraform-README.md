@@ -74,7 +74,7 @@ terraform fmt # Command is used to rewrite Terraform configuration files to a ca
 
 terraform fmt -check -recursive # The `-check option` will make the command return a non-zero exit code if any of the files are not properly formatted and `-recursive` option instructs it go into the sub-directories.
 
-terraform destroy # Command is used to destroy the resourtces are created from the terraform configuration.
+terraform destroy # Command is used to destroy the resources are created from the terraform configuration.
 
 `Note:` You can also simply remove or comment the resource configuration from your code and run `terraform apply`. This will also destroy the resource.
 
@@ -191,7 +191,7 @@ By using `terraform init -upgrade` command you can upgrade the provider version.
 
 ** Why it is important to declare a required provider version in Terraform?**
 
-`Note:` providers are released on a separate schedule from Terraform itself; therefore, a newer version could introduce breaking changes.
+`Note:` providers are released on a separate schedule from Terraform itself, therefore a newer version could introduce breaking changes.
 
 ## Terraform Refresh ##
 
@@ -320,7 +320,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
 ```
 ## String Interpolation in Terraform ##
 
-${...}): This syntx indicates that Terraform will replace the expression inside the curly braces with it's calculated value.
+${...}): This syntax indicates that Terraform will replace the expression inside the curly braces with it's calculated value.
 
 `Ex:` cidr_ipv4         = "${aws_eip.lb.public_ip}/32"
 
@@ -557,7 +557,7 @@ The `-replace` option with terraform apply to force terraform to replace an obje
 
 ## Terraform Graph ##
 
-Terraform graph refers to a visual representation of the dependency relationship b/w sources defined in your terraform configuration.
+Terraform graph refers to a visual representation of the dependency relationship b/w resources defined in your terraform configuration.
 
 1. Under terraform-graph/graph.tf run `terrfaorm init`
 2. Run the `terraform graph` we can able to see the output.
@@ -614,7 +614,7 @@ terraform {
 
 The `terraform plan -target=resource` flag can be used to target a specific resource. Generally used as means to operate an isolated portions of very large configurations.
 
-Usually if additional rsource will add to existing terraform configuration again we need to run the `terraform plan` command it will refersh the state file along with display what we have added the newly resource.
+Usually if additional resource will add to existing terraform configuration again we need to run the `terraform plan` command it will refersh the state file along with display what we have added the newly resource.
 
 Instead we can add  terraform plan `-refresh=false` We can prevent terraform from querying the current state during opertions like terraform plan. It will reduce the No. of API calls here.
 
@@ -827,7 +827,7 @@ Terraform uses persisted state data to keep track of the resources it manages. T
 
 **State File Locking**
 
- Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terrafoirm apply operations, if others also try the same, it can corrupt the state file.
+ Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terraform apply operations, if others also try the same, it can corrupt the state file.
 
  `Note:` Teraaform has a `terraform force-unlock <LOCK_ID>` command is specifically designed to force unlock the state file and allow modifications to be made.
 
