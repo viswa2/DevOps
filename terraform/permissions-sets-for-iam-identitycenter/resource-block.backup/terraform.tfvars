@@ -1,3 +1,3 @@
-instance_arn   = "arn:aws:sso:::instance/ssoins-7223bc48715f8d9d"
-aws_account_id = "407303461057"
-store_id       = "d-9067ebe7bd"
+instance_arn   = "Instance ARN of IAM identity center"
+aws_account_id = "AWS_ACCOUNT_ID" # Add aws account id
+store_id       = "Store Id" # Store id for IAM identity center

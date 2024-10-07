@@ -52,7 +52,7 @@ terraform init # Command uses initiliaze and download the providers associated w
 
 terraform init `-backend-config` # Initiliazes the backend with the provided configuration.
 
-terraform init `-migrate-state` # To migrate the state file to the new remote backend.
+terraform init `-migrate-state` # To migrate the existing state file to the specified backend.
 
 terraform validate # It's validates syntax configuration, If no syntax errors the output is Success! The configuration is valid
 
@@ -64,9 +64,9 @@ terraform apply # Command is create the resources are defined in terraform confi
 
 terraform apply -refresh-only # Can be used to detect configuration drift by refreshing the state of the infrastructure without making any changes. 
 
-terraform apply -replace # Command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
+terraform apply -refresh=false # Is used to prevent Terraform from refreshing the state of the infrastructure resources before applying changes
 
-terraform apply -destroy # By using the `-destroy` flag with the `apply` command, you can achieve the same result as the `destroy` command.
+terraform apply -replace # Command manually marks a Terraform-managed resource for replacement, forcing it to be destroyed and recreated on the apply execution.
 
 `Note:` This command replaces terraform taint, which was the command that would be used up until 0.15.x. You may still see terraform taint on the actual exam until it is updated.
 
@@ -74,7 +74,7 @@ terraform fmt # Command is used to rewrite Terraform configuration files to a ca
 
 terraform fmt -check -recursive # The `-check option` will make the command return a non-zero exit code if any of the files are not properly formatted and `-recursive` option instructs it go into the sub-directories.
 
-terraform destroy # Command is used to destroy the resourtces are created from the terraform configuration.
+terraform destroy # Command is used to destroy the resources are created from the terraform configuration.
 
 `Note:` You can also simply remove or comment the resource configuration from your code and run `terraform apply`. This will also destroy the resource.
 
@@ -83,6 +83,8 @@ terraform destory `-target <resource type.local resource name>` # If you want de
 `EX:` resource "aws_instance" "example_instance" 
 
 `Details:` aws_instance is resource type, . is a separator and example_instance is a local resource name
+
+terraform apply -destroy # By using the `-destroy` flag with the `apply` command, you can achieve the same result as the `destroy` command.
 
 terraform show # Command showcase the state file resources.
 
@@ -123,8 +125,8 @@ Current is a actual state of resource that is currently deployed.
 How this tested?
 
 1. Created a EC2 instance by using terraform configuration with the t2. micro
-2. Manually stopped the EC2 instance and chnages from t2.micro to t2.medium and started the instance.
-3. In Back to terminal and ran the `terraform plan` command it's showing update in-place and 1 to change.
+2. Manually stopped the EC2 instance and chnages from t2.micro to t2.medium and start the instance.
+3. Back to terminal and ran the `terraform plan` command it's showing update in-place and 1 to change.
 4. After running the `terraform apply` command it's matches the desired state of the Ec2 instance i.e chnages from `t2.medium to t2.micro`.
 
 ## Provider Versioning ##
@@ -187,15 +189,15 @@ terraform {
 
 By using `terraform init -upgrade` command you can upgrade the provider version.
 
-** Why it is important to declare a required version in Terraform?**
+** Why it is important to declare a required provider version in Terraform?**
 
-`Note:` providers are released on a separate schedule from Terraform itself; therefore, a newer version could introduce breaking changes.
+`Note:` providers are released on a separate schedule from Terraform itself, therefore a newer version could introduce breaking changes.
 
 ## Terraform Refresh ##
 
 `terraform refresh` command chnages the state file when you modified the resources manually in the AWS console.
 
-`1 Example:` You have created Ec2 instance by using terraform, in the instance security group was default. Yoy manually created the custom security group and remove the default one and attached custom SG with the EC2 instance. Then hit the `terraform refresh` it's modified in terraform.tfstate file `default to custom`
+`1 Example:` You have created Ec2 instance by using terraform, in the instance security group was default. You manually created the custom security group and remove the default one and attached custom SG with the EC2 instance. Then hit the `terraform refresh` it's modified in terraform.tfstate file `default to custom`
 
 `2 Example:` If you change the region in providers.tf form `us-east-1 to us-west-2` and run the `terraform refresh` command `terraform.tfstate` file completely empty and all of our configurations went away and by using `terraform.tfstate.backup` update the `terraform.tfstate` file for our configuration.
 
@@ -204,7 +206,7 @@ By using `terraform init -upgrade` command you can upgrade the provider version.
 ## AWS Provider - Authentication Configuration ##
 
 1. Don't add your AWS access keys and secret keys directly in the terraform provider configurations.
-2. Create the IAM user and under the user --> security credentials --> create access key and download the keys.
+2. Create the IAM user, under the user --> security credentials --> create access key and download the keys.
 3. Download the aws cli in the specific operating system by using as below link.
 
 `Reference link:` https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
@@ -318,7 +320,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
 ```
 ## String Interpolation in Terraform ##
 
-${...}): This syntx indicates that Terraform will replace the expression inside the curly braces with it's calculated value.
+${...}): This syntax indicates that Terraform will replace the expression inside the curly braces with it's calculated value.
 
 `Ex:` cidr_ipv4         = "${aws_eip.lb.public_ip}/32"
 
@@ -385,7 +387,7 @@ Terraform loads variables in the following order, with later sources taking prec
 4. Any *.auto.tfvars or *.auto.tfvars.json files, processed in the lexical order of their file names.
 5. Any -var and -file-var options on the command line.
 
-**Testing Example1:** Even you have `variables.tf file` in the terraform configuration with the `intsance_type = t2.micro` in the system env `TF_VAR_instance_type=t2.medium`. While running `terraform plan` it's should be considered as a system env only, due it's having higher Precedence.
+**Testing Example1:** Even you have `variables.tf file` in the terraform configuration with the `intsance_type = t2.micro` in the system env `TF_VAR_instance_type=t2.medium`. While running `terraform plan` it's should be considered as a system env only, due to it's having higher Precedence.
 
 **Testing Example2:** Even when you have added as a sytem env `TF_VAR_instance_type=t2.micro` or value in `terraform.tfvars` file having `t2.large` while executing the command line `terraform plan -var="instance_type=m5.large"` it's should be considered as a command line only, due it's having higher Precedence.
 
@@ -497,7 +499,7 @@ Refer for more details `local-values/local-values.tf`
 
 ## Data Sources ##
 
-Data sources allow Terraform to use/fetch information defined outside of Terraform. A data source is accessed via special kind of resource known as data resource, declared using as as data block. The code block of `data-source/data-source.tf` while applying the terraform apply it will read the content of `demo.txt` and available in `terraform.tfstate` attributes: contenet.
+Data sources allow Terraform to use/fetch information defined outside of Terraform. A data source is accessed via special kind of resource known as data resource, declared using as as data block. The code block of `data-source/data-source.tf` while applying the terraform apply it will read the content of `demo.txt` and available in `terraform.tfstate` attributes: content.
 
 ![alt text](Data-Source.png)
 
@@ -507,7 +509,7 @@ Data sources allow Terraform to use/fetch information defined outside of Terrafo
 
 ## Fetching the Latest OS Image Using Data Source ##
 
-We can fetch the Latset AMI id by using the data source block. check for more details `data-source/data-source-ami.tf`. By using theis code we can test by different regions.
+We can fetch the Latset AMI id by using the data source block. check for more details `data-source/data-source-ami.tf`. By using this code we can test by different regions.
 
 ## Debugging In Terraform ##
 
@@ -555,7 +557,7 @@ The `-replace` option with terraform apply to force terraform to replace an obje
 
 ## Terraform Graph ##
 
-Terraform graph refers to a visual representation of the dependency relationship b/w sources defined in your terraform configuration.
+Terraform graph refers to a visual representation of the dependency relationship b/w resources defined in your terraform configuration.
 
 1. Under terraform-graph/graph.tf run `terrfaorm init`
 2. Run the `terraform graph` we can able to see the output.
@@ -612,7 +614,7 @@ terraform {
 
 The `terraform plan -target=resource` flag can be used to target a specific resource. Generally used as means to operate an isolated portions of very large configurations.
 
-Usually if additional rsource will add to existing terraform configuration again we need to run the `terraform plan` command it will refersh the state file along with display what we have added the newly resource.
+Usually if additional resource will add to existing terraform configuration again we need to run the `terraform plan` command it will refersh the state file along with display what we have added the newly resource.
 
 Instead we can add  terraform plan `-refresh=false` We can prevent terraform from querying the current state during opertions like terraform plan. It will reduce the No. of API calls here.
 
@@ -731,7 +733,7 @@ Inspect the modules source code on Github or another platform. Clean and well-st
 2. Supports modules stored locally or remotely
 3. Supports versioning to maintain compatibility
 
-** Which modules do organizations Use?**
+**Which modules do organizations Use?**
 
 In most of the scenarios, Organizations maintain their own set of modules. They might initially fork a modules from the terraform registry and modify it based on their use case.
 
@@ -773,8 +775,8 @@ Anyonbe can publish and share the modules on the terraform registry. Published m
 |                          |                                                                                                                                  |
 | Standard module structure| The module must adhere to the standard module structure.                                                                         |
 |                          |                                                                                                                                  |
-| x.y.z tags for releases  | The registry uses tags to identify module versions. Release tag names must be a semantic version, which can  optionally be       |
-|                          | prefixed with a V.
+| x.y.z tags for releases  | The registry uses tags to identify module versions. Release tag names must be a semantic version, which can optionally 
+be prefixed with a V.
 
 `Reference Link:` https://developer.hashicorp.com/terraform/registry/modules/publish
 
@@ -825,7 +827,7 @@ Terraform uses persisted state data to keep track of the resources it manages. T
 
 **State File Locking**
 
- Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terrafoirm apply operations, if others also try the same, it can corrupt the state file.
+ Whenever you are performing write operation, terraform would lock the state file. This is important as otherwise during your ongoing terraform apply operations, if others also try the same, it can corrupt the state file.
 
  `Note:` Teraaform has a `terraform force-unlock <LOCK_ID>` command is specifically designed to force unlock the state file and allow modifications to be made.
 
@@ -855,7 +857,9 @@ terraform state rm  # Is used to remove items from the terraform state
 terraform state mv aws_instance.myec2 aws_instance.my-demo-ec2  # It's moving the resoure name without destroying and re-creating the resource.
 
 `Note:` 1. variables marked as sensitive are still stored in the state file, even though the values are obfuscated from the CLI output.
+
         2. The default value will be found in the state file if no other value was set for the variable.
+
         3. The variable name itself is not stored in the state file and description of a variable is not written to the state file.
 
 **Fetching the Remote State Data**
@@ -997,7 +1001,7 @@ If you want authenticate terrafrom cloud by using CLI in your system terminal
 
 **Air Gap Environments**
 
-Air gap is a network security measure employed to ensure that a secure computer network is physically isolated from unsecured networks, such as a public netwwork.
+Air gap is a network security measure employed to ensure that a secure computer network is physically isolated from unsecured networks, such as a public network.
 
 Air gap based method is possible for terraform enterprise editions.
 
