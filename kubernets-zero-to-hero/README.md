@@ -3,12 +3,13 @@ Kubernetes, also known as K8s, is an open-source system for automating deploymen
 
 Kubernetes vs. Docker: When to Use What?
 
+
 |   Feature          |            Docker                             |              Kubernetes                                                      |
 |  ----------        |        --------------                         |            ---------------                                                   |
 |  Purpose           | Run and manage containers on a single host    | Orchestrate and manage multiple containers across multiple nodes             |
 |                    | Manual (requires running multiple docker      |                                                                              |
 |  Scaling           | run commands)                                 | Automatic scaling with Horizontal Pod Autoscaler (HPA)                       |
-| 
+|                    |                                               |                                                                              |
 | High Availability  | No built-in support                           | Self-healing, load balancing, and failover across multiple nodes             |
 |                    |                                               |                                                                              |
 | Networking         | Basic networking between continers            | Advanced networking with built-in service discovery                          |
@@ -16,7 +17,7 @@ Kubernetes vs. Docker: When to Use What?
 | Storage Management | Limited to host volumes & bind mounts         | Persistent Volumes (PV), Persistent Volume Claims (PVC), and Storage Classes |
 |                    |                                               |                                                                              |  
 | Service Discovery &| Needs external setup                          | Built-in with Kubernetes Services                                            |
-| Load Balancing     |                                               |
+| Load Balancing     |                                               |                                                                              |
 |                    |                                               |                                                                              |
 | Rolling Updates    | Requires manual stopping &                    | Automated rolling updates with zero downtime                                 |
 |                    | starting of containers                        |                                                                              |
