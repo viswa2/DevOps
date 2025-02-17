@@ -667,7 +667,7 @@ List of meta arguments available with in the life cycle block.
 |   ----------           |                ---------                                                                                                    |
 | create_before_destroy  | New replacement object is created first and prior object is destroyed after the replacement is created.                     |
 |                        |                                                                                                                             |
-|  prevent_destroy       | Terraform to reject with an error any plan that would be destroy the infrastructure associated with the resource.          |
+|  prevent_destroy       | Terraform to reject with an error any plan that would be destroy the infrastructure associated with the resource.           |
 |                        | Useful for production environments.                                                                                         |
 |                        |                                                                                                                             |
 |  ignore_changes        | Ignore certain changes to the live resource that does not match the configuration.                                          |

@@ -6,7 +6,7 @@ Docker is an open platform for building, shipping, and running applications. Doc
 
 Docker provides the ability to package and run an application in a loosely isolated environment called a container. The isolation and security lets you run many containers simultaneously on a given host. `Containers are lightweight and contain everything needed to run the application, i.e (Libraries, application runtime, dependencies) so you don't need to rely on what's installed on the host`. 
 
-## Difference Docker B/w Virtual machine ? ##
+## Difference b/w Docker and Virtual Machine ? ##
 
 ![alt text](<Virtual machine vs Docker.png>)
 
@@ -74,7 +74,7 @@ You might create your own images or you might only use those created by others a
 
 `Refrence Link`: https://docs.docker.com/get-started/get-docker/
 
-Since i'm using Mac so, I have installed docker desktop for mac with apple silicon. Based on your operating system you can install accordingly i.e Windows, Linux etc.
+Since i'm using Mac OS, I have installed docker desktop for mac with apple silicon. Based on your operating system you can install accordingly i.e Windows, Linux etc.
 
 After downloading the package double click and install it and dran and drop docker into applications. We can able to see docker desktop is running as per the screenshot attached below. Then you can login to to the docker desktop then yo will able to see your images and containers if exists.
 

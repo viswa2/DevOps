@@ -1,5 +1,58 @@
 1. What is Kubernetes?
-Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications.
+Kubernetes, also known as K8s, is an open-source system for automating deployment, auto-scaling, high availability, self-healing and  management of containerized applications.
+
+Kubernetes vs. Docker: When to Use What?
+
+|   Feature          |            Docker                             |              Kubernetes                                                      |
+|  ----------        |        --------------                         |            ---------------                                                   |
+|  Purpose           | Run and manage containers on a single host    | Orchestrate and manage multiple containers across multiple nodes             |
+|                    | Manual (requires running multiple docker      |                                                                              |
+|  Scaling           | run commands)                                 | Automatic scaling with Horizontal Pod Autoscaler (HPA)                       |
+| 
+| High Availability  | No built-in support                           | Self-healing, load balancing, and failover across multiple nodes             |
+|                    |                                               |                                                                              |
+| Networking         | Basic networking between continers            | Advanced networking with built-in service discovery                          |
+|                    |                                               |                                                                              |
+| Storage Management | Limited to host volumes & bind mounts         | Persistent Volumes (PV), Persistent Volume Claims (PVC), and Storage Classes |
+|                    |                                               |                                                                              |  
+| Service Discovery &| Needs external setup                          | Built-in with Kubernetes Services                                            |
+| Load Balancing     |                                               |
+|                    |                                               |                                                                              |
+| Rolling Updates    | Requires manual stopping &                    | Automated rolling updates with zero downtime                                 |
+|                    | starting of containers                        |                                                                              |
+|                    |                                               |                                                                              |
+| Self-Healing       | If a container crashes, manual restart needed | Kubernetes automatically restarts failed containers or moves workloads       |
+
+Scenarios: When to Use Kubernetes?
+
+1️⃣ Large-Scale Applications
+When your application consists of multiple microservices (e.g., frontend, backend, database, message queues).
+Example: A banking application with independent services for authentication, transactions, notifications, etc.
+
+2️⃣ High Availability & Fault Tolerance
+Kubernetes ensures your application remains available even if a node crashes by rescheduling workloads.
+Example: E-commerce platforms (Amazon, Flipkart) need 24/7 availability.
+
+3️⃣ Automated Scaling
+Kubernetes automatically adjusts resources based on traffic or CPU/memory usage.
+Example: Streaming platforms (Netflix, YouTube) see high traffic during peak hours and need dynamic scaling.
+
+4️⃣ CI/CD & DevOps Integration
+Kubernetes enables zero-downtime deployments with automated updates & rollbacks.
+Example: Software development teams deploying frequent updates to a SaaS product.
+
+5️⃣ Hybrid & Multi-Cloud Deployments
+Kubernetes runs seamlessly across AWS, Azure, GCP, and on-premises.
+Example: Enterprise-grade needing cloud-agnostic application deployment.
+
+
+When Docker Alone is Enough?
+
+Local Development & Testing: Running a single containerized app on your laptop (docker run -d nginx).
+
+Small-scale Applications: If you have just a few containers and don’t need scaling or load balancing.
+
+Quick Prototyping: Deploying a simple blog or personal website.
 
 2. What we can achieve by using Kubernetes?
 High availability --> No down time
