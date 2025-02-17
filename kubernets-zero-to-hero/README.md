@@ -57,15 +57,20 @@ Small-scale Applications: If you have just a few containers and don’t need sca
 Quick Prototyping: Deploying a simple blog or personal website.
 
 2. What we can achieve by using Kubernetes?
+
 High availability --> No down time
+
 High scalability --> High performance
+
 Disaster recovery --> Backup and restore
 
 3. What is Kubernetes orchestration?
 Kubernetes orchestration allows you to build application services that span multiple containers, schedule containers across a cluster, scale those containers, and manage their health over time.
 
 4. Kubernetes Architecture?
+
 Kubernetes Mainly having 2 components
+
 	Master Node --> Control plane Components
   Worker Node --> Worker Node Components
 
@@ -95,12 +100,18 @@ Factors taken into account for scheduling decisions include: individual and coll
 4.	kube-controller-manager
 
 Control plane component that runs controller processes.
+
 Logically, each controller is a separate process, but to reduce complexity, they are all compiled into a single binary and run in a single process.
 There are many different types of controllers. Some examples of them are:
+
 -->	Node controller: Responsible for noticing and responding when nodes go down.
+
 --> Job controller: Watches for Job objects that represent one-off tasks, then creates Pods to run those tasks to completion.
+
 --> Endpoint Slice controller: Populates Endpoint Slice objects (to provide a link between Services and Pods).
+
 --> Service Account controller: Create default Service Accounts for new namespaces.
+
 The above is not an exhaustive list.
 
 ## Worker Node Components ##
@@ -119,3 +130,111 @@ kube-proxy is a network proxy that runs on each node in your cluster, implementi
 
 A Pod is a Kubernetes abstraction that represents a group of one or more application containers (such as Docker), and some shared resources for those containers.
 
+## How to Setup Kubernetes Multi Node Cluster Setup In a Local Machine ##
+
+Reference Link to Install Kuberenets Cluster: https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+Kind Cluster Releases Link: https://github.com/kubernetes-sigs/kind/releases
+
+Follow as per the reference link according to the Operating Systems I.e Windows, MacOS, Linux etc.
+
+1. We are following the kind kubernets cluster to install in our local machine.
+
+2. brew install kind
+
+3. kind create cluster —image kindest/node:v1.31.0@sha256:53df588e04085fd41ae12de0c3fe4c72f7013bba32a20e7325357a1ac94ba865 —name cka-cluster1 
+
+i.e Here Kind create cluster --> Creaeting the cluster 
+    --image kindest/node:v1.31.0@sha256:53df588e04085fd41ae12de0c3fe4c72f7013bba32a20e7325357a1ac94ba865 --> Image releasion version of sha code
+    -- name cka-cluster1 --> Name of the cluster
+
+4. kubectl cluster-info --context kind-cka-cluster1 --> Get the cluster info
+
+5. Install kubectl command line interface in your system which matches the kubernetes version.
+
+6. kubectl get nodes --> Shows in available nodes on the system
+
+7. Currently we have single node which is control plane, we want to setup multi node cluster which requires additional details.
+
+8. Create vi config.yaml and paste the below contenet
+
+```bash
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+```
+9. kind create cluster --image kindest/node:v1.31.0@sha256:53df588e04085fd41ae12de0c3fe4c72f7013bba32a20e7325357a1ac94ba865 --name cka-cluster2 --config config.yaml --> based on the yaml configuration we are installing the 1 control plane and 2 worker nodes.
+
+10. kubectl cluster-info --context kind-cka-cluster2 --> It will display the cluster informationas below.
+
+Kubernetes control plane is running at https://127.0.0.1:50868
+CoreDNS is running at https://127.0.0.1:50868/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+11. kubectl config get-contexts --> It will display the available kubernetes clusters list
+
+![alt text](Available-Kubernetes-clusters-info.png)
+
+`Note`: There are multiple clusters how it's should interact each other we need to set the context here.
+
+12. kubectl config use-context kind-cka-cluster1 --> It will switch the kind-cka-cluster1
+
+13. kubectl config use-context kind-cka-cluster2 --> It will switch the kind-cka-cluster2
+
+14. Finally check the nodes We have one control-plane and 2 worker nodes for kind cluster
+
+kubectl get nodes 
+
+NAME                        STATUS     ROLES         AGE    VERSION
+cka-cluster2-control-plane  Ready   control-plane    11m    v1.31.0
+cka-cluster2-worker         Ready         <none>     10m    v1.31.0
+cka-cluster2-worker2        Ready        <none>      10m    v1.31.0
+
+## Kubernetes Pods ##
+
+In Kubernetes, Pods are the smallest deployable units. You can create
+
+Imperative Approach → Quick, command-based (best for ad-hoc changes)
+
+Declarative Approach → YAML-based, version-controlled (best for production)
+
+![alt text](<Pod_Imperative vs Declarative-1.jpeg>)
+
+Imperative (Command-Based) Approach
+
+1. kubectl run mypod --image=nginx --> Create a Pod instantly
+
+2. kubectl run mypod --image=nginx --dry-run=client --> Dry Run (Preview Before Applying):
+
+3. kubectl run mypod --image=nginx --dry-run=client -o yaml > pod.yaml --> Generate YAML from Dry Run (For Future Use)
+
+4. Declarative (YAML-Based) Approach: --> day-07-pods/pod.yaml
+
+5. kubectl apply -f pod.yaml --> To create a pod based on the yaml structure
+
+6. kubectl describe pod mypod --> To debugging and monitoring and check the events also if in case any errors
+
+7. kubectl get pods --nginx-pod --show-labels --> To check the labels associated with.
+
+8. kubectl get pods nginx-pod --show-labels --> To check on which node pod is running
+
+9. kubectl edit pod nginx-pod --> we can edit the running pod configuration once save it will apply the editable configuration.
+
+## ReplicationController vs ReplicaSet ##
+
+ReplicationController: Ensures a specified number of pod replicas are running at any given time.
+                       Uses equality-based selectors (key=value) to match pods.
+                       Considered deprecated in favor of ReplicaSet. i.e (Old Legacy based)
+
+ReplicaSet: An improved version of ReplicationController.
+            Supports both equality-based and set-based selectors (in, notin operations).
+            Used as part of Deployments to manage pods more efficiently.
+
+            
+
+
+
+ 
