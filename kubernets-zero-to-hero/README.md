@@ -48,5 +48,19 @@ There are many different types of controllers. Some examples of them are:
 --> Service Account controller: Create default Service Accounts for new namespaces.
 The above is not an exhaustive list.
 
+## Worker Node Components ##
 
+Node components run on every node, maintaining running pods and providing the Kubernetes runtime environment.
+
+1. kubelet
+
+An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod. The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. 
+
+2. kube-proxy 
+
+kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept. kube-proxy maintains network rules on nodes. These network rules allow network communication to your Pods from network sessions inside or outside of your cluster.
+
+3. Pod
+
+A Pod is a Kubernetes abstraction that represents a group of one or more application containers (such as Docker), and some shared resources for those containers.
 
