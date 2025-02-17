@@ -23,6 +23,7 @@ Kubernetes vs. Docker: When to Use What?
 |                    |                                               |                                                                              |
 | Self-Healing       | If a container crashes, manual restart needed | Kubernetes automatically restarts failed containers or moves workloads       |
 
+
 Scenarios: When to Use Kubernetes?
 
 1️⃣ Large-Scale Applications
