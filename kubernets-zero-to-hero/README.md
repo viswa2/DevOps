@@ -350,7 +350,7 @@ As part of hands on for the Namespaces:
 
 Attached the Screen shot for reference:
 
-![alt text](<Testing b:w the Pods Using Node Ip.png>)
+![alt text](<Testing between the Pods Using Node Ip.png>)
 
 ✅ Scaled the deployment to multiple replicas
 
