@@ -1,7 +1,7 @@
 1. What is Kubernetes?
 Kubernetes, also known as K8s, is an open-source system for automating deployment, auto-scaling, high availability, self-healing and  management of containerized applications.
 
-Kubernetes vs. Docker: When to Use What?
+2. Kubernetes vs. Docker: When to Use What?
 
 
 |   Feature          |            Docker                             |              Kubernetes                                                      |
@@ -25,7 +25,7 @@ Kubernetes vs. Docker: When to Use What?
 | Self-Healing       | If a container crashes, manual restart needed | Kubernetes automatically restarts failed containers or moves workloads       |
 
 
-Scenarios: When to Use Kubernetes?
+3. Scenarios: When to Use Kubernetes?
 
 1️⃣ Large-Scale Applications
 When your application consists of multiple microservices (e.g., frontend, backend, database, message queues).
@@ -56,7 +56,7 @@ Small-scale Applications: If you have just a few containers and don’t need sca
 
 Quick Prototyping: Deploying a simple blog or personal website.
 
-2. What we can achieve by using Kubernetes?
+4. What we can achieve by using Kubernetes?
 
 High availability --> No down time
 
@@ -64,10 +64,10 @@ High scalability --> High performance
 
 Disaster recovery --> Backup and restore
 
-3. What is Kubernetes orchestration?
+5. What is Kubernetes orchestration?
 Kubernetes orchestration allows you to build application services that span multiple containers, schedule containers across a cluster, scale those containers, and manage their health over time.
 
-4. Kubernetes Architecture?
+6. Kubernetes Architecture?
 
 Kubernetes Mainly having 2 components
 
@@ -84,7 +84,8 @@ This document outlines the various components you need to have for a complete an
 
 The control plane's components make global decisions about the cluster (for example, scheduling), as well as detecting and responding to cluster events (for example, starting up a new pod when a deployment's replicas field is unsatisfied).
 
-1.	Kube-apiserver
+1. Kube-apiserver
+
 The API server is a component of the Kubernetes control plane that exposes the Kubernetes API. The API server is the front end for the Kubernetes control plane.
 The main implementation of a Kubernetes API server is kube-apiserver. kube-apiserver is designed to scale horizontally—that is, it scales by deploying more instances. You can run several instances of kube-apiserver and balance traffic between those instances. kube-apiserver and balance traffic between those instances.
 
@@ -97,7 +98,7 @@ Consistent and highly-available key value store used as Kubernetes' backing stor
 Control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on.
 Factors taken into account for scheduling decisions include: individual and collective resource requirements, hardware/software/policy constraints, affinity and anti-affinity specifications, data locality, inter-workload interference, and deadlines.
 
-4.	kube-controller-manager
+4. kube-controller-manager
 
 Control plane component that runs controller processes.
 
@@ -132,8 +133,9 @@ A Pod is a Kubernetes abstraction that represents a group of one or more applica
 
 ## How to Setup Kubernetes Multi Node Cluster Setup In a Local Machine ##
 
-Reference Link to Install Kuberenets Cluster: https://kind.sigs.k8s.io/docs/user/quick-start/#installation
-Kind Cluster Releases Link: https://github.com/kubernetes-sigs/kind/releases
+`Reference Link to Install Kuberenets Cluster`: https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+
+`Kind Cluster Releases Link`: https://github.com/kubernetes-sigs/kind/releases
 
 Follow as per the reference link according to the Operating Systems I.e Windows, MacOS, Linux etc.
 
@@ -144,7 +146,8 @@ Follow as per the reference link according to the Operating Systems I.e Windows,
 3. kind create cluster —image kindest/node:v1.31.0@sha256:53df588e04085fd41ae12de0c3fe4c72f7013bba32a20e7325357a1ac94ba865 —name cka-cluster1 
 
 i.e Here Kind create cluster --> Creaeting the cluster 
-    --image kindest/node:v1.31.0@sha256:53df588e04085fd41ae12de0c3fe4c72f7013bba32a20e7325357a1ac94ba865 --> Image releasion version of sha code
+
+    --image kindest/node:v1.31.0@sha256:53df588e04085fd41ae12de0c3fe4c72f7013bba32a20e7325357a1ac94ba865 --> Image release version of sha code
     -- name cka-cluster1 --> Name of the cluster
 
 4. kubectl cluster-info --context kind-cka-cluster1 --> Get the cluster info
@@ -165,6 +168,7 @@ nodes:
 - role: worker
 - role: worker
 ```
+
 9. kind create cluster --image kindest/node:v1.31.0@sha256:53df588e04085fd41ae12de0c3fe4c72f7013bba32a20e7325357a1ac94ba865 --name cka-cluster2 --config config.yaml --> based on the yaml configuration we are installing the 1 control plane and 2 worker nodes.
 
 10. kubectl cluster-info --context kind-cka-cluster2 --> It will display the cluster informationas below.
@@ -233,7 +237,143 @@ ReplicaSet: An improved version of ReplicationController.
             Supports both equality-based and set-based selectors (in, notin operations).
             Used as part of Deployments to manage pods more efficiently.
 
-            
+Commands to execute to replicaset:
+
+kubectl create -f replicaset.yaml --> Creating a ReplicaSet
+kubectl get rs --> Listing ReplicaSets
+kubectl describe rs <replicaset-name> --> Describing a ReplicaSet       
+
+Check for more details: `day-08-replicasset & deployment/replicaset.yaml`
+
+## Deployment ##
+
+Deployments provide declarative updates for Pods and ReplicaSets.
+
+Manage rollouts, rollbacks, and scaling of applications.
+
+Check for more details: `day-08-replicasset & deployment/deploy.yaml`
+
+kubectl create -f deployment.yaml --> Creating a Deployment
+
+kubectl get deployments --> Listing Deployments
+
+kubectl rollout status deployment <deployment-name> --> Checking the rollout status
+
+kubectl scale deployment <deployment-name> --replicas=5 --> Scaling a Deployment
+
+kubectl rollout undo deployment <deployment-name> --> Rolling back a Deployment
+ 
+## Kubernetes Services ##
+
+What is a Kubernetes Service?
+
+In Kubernetes, a Service is a method for exposing a network application that is running as one or more Pods in your cluster.
+
+Types of Kubernetes Services ⬇️
+
+ClusterIP (Default) 🌐
+
+✅ Exposes the service internally within the cluster.
+✅ Pods can communicate using the service name.
+✅ Example use case: Internal microservices communication.
+
+`Check for more details for laod balancer`: `day-09-kubernetes-services/clusterip.yaml`
+
+🔸 NodePort 🚪
+
+✅ Exposes the service on each node’s IP and a static port (30000-32767).
+✅ Accessible externally via NodeIP:NodePort.
+✅ Example use case: Direct external access without a LoadBalancer.
+
+🔸 LoadBalancer ⚖️
+
+✅ Provisions an external load balancer (cloud provider-specific).
+✅ Distributes traffic to backend pods.
+✅ Example use case: Exposing an application to the internet.
+
+`Check for more details for laod balancer`: `day-09-kubernetes-services/lb.yaml`
+
+🔸 ExternalName 🔗
+
+✅ Maps a Kubernetes service to an external DNS name.
+✅ Example use case: Redirecting traffic to an external database or API.
+
+`Note`: Since I'm using the KIND cluster which requires an additional step for `extra port mappings of cluster`, It can be useful if using NodePort services or daemonsets exposing host ports. There is no need of additional configuration of extra port mapping yif you were using the AWS EKS, GKS, AKS etc.
+
+`Reference Link for extra ports from the nodes to the host`: https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+
+✅ Deployed a Sample Application 🚀
+
+✅ Exposed the application using ClusterIP, NodePort, and LoadBalancer Services 🌍
+
+✅ Created the load balancer SVC but we are not provisioned the external load balancer with in our system that's the reason external ip is pending.
+
+✅ Tested connectivity within the cluster using kubectl get services and curl <localhost>:<hostport> 🔎 by using the node port service.
+
+kubectl get svc
+NAME           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+nodeport-svc   NodePort    10.96.228.8     <none>        80:30007/TCP   5d23h
+
+`This means:`
+
+The service is running inside the cluster at port 80.
+The NodePort is 30007.
+
+We have mapped containerPort: 30007 → hostPort: 30000, you should test it using: curl localhost:30000
+
+![alt text](SVC-Test-1.png)
+
+Check the details: `day-09-kubernetes-services/nodeport.yaml`
+
+## Kubernetes Namespaces ##
+
+In Kubernetes, namespaces provide a mechanism for isolating groups of resources within a single cluster. Without specifying a namespace, Kubernetes defaults to the default namespace and there are other namepsaces are avilable by default i.e kube-public, kube-system etc.
+
+When to use namespaces?
+
+Namespaces are intended for use in environments with many users spread across multiple teams, or projects. Proper namespace usage avoids conflicts and enhances security in large-scale deployments.
+
+As part of hands on for the Namespaces:
+
+✅ Created two namespaces: `test and test1`
+✅ Deployed an Nginx application in both namespaces
+✅ Logged into the pod and tested communication using NodeIP
+
+Attached the Screen shot for reference:
+
+![alt text](<Testing B:w the Pods Using Node Ip.png>)
+
+✅ Scaled the deployment to multiple replicas
+✅ Exposed the deployment as a service
+
+`Note:` If we use the service In different namespaces the pods won't commuinicate by simply using curl command?
+
+📌 When to Use FQDN (Fully Qualified Domain Name)?
+
+`Note:` When two pods in different namespaces need to communicate using ClusterIP, the `FQDN` must be used. Kubernetes service discovery follows the format:
+
+<service-name>.<namespace>.svc.cluster.local
+
+For example, if a service `nginx-service exists in the test namespace, a pod in test1 namespace can reach it` using as below.
+
+`Ex:` curl nginx-service.test.svc.cluster.local 
+
+This ensures the correct service resolution across namespaces.
+
+📌 Why Don’t Services in Different Namespaces Communicate by Default?
+
+Even though all services exist within the same cluster, Kubernetes limits inter-namespace communication by default due to network policies and DNS resolution rules. Here’s why:
+
+1️⃣ ClusterIP is Namespace-Scoped: When a service is exposed with a ClusterIP, it is only resolvable within its own namespace unless explicitly referenced with FQDN.
+
+2️⃣ Network Policies Can Restrict Access: If NetworkPolicies are applied, they might block traffic between namespaces unless explicitly allowed.
+
+3️⃣ Default DNS Behavior: A pod in test1 querying nginx-service without FQDN will fail because Kubernetes defaults to resolving within the same namespace (test1).
+
+🚀 Solution? If inter-namespace communication is required, use the FQDN and ensure network policies permit the traffic.
+
+![alt text](<Inter-namespace-communication by using fqdn.png>)
+
 
 
 

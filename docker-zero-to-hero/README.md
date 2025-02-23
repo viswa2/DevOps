@@ -94,17 +94,30 @@ touch Dockerfile
 
 Using the text editor of your choice and paste the as below content.
 
-FROM node:18-alpine -->Linux based alpine OS
+```bash
+FROM node:18-alpine 
+WORKDIR /app 
+COPY . . 
+RUN yarn install --production 
+CMD ["node", "src/index.js"] 
+EXPOSE 3000
+``` 
 
-WORKDIR /app -->Work directory which we will execute inside the conatiner
+## Details About Dockerfile ##
 
-COPY . . --> It will copy from source local path to inside container
+Linux based alpine OS
 
-RUN yarn install --production --> It will install yarn package which requires our project
+Work directory which we will execute inside the conatiner
 
-CMD ["node", "src/index.js"] --> It will execute the container which requires to start the application
+It will copy from source local path to inside container
 
-EXPOSE 3000 --> Which exposes the port and access the app over the public internet.
+It will install yarn package which requires our project
+
+It will execute the container which requires to start the application
+
+Which exposes the port and access the app over the public internet.
+
+## How to Build the Docker Image and Push Into the Dockerhub ##
 
 Build the docker image based on application code and Dockerfile
 
@@ -157,6 +170,7 @@ RUN npm run build
 FROM nginx:latest AS deployer
 COPY --from=installer /app/build /usr/share/nginx/html
 ```
+
 5. Uses the official Node.js 18 Alpine-based image, Alpine is a lightweight Linux distribution, reducing the final image size.AS installer part names this build stage (used later in multi-stage copying).
 
 6. Sets /app as the working directory inside the container.
@@ -181,9 +195,4 @@ COPY --from=installer /app/build /usr/share/nginx/html
 15. docker run -it -dp 3000:3000 multistage
 
 16. docker ps
-
-
-
-
-
 
