@@ -274,7 +274,9 @@ Types of Kubernetes Services ⬇️
 ClusterIP (Default) 🌐
 
 ✅ Exposes the service internally within the cluster.
+
 ✅ Pods can communicate using the service name.
+
 ✅ Example use case: Internal microservices communication.
 
 `Check for more details for laod balancer`: `day-09-kubernetes-services/clusterip.yaml`
@@ -282,13 +284,17 @@ ClusterIP (Default) 🌐
 🔸 NodePort 🚪
 
 ✅ Exposes the service on each node’s IP and a static port (30000-32767).
+
 ✅ Accessible externally via NodeIP:NodePort.
+
 ✅ Example use case: Direct external access without a LoadBalancer.
 
 🔸 LoadBalancer ⚖️
 
 ✅ Provisions an external load balancer (cloud provider-specific).
+
 ✅ Distributes traffic to backend pods.
+
 ✅ Example use case: Exposing an application to the internet.
 
 `Check for more details for laod balancer`: `day-09-kubernetes-services/lb.yaml`
@@ -296,6 +302,7 @@ ClusterIP (Default) 🌐
 🔸 ExternalName 🔗
 
 ✅ Maps a Kubernetes service to an external DNS name.
+
 ✅ Example use case: Redirecting traffic to an external database or API.
 
 `Note`: Since I'm using the KIND cluster which requires an additional step for `extra port mappings of cluster`, It can be useful if using NodePort services or daemonsets exposing host ports. There is no need of additional configuration of extra port mapping yif you were using the AWS EKS, GKS, AKS etc.
@@ -336,14 +343,17 @@ Namespaces are intended for use in environments with many users spread across mu
 As part of hands on for the Namespaces:
 
 ✅ Created two namespaces: `test and test1`
+
 ✅ Deployed an Nginx application in both namespaces
+
 ✅ Logged into the pod and tested communication using NodeIP
 
 Attached the Screen shot for reference:
 
-![alt text](<Testing B:w the Pods Using Node Ip.png>)
+![alt text](<Testing B:W the Pods Using Node Ip-1.png>)
 
 ✅ Scaled the deployment to multiple replicas
+
 ✅ Exposed the deployment as a service
 
 `Note:` If we use the service In different namespaces the pods won't commuinicate by simply using curl command?
