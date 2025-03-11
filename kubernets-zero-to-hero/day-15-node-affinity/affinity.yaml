@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     run: redis
-  name: redis3
+  name: redis
 spec:
   containers:
   - image: redis
@@ -18,5 +18,7 @@ spec:
         nodeSelectorTerms:
         - matchExpressions:
           - key: disktype
-            operator: Exists
+            operator: In
+            values:
+            - ssd
 status: {}
