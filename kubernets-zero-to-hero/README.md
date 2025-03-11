@@ -634,14 +634,18 @@ Refernce link for taints&tolerations: `https://kubernetes.io/docs/concepts/sched
 ## Node Affinity ##
 
 🎯 What is Node Affinity?
+
 Node Affinity controls which nodes a pod can be scheduled on based on labels. It is similar to nodeSelector, but more expressive and flexible.
 
 There are two types of Node Affinity:
+
 ✅ requiredDuringSchedulingIgnoredDuringExecution – Hard rule (Pod must be scheduled on a matching node).
 ✅ preferredDuringSchedulingIgnoredDuringExecution – Soft rule (Scheduler prefers matching nodes but doesn’t enforce it).
 
 🛠️ Hands-on with Node Affinity
+
 🏗️ Step 1: Create a Pod with Required Node Affinity
+
 📌 Define node affinity in `day-15-node-affinity/affinity.yaml`
 
 ```bash
@@ -656,34 +660,51 @@ nodeAffinity:
  ```
 
 kubectl apply -f affinity.yaml
+
 kubectl get pods --> Check the pod status
+
 ❌ Pod is Pending because no nodes have the label disktype=ssd
 
 🏷️ Step 2: Label a Node
+
 kubectl label node cka-cluster3-worker disktype=ssd
+
 kubectl get pods
+
 ❌ Still Pending.
 
 🔎 Step 3: Check for Taints
+
 kubectl describe node cka-cluster3-worker | grep "Taints"
+
 💡 The node has a taint! Taints override affinity, preventing pod scheduling.
+
 🚀 Remove the taint:
 
 kubectl taint nodes cka-cluster3-worker gpu=false:NoSchedule-
+
 Check pod status again:
+
 kubectl get pods
+
 ✅ Now, the pod is Running! 🎯
 
 ⚖️ Step 4: Deploy a Pod with Preferred Node Affinity use the same pod configuration as above only change is node affinity with the preferred during scheduling ignore during execution.
+
 📌 Define `day-15-node-affinity/affinity2.yaml` with a preferred rule:
 
 kubectl apply -f affinity2.yaml
+
 kubectl get pods --> Check the pod status
+
 ✅ Pod is Running!
 
 🔄 Step 5: Remove Node Label
+
 kubectl label node cka-cluster3-worker disktype-
+
 🚀 Add a blank label to simulate an empty label:
+
 kubectl label node cka-cluster3-worker disktype=
 
 🔧 Step 6: Modify `affinity.yaml` for a New Pod with the pod name redis3 and key with the disk type and operator exists. remaining configuration as same.
@@ -698,10 +719,13 @@ spec:
  operator: Exists
  ```
  kubectl apply -f affinity.yaml
+
 kubectl get pods --> Check the redis3 pod status
+
 ✅ redis3 pod is Running!
 
 🚀 When to use which?
+
 ✅ Use Node Affinity when you want pods to prefer or require certain nodes based on labels.
 
 ✅ Use Taints & Tolerations when you want nodes to control which pods can run on them.
@@ -711,40 +735,52 @@ Reference link for node affinity: `https://kubernetes.io/docs/tasks/configure-po
 ## Kubernetes Resource Requests&Limits ##
 
 📌 Managing Pod Resource Allocation
+
 1️⃣ Deployed Metrics Server
 
 Deployed metrics server in kube-system namespace to collect resource usage metrics.
 
 🚀 Verified deployment
+
 ✅ kubectl get pods -n kube-system | grep metrics-server
+
 If not available deploy using `day-16-resource-requests/metrics-server.yaml` file then try again as above command.
 
 🚀Checked node utilization
+
 ✅ kubectl top node
 
 2️⃣ Deployed a pod with memory requests & limits
+
 ✅ Created `day-16-resource-requests/memory-requests.yaml` with:
 
 Create a namespace called mem-example
 ✅ kubectl create ns mem-example
 
 ✅ kubectl apply -f memory-requests.yaml -n mem-example
+
 Checked pod memory usage:
+
 ✅ kubectl describe pod memory-demo -n mem-example
+
 Pod running within limits ✅
 
 3️⃣ Deployed another pod exceeding memory limits
+
 Created `day-16-resource-requests/memory2.yaml` with:
 
 ✅ kubectl apply -f memory2.yaml
+
 Pod failed with OOMKilled (Out of Memory) error ❌ due to which is consuming more than limits memory.
 
-Fix: Adjust the arguments which we are passing, it's must be with in the range of resource limits, pod doesn't to be exceded i.e `args: ["--vm", "1", "--vm-bytes", "100M", "--vm-hang", "1"]`
+`Fix`: Adjust the arguments which we are passing, it's must be with in the range of resource limits, pod doesn't to be exceded i.e `args: ["--vm", "1", "--vm-bytes", "100M", "--vm-hang", "1"]`
 
 4️⃣ Deployed a pod requesting more memory than available on node
+
 ✅ Created `day-16-resource-requests/memory3.yaml` with:
 
 ✅ kubectl apply -f memory3.yaml 
+
 Pod status → Pending due to insufficient resources ❌ Since node does not have enough resources to schedule a pod
 
 5️⃣ Reduced memory requests & limits → Pod scheduled successfully
