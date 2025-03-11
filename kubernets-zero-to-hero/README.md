@@ -384,7 +384,28 @@ Even though all services exist within the same cluster, Kubernetes limits inter-
 
 ![alt text](<Inter-namespace-communication by using fqdn.png>)
 
+## Multi Container Pod ##
 
+What are Init Containers in Kubernetes?
 
+✅ Init containers are specialized containers in a Pod that run before the main application containers start. They help with `pre-initialization tasks like setting up configurations, checking dependencies`, or waiting for services to be ready.
 
- 
+`Note:` Unlike regular application containers, init containers always run to completion before the main container starts. If an init container fails, Kubernetes will restart it until it succeeds.
+
+Why do we need Init Containers?
+✅ Dependency Management: Ensure required services are running before starting the main application.
+✅ Configuration Preparation: Fetch configuration files or secrets before launching the application.
+✅ Data Initialization: Pre-populate databases or prepare data for the main container.
+✅ Security: Run pre-start security checks before the main app runs.
+
+Created a multi-container pod where an init container runs a script before launching an Nginx container.
+
+`Check the Configuration details`: day-11-multi-container-pod/pod.yaml
+
+kubectl apply -f pod.yaml 
+kubectl get pod 
+kubectl logs myapp -c init-myservice
+
+✅ Created Two Deployments and Two Services: Defined and deployed two Kubernetes deployments and corresponding services—myservice and mydb. Each deployment ensures that the required pods are up and running to support application functionality.
+
+✅ Used Init Containers for Service Dependency Management: Added initContainers in the pod specification to ensure that dependent services (myservice and mydb) are available before the main container starts. The initContainers use a busybox:1.35 image with nslookup commands to continuously check for service availability, ensuring proper startup sequencing
