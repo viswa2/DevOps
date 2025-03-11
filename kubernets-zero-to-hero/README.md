@@ -407,7 +407,9 @@ Created a multi-container pod where an init container runs a script before launc
 Check the Configuration details: `day-11-multi-container-pod/pod.yaml`
 
 kubectl apply -f pod.yaml 
+
 kubectl get pod 
+
 kubectl logs myapp -c init-myservice
 
 ✅ Created Two Deployments and Two Services: Defined and deployed two Kubernetes deployments and corresponding services—myservice and mydb. Each deployment ensures that the required pods are up and running to support application functionality.
@@ -435,7 +437,9 @@ Check the Configuration details: `day-12-daemoset:jobvscronjob/daemonset.yaml`
 🔹 Hands-on Command:
 
 kubectl apply -f daemonset.yaml 
+
 kubectl get ds -A --> To check the all pods 
+
 k config use-context kind-cka-cluster2 --> To switch the context and check the daemonset pods in the cluster
 
 Reference link for more details: `https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/`
@@ -443,13 +447,17 @@ Reference link for more details: `https://kubernetes.io/docs/concepts/workloads/
 🔹 Job vs. CronJob in Kubernetes
 
 📌 Job:
+
 ✅ Runs a task once and ensures it completes successfully.
+
 ✅ Use Case: Data processing, batch jobs, or one-time tasks like database migration
 
 Reference link for job: `https://kubernetes.io/docs/concepts/workloads/controllers/job/`
 
 📌 CronJob:
+
 ✅ Runs a Job on a schedule (like a Linux cron job).
+
 ✅ Use Case: Automated periodic tasks such as log rotation, backups, or cleanup jobs.
 
 ![alt text](Cronjob.png)
@@ -467,6 +475,7 @@ cd /etc/kubernetes/manifests/
 ls -lrt i.e etcd.yaml, kube-apiserver.yaml, kube-scheduler.yaml, kube-controller-manager.yaml etc.
 
 📌 Static Pods
+
 ✅ Static Pods are directly managed by the Kubelet without an scheduler.
 
 ✅ Their manifests are stored in /etc/kubernetes/manifests/.
@@ -480,21 +489,29 @@ ls -lrt i.e etcd.yaml, kube-apiserver.yaml, kube-scheduler.yaml, kube-controller
 ⚡ Since the scheduler is responsible for assigning pods to nodes, new pods may remain in the Pending state.
 
 🔍 Steps to Verify:
+
 1️⃣ Move the kube-scheduler.yaml file:
+
 sudo mv /etc/kubernetes/manifests/kube-scheduler.yaml /tmp/
 
 2️⃣ Check the status of the scheduler pod:
+
 kubectl get pods -n kube-system
+
 The kube-scheduler pod should disappear or not be recreated.
 
 3️⃣ Create a test pod:
+
 kubectl run nginx --image=nginx
 
 4️⃣ Check the pod status:
+
 kubectl get pods
+
 The pod may remain Pending due to the missing scheduler.
 
 5️⃣ Restore the scheduler by moving the manifest back:
+
 sudo mv /tmp/kube-scheduler.yaml /etc/kubernetes/manifests/
 
 Reference link for static pod: `https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/`
@@ -508,6 +525,7 @@ Reference link for static pod: `https://kubernetes.io/docs/tasks/configure-pod-c
 Check the configuration: `day-13-selectors/node-selector.yaml`
 
 ⚙️ Apply it with:
+
 kubectl apply -f node-selector.yaml
 
 ⚙️ The pod will be assigned to the specified node directly since we have added the `node name in the pod configuration`.
@@ -515,6 +533,7 @@ kubectl apply -f node-selector.yaml
 🔖 Selectors & Labels:
 
 🏷️ Labels are key-value pairs attached to Kubernetes objects. 
+
 🎯 Selectors help in grouping objects based on labels.
 
 In the above node-selector.yaml file we have a label called `run: nginx` after deploying search like as below.
@@ -524,11 +543,13 @@ k get pod -n default --show-labels --> Result should be i.e `run=nginx`
 ## Taints, Tolerations & Node Selectors ##
 
 Taints --> For Nodes
+
 Tolerations --> For pods
 
 ![alt text](Taints&Tolerations.png)
 
 🎯 What are Taints & Tolerations?
+
 ✅ Taints prevent pods from being scheduled on specific nodes unless they tolerate the taint.
 
 ✅ Tolerations allow pods to be scheduled on tainted nodes.
@@ -544,18 +565,23 @@ NoSchedule --> No new Pods will be scheduled on the tainted node unless they hav
 PreferNoSchedule --> Is a "preference" or "soft" version of NoSchedule. The control plane will try to avoid placing a Pod that does not tolerate the taint on the node, but it is not guaranteed.
 
  Where do we use them?
+
 ✅ When you want to dedicate nodes for specific workloads (e.g., GPU workloads).
 
 ✅ When you need to prevent certain workloads from running on specific nodes.
 
 🛠️ Hands-on with Taints & Tolerations
+
 ⚡ Step 1: Cluster Setup
 
 I have a existing KIND cluster with:
+
 ✅ 1 Control Plane
+
 ✅ 2 Worker Nodes (cka-cluster3-worker, cka-cluster3-worker2)
 
 🛑 Step 2: Tainting the Nodes
+
 I applied a taint to `cka-cluster3-worker` to prevent pods from scheduling unless they have a toleration:
 
 kubectl taint nodes cka-cluster3-worker gpu=true:NoSchedule
@@ -567,10 +593,13 @@ kubectl taint nodes cka-cluster3-worker gpu=true:NoSchedule
 kubectl run nginx --image=nginx
 
 🔍 Check Pod Status:
+
 kubectl get pods
+
 ❌ The pod is Pending because it doesn’t tolerate the taint.
 
 ✅ Step 4: Creating a Pod with Toleration
+
 Now, let’s create a Redis pod that can run on the tainted node.
 
 kubectl run redis --image=redis --dry-run=client -o yaml > taint-redis.yaml
@@ -587,37 +616,52 @@ tolerations:
 kubectl apply -f taint-redis.yaml
 
 kubectl get pods
+
 ✅ Redis pod is Running 🎉
 
 🔄 Step 5: Untainting the Node
+
 The nginx pod is still Pending since it doesn’t tolerate the taint. Let’s remove the taint:
+
 kubectl taint nodes cka-cluster3-worker gpu=true:NoSchedule-
 
 🔍 Check Pod Status:
+
 kubectl get pods
+
 ✅ Now, the nginx pod is Running 🚀
 
 🔖 Node Selectors in Kubernetes
+
 📌 Use Case: Scheduling pods on specific nodes based on labels.
+
 🏷️ Step 1: Creating a Pod with a Node Selector
 
 kubectl run nginx-new --image=nginx --dry-run=client -o yaml > node-selector.yaml
+
 Modify node-selector.yaml to include a nodeSelector:
 
+```bash
 nodeSelector: 
  gpu: "false"
+``` 
 
 Apply the manifest:
+
 kubectl apply -f node-selector.yaml
 
 kubectl get pods
+
 ❌ The pod is Pending because no nodes match the label gpu=false.
 
 🔖 Step 2: Labeling a Node
+
 Let's assign the required label to cka-cluster3-worker2:
+
 kubectl label nodes cka-cluster3-worker2 gpu=false
 
 kubectl get pods
+
 ✅ Pod is Running on cka-cluster3-worker2 🎯
 
 `Important Note:`
@@ -640,6 +684,7 @@ Node Affinity controls which nodes a pod can be scheduled on based on labels. It
 There are two types of Node Affinity:
 
 ✅ requiredDuringSchedulingIgnoredDuringExecution – Hard rule (Pod must be scheduled on a matching node).
+
 ✅ preferredDuringSchedulingIgnoredDuringExecution – Soft rule (Scheduler prefers matching nodes but doesn’t enforce it).
 
 🛠️ Hands-on with Node Affinity
@@ -794,11 +839,4 @@ Pod status → Pending due to insufficient resources ❌ Since node does not hav
 ✅ OOMKilled: Pod exceeded memory limit, causing the container to be terminated.
 
 ✅ Pending Pod: Node doesn’t have enough free memory to satisfy requests.
-
-
-
-
-
-
-
 
