@@ -12,7 +12,7 @@ spec:
   - name: init-mydb
     image: busybox:1.35
     command: ["sh", "-c", "until nslookup mydb.default.svc.cluster.local; do echo waiting for service to be up; sleep 2; done"]  
-    
+  #App Container  
   containers: 
   - name: myapp-container
     image: busybox:1.35

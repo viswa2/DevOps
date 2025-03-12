@@ -384,7 +384,459 @@ Even though all services exist within the same cluster, Kubernetes limits inter-
 
 ![alt text](<Inter-namespace-communication by using fqdn.png>)
 
+## Multi Container Pod ##
 
+What are Init Containers in Kubernetes?
 
+✅ Init containers are specialized containers in a Pod that run before the main application containers start. They help with `pre-initialization tasks like setting up configurations, checking dependencies`, or waiting for services to be ready.
 
- 
+`Note:` Unlike regular application containers, init containers always run to completion before the main container starts. If an init container fails, Kubernetes will restart it until it succeeds.
+
+Why do we need Init Containers?
+
+✅ Dependency Management: Ensure required services are running before starting the main application.
+
+✅ Configuration Preparation: Fetch configuration files or secrets before launching the application.
+
+✅ Data Initialization: Pre-populate databases or prepare data for the main container.
+
+✅ Security: Run pre-start security checks before the main app runs.
+
+Created a multi-container pod where an init container runs a script before launching an Nginx container.
+
+Check the Configuration details: `day-11-multi-container-pod/pod.yaml`
+
+kubectl apply -f pod.yaml 
+
+kubectl get pod 
+
+kubectl logs myapp -c init-myservice
+
+✅ Created Two Deployments and Two Services: Defined and deployed two Kubernetes deployments and corresponding services—myservice and mydb. Each deployment ensures that the required pods are up and running to support application functionality.
+
+✅ Used Init Containers for Service Dependency Management: Added initContainers in the pod specification to ensure that dependent services (myservice and mydb) are available before the main container starts. The initContainers use a busybox:1.35 image with nslookup commands to continuously check for service availability, ensuring proper startup sequencing
+
+## DaemonSet ##
+
+What is DaemonSet?
+
+A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. When a new node added to the cluster, a DaemonSet automatically schedules a pod on that node. As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
+
+🔹Use Cases for DaemonSet:
+
+✅ Log Collection Agents: Running a centralized logging agent like Fluentd or Logstash on every node.
+
+✅ Monitoring Agents: Deploying node-level monitoring tools like Prometheus Node Exporter.
+
+✅ Network Plugins: Installing network components like Calico, Cilium, or Weave Net.
+
+✅ Storage Daemons: Running a pod on every node for distributed storage solutions like Ceph or GlusterFS.
+
+Check the Configuration details: `day-12-daemoset:jobvscronjob/daemonset.yaml`
+
+🔹 Hands-on Command:
+
+kubectl apply -f daemonset.yaml 
+
+kubectl get ds -A --> To check the all pods 
+
+k config use-context kind-cka-cluster2 --> To switch the context and check the daemonset pods in the cluster
+
+Reference link for more details: `https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/`
+
+🔹 Job vs. CronJob in Kubernetes
+
+📌 Job:
+
+✅ Runs a task once and ensures it completes successfully.
+
+✅ Use Case: Data processing, batch jobs, or one-time tasks like database migration
+
+Reference link for job: `https://kubernetes.io/docs/concepts/workloads/controllers/job/`
+
+📌 CronJob:
+
+✅ Runs a Job on a schedule (like a Linux cron job).
+
+✅ Use Case: Automated periodic tasks such as log rotation, backups, or cleanup jobs.
+
+![alt text](Cronjob.png)
+
+Reference link for cronjob: `https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/`
+
+## Static Pods, Manual Pods & Selectors ##
+
+Each kubernetes node act as a docker container. By default a namespace called `kube-system` which is having a pods for kubernetes components i.e etcd, kube-apiserver, kube-proxy, kube-scheduler etc.
+
+docker exec -it cka-cluster3-control-plane bash
+
+cd /etc/kubernetes/manifests/
+
+ls -lrt i.e etcd.yaml, kube-apiserver.yaml, kube-scheduler.yaml, kube-controller-manager.yaml etc.
+
+📌 Static Pods
+
+✅ Static Pods are directly managed by the Kubelet without an scheduler.
+
+✅ Their manifests are stored in /etc/kubernetes/manifests/.
+
+✅ The Kubelet monitors this directory and automatically creates/deletes pods based on the manifest files.
+
+🛠️ Testing Static Pods Behavior
+
+⚡ If we move kube-scheduler.yaml from /etc/kubernetes/manifests/ to /tmp/, the static pod will not be recreated. 
+
+⚡ Since the scheduler is responsible for assigning pods to nodes, new pods may remain in the Pending state.
+
+🔍 Steps to Verify:
+
+1️⃣ Move the kube-scheduler.yaml file:
+
+sudo mv /etc/kubernetes/manifests/kube-scheduler.yaml /tmp/
+
+2️⃣ Check the status of the scheduler pod:
+
+kubectl get pods -n kube-system
+
+The kube-scheduler pod should disappear or not be recreated.
+
+3️⃣ Create a test pod:
+
+kubectl run nginx --image=nginx
+
+4️⃣ Check the pod status:
+
+kubectl get pods
+
+The pod may remain Pending due to the missing scheduler.
+
+5️⃣ Restore the scheduler by moving the manifest back:
+
+sudo mv /tmp/kube-scheduler.yaml /etc/kubernetes/manifests/
+
+Reference link for static pod: `https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/`
+
+🏗️ Manual Scheduling
+
+⚙️ If a pod does not have a scheduler assigned, it will remain in the Pending state. 
+
+⚙️ You can manually schedule a pod by specifying a node using nodeName in the pod spec:
+
+Check the configuration: `day-13-selectors/node-selector.yaml`
+
+⚙️ Apply it with:
+
+kubectl apply -f node-selector.yaml
+
+⚙️ The pod will be assigned to the specified node directly since we have added the `node name in the pod configuration`.
+
+🔖 Selectors & Labels:
+
+🏷️ Labels are key-value pairs attached to Kubernetes objects. 
+
+🎯 Selectors help in grouping objects based on labels.
+
+In the above node-selector.yaml file we have a label called `run: nginx` after deploying search like as below.
+
+k get pod -n default --show-labels --> Result should be i.e `run=nginx`
+
+## Taints, Tolerations & Node Selectors ##
+
+Taints --> For Nodes
+
+Tolerations --> For pods
+
+![alt text](Taints&Tolerations.png)
+
+🎯 What are Taints & Tolerations?
+
+✅ Taints prevent pods from being scheduled on specific nodes unless they tolerate the taint.
+
+✅ Tolerations allow pods to be scheduled on tainted nodes.
+
+We have 3 types of tolerations:
+
+NoExecute --> This affects pods that are already running on the node as follows:
+              Pods that do not tolerate the taint are evicted immediately
+              Pods that tolerate the taint without specifying tolerationSeconds in their toleration specification remain bound forever
+
+NoSchedule --> No new Pods will be scheduled on the tainted node unless they have a matching toleration. Pods currently running on the node are not evicted.
+
+PreferNoSchedule --> Is a "preference" or "soft" version of NoSchedule. The control plane will try to avoid placing a Pod that does not tolerate the taint on the node, but it is not guaranteed.
+
+ Where do we use them?
+
+✅ When you want to dedicate nodes for specific workloads (e.g., GPU workloads).
+
+✅ When you need to prevent certain workloads from running on specific nodes.
+
+🛠️ Hands-on with Taints & Tolerations
+
+⚡ Step 1: Cluster Setup
+
+I have a existing KIND cluster with:
+
+✅ 1 Control Plane
+
+✅ 2 Worker Nodes (cka-cluster3-worker, cka-cluster3-worker2)
+
+🛑 Step 2: Tainting the Nodes
+
+I applied a taint to `cka-cluster3-worker` to prevent pods from scheduling unless they have a toleration:
+
+kubectl taint nodes cka-cluster3-worker gpu=true:NoSchedule
+
+📌 Effect: Any pod without a matching toleration will remain in Pending state.
+
+🚀 Step 3: Deploying a Pod (Without Toleration)
+
+kubectl run nginx --image=nginx
+
+🔍 Check Pod Status:
+
+kubectl get pods
+
+❌ The pod is Pending because it doesn’t tolerate the taint.
+
+✅ Step 4: Creating a Pod with Toleration
+
+Now, let’s create a Redis pod that can run on the tainted node.
+
+kubectl run redis --image=redis --dry-run=client -o yaml > taint-redis.yaml
+
+Add the following toleration inside `day-14-tolerations and taints/taint-redis.yaml`
+
+```bash
+tolerations:
+ - key: "gpu"
+ operator: "Equal"
+ value: "true"
+ effect: "NoSchedule"
+ ```
+kubectl apply -f taint-redis.yaml
+
+kubectl get pods
+
+✅ Redis pod is Running 🎉
+
+🔄 Step 5: Untainting the Node
+
+The nginx pod is still Pending since it doesn’t tolerate the taint. Let’s remove the taint:
+
+kubectl taint nodes cka-cluster3-worker gpu=true:NoSchedule-
+
+🔍 Check Pod Status:
+
+kubectl get pods
+
+✅ Now, the nginx pod is Running 🚀
+
+🔖 Node Selectors in Kubernetes
+
+📌 Use Case: Scheduling pods on specific nodes based on labels.
+
+🏷️ Step 1: Creating a Pod with a Node Selector
+
+kubectl run nginx-new --image=nginx --dry-run=client -o yaml > node-selector.yaml
+
+Modify node-selector.yaml to include a nodeSelector:
+
+```bash
+nodeSelector: 
+ gpu: "false"
+``` 
+
+Apply the manifest:
+
+kubectl apply -f node-selector.yaml
+
+kubectl get pods
+
+❌ The pod is Pending because no nodes match the label gpu=false.
+
+🔖 Step 2: Labeling a Node
+
+Let's assign the required label to cka-cluster3-worker2:
+
+kubectl label nodes cka-cluster3-worker2 gpu=false
+
+kubectl get pods
+
+✅ Pod is Running on cka-cluster3-worker2 🎯
+
+`Important Note:`
+✅ Taints & Tolerations prevent or allow pod scheduling on specific nodes.
+
+✅ Pods without matching tolerations remain in Pending state.
+
+✅ Node Selectors help schedule pods on labeled nodes.
+
+✅ Labeling a node after deploying a pod updates the pod scheduling automatically.
+
+Refernce link for taints&tolerations: `https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/`
+
+## Node Affinity ##
+
+🎯 What is Node Affinity?
+
+Node Affinity controls which nodes a pod can be scheduled on based on labels. It is similar to nodeSelector, but more expressive and flexible.
+
+There are two types of Node Affinity:
+
+✅ requiredDuringSchedulingIgnoredDuringExecution – Hard rule (Pod must be scheduled on a matching node).
+
+✅ preferredDuringSchedulingIgnoredDuringExecution – Soft rule (Scheduler prefers matching nodes but doesn’t enforce it).
+
+🛠️ Hands-on with Node Affinity
+
+🏗️ Step 1: Create a Pod with Required Node Affinity
+
+📌 Define node affinity in `day-15-node-affinity/affinity.yaml`
+
+```bash
+nodeAffinity:
+ requiredDuringSchedulingIgnoredDuringExecution:
+ nodeSelectorTerms:
+ - matchExpressions:
+ - key: disktype
+ operator: In
+ values:
+ - ssd
+ ```
+
+kubectl apply -f affinity.yaml
+
+kubectl get pods --> Check the pod status
+
+❌ Pod is Pending because no nodes have the label disktype=ssd
+
+🏷️ Step 2: Label a Node
+
+kubectl label node cka-cluster3-worker disktype=ssd
+
+kubectl get pods
+
+❌ Still Pending.
+
+🔎 Step 3: Check for Taints
+
+kubectl describe node cka-cluster3-worker | grep "Taints"
+
+💡 The node has a taint! Taints override affinity, preventing pod scheduling.
+
+🚀 Remove the taint:
+
+kubectl taint nodes cka-cluster3-worker gpu=false:NoSchedule-
+
+Check pod status again:
+
+kubectl get pods
+
+✅ Now, the pod is Running! 🎯
+
+⚖️ Step 4: Deploy a Pod with Preferred Node Affinity use the same pod configuration as above only change is node affinity with the preferred during scheduling ignore during execution.
+
+📌 Define `day-15-node-affinity/affinity2.yaml` with a preferred rule:
+
+kubectl apply -f affinity2.yaml
+
+kubectl get pods --> Check the pod status
+
+✅ Pod is Running!
+
+🔄 Step 5: Remove Node Label
+
+kubectl label node cka-cluster3-worker disktype-
+
+🚀 Add a blank label to simulate an empty label:
+
+kubectl label node cka-cluster3-worker disktype=
+
+🔧 Step 6: Modify `affinity.yaml` for a New Pod with the pod name redis3 and key with the disk type and operator exists. remaining configuration as same.
+
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+ name: redis3
+spec:
+ - key: disktype
+ operator: Exists
+ ```
+ kubectl apply -f affinity.yaml
+
+kubectl get pods --> Check the redis3 pod status
+
+✅ redis3 pod is Running!
+
+🚀 When to use which?
+
+✅ Use Node Affinity when you want pods to prefer or require certain nodes based on labels.
+
+✅ Use Taints & Tolerations when you want nodes to control which pods can run on them.
+
+Reference link for node affinity: `https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/`
+
+## Kubernetes Resource Requests&Limits ##
+
+📌 Managing Pod Resource Allocation
+
+1️⃣ Deployed Metrics Server
+
+Deployed metrics server in kube-system namespace to collect resource usage metrics.
+
+🚀 Verified deployment
+
+✅ kubectl get pods -n kube-system | grep metrics-server
+
+If not available deploy using `day-16-resource-requests/metrics-server.yaml` file then try again as above command.
+
+🚀Checked node utilization
+
+✅ kubectl top node
+
+2️⃣ Deployed a pod with memory requests & limits
+
+✅ Created `day-16-resource-requests/memory-requests.yaml` with:
+
+Create a namespace called mem-example
+✅ kubectl create ns mem-example
+
+✅ kubectl apply -f memory-requests.yaml -n mem-example
+
+Checked pod memory usage:
+
+✅ kubectl describe pod memory-demo -n mem-example
+
+Pod running within limits ✅
+
+3️⃣ Deployed another pod exceeding memory limits
+
+Created `day-16-resource-requests/memory2.yaml` with:
+
+✅ kubectl apply -f memory2.yaml
+
+Pod failed with OOMKilled (Out of Memory) error ❌ due to which is consuming more than limits memory.
+
+`Fix`: Adjust the arguments which we are passing, it's must be with in the range of resource limits, pod doesn't to be exceded i.e `args: ["--vm", "1", "--vm-bytes", "100M", "--vm-hang", "1"]`
+
+4️⃣ Deployed a pod requesting more memory than available on node
+
+✅ Created `day-16-resource-requests/memory3.yaml` with:
+
+✅ kubectl apply -f memory3.yaml 
+
+Pod status → Pending due to insufficient resources ❌ Since node does not have enough resources to schedule a pod
+
+5️⃣ Reduced memory requests & limits → Pod scheduled successfully
+
+`Key Notes:`
+
+✅ Resource Requests: Minimum guaranteed resources for a pod.
+
+✅ Resource Limits: Maximum resource allocation to prevent excessive usage.
+
+✅ OOMKilled: Pod exceeded memory limit, causing the container to be terminated.
+
+✅ Pending Pod: Node doesn’t have enough free memory to satisfy requests.
+
