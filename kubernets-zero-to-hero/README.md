@@ -800,6 +800,7 @@ If not available deploy using `day-16-resource-requests/metrics-server.yaml` fil
 ✅ Created `day-16-resource-requests/memory-requests.yaml` with:
 
 Create a namespace called mem-example
+
 ✅ kubectl create ns mem-example
 
 ✅ kubectl apply -f memory-requests.yaml -n mem-example
@@ -818,7 +819,9 @@ Created `day-16-resource-requests/memory2.yaml` with:
 
 Pod failed with OOMKilled (Out of Memory) error ❌ due to which is consuming more than limits memory.
 
-`Fix`: Adjust the arguments which we are passing, it's must be with in the range of resource limits, pod doesn't to be exceded i.e `args: ["--vm", "1", "--vm-bytes", "100M", "--vm-hang", "1"]`
+`Fix`: Adjust the arguments which we are passing, it's must be with in the range of resource limits, pod doesn't to be exceded 
+
+i.e `args: ["--vm", "1", "--vm-bytes", "100M", "--vm-hang", "1"]`
 
 4️⃣ Deployed a pod requesting more memory than available on node
 
