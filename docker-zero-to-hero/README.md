@@ -196,3 +196,32 @@ COPY --from=installer /app/build /usr/share/nginx/html
 
 16. docker ps
 
+## How Does Docker Works Internally ##
+
+1. when you run docker build Docker reads the `Dockerfile` line by line. it uses your current folder as the build context.
+
+2. Each line in a Dockerfile creats a new image layer. These layers are saved as compressed files inside Docker’s storage.
+
+3. Docker uses union file system like OverlayFS. It stacks all layers from singel container file system.
+
+4. When you run `docker run` Docker takes the image adds a writable layer on top, that becomes a container.
+
+5. The container is just process on your machine. It runs with its’ own isolated environment using linux namespaces and groups.
+
+6. Namespaces isolate process ID, hostnames, network, mount points, shared memory, Cgroups Control CPU, RAM and I/O usgae.
+
+7. Docker gives a container virtual Ethernet interface. By default, it’s connected to the `docker0` bridge.
+
+8. If you use -p to map ports, Docker set’s Ip tables rules. This forwards traffic from your host to container.
+
+9. The docker daemon(`dockerd`) runs in the background. it handles builds, containers, images, volumes and networks.
+
+10. The docker CLI talks to the daemon using REST API, it’s connect over a unix socket or TCP.
+
+11. Docker Volumes lives outside the container layer. They’re stoared in `various/lib/docker/volumes` and survie container restarts.
+
+12. Any change inside the container is temporary. If you delete the container, the changes are gone useless saved  to a imgae or volume.
+
+13. Docker uses content-based hashes for layers. This makes layers are reusable, cacheable and easy to share.
+
+14. When you push the image, Docker checks with the layers are already in the registry. it’s only uploads what’s missing.

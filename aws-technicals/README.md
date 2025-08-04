@@ -1,5 +1,42 @@
 ## AWS Technical Essentials ##
 
+How to connect from jumphost/jumpbox server to other private EC2 instance?
+
+1. Create the jumphost server with the prublic subnet, public route table with the internet gateway.
+
+2. Auto enabled the public Ip
+
+3. Create the .pem file 
+
+4. Download the .pem file
+
+5. chmod 0400 <.pem file name>
+
+6. Try to connect in the terminal by using ssh -i  <.pem file> ec2-user@public_ip of Ec2 instance.
+
+7. Once suceesfully connected in the terminal, copy the .pem file into the jumphost server by using as below command.
+
+8. scp -i /Users/mekalaviswanathareddy/Downloads/new-env.pem  /Users/mekalaviswanathareddy/Downloads/new-env.pem ec2-user@public_ip:/home/ec2-user
+
+9. chmod 400 /home/ec2-user/new-env.pem
+
+10. Once it’s copied successfully try to connect by using SSH with the Private ec2 instance i.e ssh -i new-env.pem ec2-user@private_ip
+
+If i want to connect the hostname instead of private ip?
+
+1. vi /etc/hosts i.e 3.80.93.106 nifi-test ec2 instance Private ip and hostname or ec2 instance name
+
+2. vi ~/.ssh/config add the following contennt
+
+```bash
+Host nifi-qa
+	HostName <Private _IP>
+	User ec2-user
+   IdentifyFile /Path/to/key.pem file
+```       
+
+3. Try to connect `ssh nifi-qa`
+
 ## IAM (Identity Access Management) ##
 
 `Authentication:`
