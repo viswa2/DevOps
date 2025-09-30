@@ -1,473 +1,791 @@
-## AWS Technical Essentials ##
+# AWS Technical Essentials
+
+## Table of Contents
+- [Connecting to Private EC2 Instances via Jump Host](#connecting-to-private-ec2-instances-via-jump-host)
+- [IAM (Identity and Access Management)](#iam-identity-and-access-management)
+- [EC2 (Elastic Compute Cloud)](#ec2-elastic-compute-cloud)
+- [Amazon Machine Image (AMI)](#amazon-machine-image-ami)
+- [Application Load Balancer](#application-load-balancer)
+- [S3 Bucket Management](#s3-bucket-management)
+- [Static Website Hosting](#static-website-hosting)
+- [S3 Replication Rules](#s3-replication-rules)
+- [S3 Bucket Policy for Restricted Access](#s3-bucket-policy-for-restricted-access)
+- [CloudFormation](#cloudformation)
+- [CloudFront CDN](#cloudfront-cdn)
+- [AWS Shared Responsibility Model](#aws-shared-responsibility-model)
+- [VPC and EC2 Deployment](#vpc-and-ec2-deployment)
+- [Private Subnet Application Deployment](#private-subnet-application-deployment)
+- [AWS CodeCommit](#aws-codecommit)
+- [AWS CodeBuild](#aws-codebuild)
+- [AWS CodePipeline](#aws-codepipeline)
+- [AWS CodeDeploy](#aws-codedeploy)
+- [AWS CloudWatch](#aws-cloudwatch)
+- [AWS Lambda](#aws-lambda)
+- [AWS Cost Optimization](#aws-cost-optimization)
+- [ECR (Elastic Container Registry)](#ecr-elastic-container-registry)
+
+---
+
+## Connecting to Private EC2 Instances via Jump Host
+
+### How to connect from jump host/jump box server to other private EC2 instance?
+
+#### Step-by-Step Process:
+
+1. **Create the jump host server** with the public subnet, public route table with the internet gateway
+2. **Auto-enable the public IP**
+3. **Create the .pem file**
+4. **Download the .pem file**
+5. **Set proper permissions:**
+   ```bash
+   chmod 0400 <.pem file name>
+   ```
+6. **Connect to jump host:**
+   ```bash
+   ssh -i <.pem file> ec2-user@<public_ip>
+   ```
+7. **Copy the .pem file to the jump host:**
+   ```bash
+   scp -i /Users/mekalaviswanathareddy/Downloads/new-env.pem \
+       /Users/mekalaviswanathareddy/Downloads/new-env.pem \
+       ec2-user@<public_ip>:/home/ec2-user
+   ```
+8. **Set permissions on jump host:**
+   ```bash
+   chmod 400 /home/ec2-user/new-env.pem
+   ```
+9. **Connect to private EC2 instance:**
+   ```bash
+   ssh -i new-env.pem ec2-user@<private_ip>
+   ```
+
+### Connecting Using Hostname Instead of Private IP:
+
+1. **Edit hosts file:**
+   ```bash
+   sudo vi /etc/hosts
+   # Add: <private_ip> <hostname>
+   # Example: 3.80.93.106 nifi-test
+   ```
+
+2. **Configure SSH:**
+   ```bash
+   vi ~/.ssh/config
+   ```
+   Add the following content:
+   ```
+   Host nifi-qa
+       HostName <Private_IP>
+       User ec2-user
+       IdentityFile /Path/to/key.pem
+   ```
+
+3. **Connect using hostname:**
+   ```bash
+   ssh nifi-qa
+   ```
+
+## IAM (Identity and Access Management)
+
+### Authentication vs Authorization Demo
+
+#### Authentication:
+1. Login with the AWS root user and **create an IAM test user without any permissions**
+2. Logout from root user and login with the IAM user
+3. Try to access AWS services in the console - **access will be denied**
+4. You have access to the AWS console but not to services - this demonstrates **authorization** control
+
+#### Authorization:
+1. Login with the AWS root user and add permissions (e.g., **S3 Full Access** or **EC2 Admin Access**)
+2. Logout from root and login again with the IAM user
+3. Now you can access S3 and EC2 services, view existing buckets, create buckets, and manage EC2 instances
 
-How to connect from jumphost/jumpbox server to other private EC2 instance?
+## EC2 (Elastic Compute Cloud)
 
-1. Create the jumphost server with the prublic subnet, public route table with the internet gateway.
+For different types of EC2 instances, refer to: [AWS Fundamentals - EC2 Instance Types](https://github.com/viswa2/DevOps/tree/master/aws-fundamentals#different-type-of-ec2-instances)
 
-2. Auto enabled the public Ip
+### Deploy Jenkins on EC2
 
-3. Create the .pem file 
+#### Step-by-Step Process:
 
-4. Download the .pem file
+1. **Launch Ubuntu EC2 instance** with necessary configuration
+2. **Connect to EC2:**
+   ```bash
+   ssh -i <key pair name> ubuntu@<public_ip>
+   ```
+3. **Switch to super user:**
+   ```bash
+   sudo su -
+   ```
+4. **Update packages:**
+   ```bash
+   apt update -y
+   ```
+5. **Install Java:**
+   ```bash
+   apt install openjdk-17-jdk -y
+   ```
+6. **Install Jenkins** using official documentation
+7. **Check Jenkins status:**
+   ```bash
+   systemctl status jenkins
+   ```
+8. **Configure Security Group:** Add inbound rule for port 8080 (Custom TCP)
+9. **Access Jenkins:** Navigate to `http://<public_ip>:8080`
 
-5. chmod 0400 <.pem file name>
+### Employee Directory Application Deployment
 
-6. Try to connect in the terminal by using ssh -i  <.pem file> ec2-user@public_ip of Ec2 instance.
+#### Prerequisites Setup:
 
-7. Once suceesfully connected in the terminal, copy the .pem file into the jumphost server by using as below command.
+1. **Create IAM Role:**
+   - Role → Create role → AWS service → EC2 → AmazonDynamoDBFullAccess → Role name
 
-8. scp -i /Users/mekalaviswanathareddy/Downloads/new-env.pem  /Users/mekalaviswanathareddy/Downloads/new-env.pem ec2-user@public_ip:/home/ec2-user
+2. **Create S3 Bucket:**
+   - Create bucket → AWS region (e.g., us-east-1) → Bucket name (e.g., employee-photo-bucket-00) → Add bucket policy → Create bucket
 
-9. chmod 400 /home/ec2-user/new-env.pem
+3. **Launch EC2 Instance:**
+   - Instance name → AMI from catalog → Instance type t2.micro → Key pair
+   - VPC (select existing app-vpc) → Subnet (select existing) → Security group for HTTP and HTTPS
+   - Advanced details → IAM Instance profile → Select AmazonDynamoDBFullAccess role
+   - User data → Add script for Employee directory app → Create Instance
 
-10. Once it’s copied successfully try to connect by using SSH with the Private ec2 instance i.e ssh -i new-env.pem ec2-user@private_ip
+![IAM Instance Profile](https://github.com/viswa2/DevOps/assets/34201574/ec0b8553-c24a-4e45-a2b9-bed541608b7c)
 
-If i want to connect the hostname instead of private ip?
+![Employee Directory App](https://github.com/viswa2/devops/assets/34201574/461a75a0-75dd-4f98-ac8a-583554bcdede)
 
-1. vi /etc/hosts i.e 3.80.93.106 nifi-test ec2 instance Private ip and hostname or ec2 instance name
+4. **Create DynamoDB Table:**
+   - Create table → Table name: **Employees** → Partition key: **id** (String) → Create table
 
-2. vi ~/.ssh/config add the following contennt
+5. **Test the Application:**
+   - Fill details (Name, Location, JobTitle) and upload photo → Save
+   - Check S3 bucket for uploaded employee photo
+   - Check DynamoDB table for employee details
 
-```bash
-Host nifi-qa
-	HostName <Private _IP>
-	User ec2-user
-   IdentifyFile /Path/to/key.pem file
-```       
+![DynamoDB Table](https://github.com/viswa2/devops/assets/34201574/ed6f39e1-746e-476f-8171-fe3e0bd721cc)
 
-3. Try to connect `ssh nifi-qa`
+## Amazon Machine Image (AMI)
 
-## IAM (Identity Access Management) ##
+### Creating and Using Custom AMI
 
-`Authentication:`
+#### Step-by-Step Process:
 
-Login with the AWS root user and `create a IAM test user and don't add any permissions`. Logout the root user and login with the IAM user and try to access with the services in AWS console, but not able to access. Here you have a access with the AWS console but not in the services here comes with the authorization.
+1. **Launch EC2 instance with HTTPD user data:**
 
-`Authorization:`
+![User Data for EC2](https://github.com/viswa2/DevOps/assets/34201574/81115aef-80a4-48dc-9292-bd323b1e0538)
 
-Login with the AWS root user and and add the permissions i.e `S3 full access or Ec2 admin access etc`. and logout root login again login with the IAM user now you can check with the S3 and EC2 services you can able to see the existing buckets, create buckets and list the same similarway for the EC2 instace as well.
+2. **Verify HTTPD is running:** Check with public IP in browser
 
-## EC2 (Elastic Compute Cloud) ##
+![HTTPD Configuration Check](https://github.com/viswa2/DevOps/assets/34201574/0e7765cb-ba91-4b21-ad8e-477ef735bdb2)
 
-As below link describes different types of EC2 Instances.
+3. **Create AMI:**
+   - Select EC2 instance → Actions → Image and Templates → Create Image → Image name → Create image
+   - Check EC2 dashboard → Images → AMIs for the created image
 
-https://github.com/viswa2/DevOps/tree/master/aws-fundamentals#different-type-of-ec2-instances
+![AMI](https://github.com/viswa2/DevOps/assets/34201574/4861798a-5bf2-4064-af5f-03c09a9c7bc3)
 
-`Go to EC2 console launch instance and deploy jenkins and test it.`
+4. **Launch instance from custom AMI:**
 
-1. Launch and Ubuntu Ec2 insatnce with the necessary details.
-2. After launch connect Ec2 with the ssh -i <key pair name> ubuntu@public ip
-3. Enter the super user i.e sudo su -
-4. Update the packages `apt update -y`
-5. Install java `apt install openjdk-17-jdk -y`
-6. Install jenkins by using official documentaion.
-7. check the status of Jenkins by using systemctl status jenkins
-8. By default jenkins is running 8080 port, we can't able to access the app, until we can allow the port in Ec2 instance i.e Security --> Inbound Rules --> edit Inboud Rules and add the custom tcp port 8080 and save the rule.
-9. Now the hit the http://public ip: 8080 you can able to access the jenkins application in the browser.
+![AMI from Catalog](https://github.com/viswa2/DevOps/assets/34201574/7667160b-3c85-4c48-b598-ace82702a5cd)
 
-1. Create IAM role --> Role --> Create role --> AWS service --> s3 --> AmazonDynamoDBFullAccess --> next --> Rolename
-2. Create s3 bucket for objects --> create bucket --> AWS region ex: us-east-1 --> bucket name Ex: employee-photo-bucket-00 --> Add the bucket policy --> Create bucket
-3. Launch Ec2 Instance --> Instance name --> AMI from catalog --> Instance type t2.micro --> Key pair you can select or create a new key pair to connect the instance --> VPC earlier I have create app-vpc select the same --> Subnet created earlier select the same --> Create security group for Http and Https --> Advandced details --> IAM Instance profile --> select the  AmazonDynamoDBFullAccess --> Under the user data add the script for the Employee directory app --> Create Instance --> Wait a minute and check the app is working or not with the public ip in the browser.
+![User Data](https://github.com/viswa2/DevOps/assets/34201574/02eed45c-9dca-4604-88a9-5fd228ccfcd5)
 
-4. IAM Instance Profile added in Advance details as created role in the first step.
+5. **Verify the new instance works with public IP**
 
-<img width="477" alt="IAM Instance Profile" src="https://github.com/viswa2/DevOps/assets/34201574/ec0b8553-c24a-4e45-a2b9-bed541608b7c">
+![AMI Image Instance IP](https://github.com/viswa2/DevOps/assets/34201574/d90ceb66-369c-4cf3-8fb9-ed108a2df11f)
 
-<img width="1717" alt="Employee-Directory-App" src="https://github.com/viswa2/devops/assets/34201574/461a75a0-75dd-4f98-ac8a-583554bcdede">
+## Application Load Balancer
 
-4. Create the dynamo db --> Create table --> Table name --> Employees --> Partition key is id for string --> Remaining default options and create table.
-5. As per the above screenshot fill the details i.e Name, Location, JobTitle and upload your photo once done save the details.
-6. Go to the bucket and click on there should be employee_pic uploaded
-7. Go the dynamodb and click on Tables --> Click on Table name Ex: Employees --> Explore Table Items --> There should be your details in the table i.e Name, Location and Jobtitle.
+### Setting up Application Load Balancer
 
-<img width="1039" alt="Dynamo-DB-Table" src="https://github.com/viswa2/devops/assets/34201574/ed6f39e1-746e-476f-8171-fe3e0bd721cc">
+#### Step-by-Step Process:
 
-## Amazon Machine Image or AMI ##
+1. **Launch 2 EC2 instances:**
+   - Launch instance → Name: **My First Instance** → Number of instances: **2**
+   - Instance type: **t2.micro** → Proceed without key pair
+   - Network settings → Select existing security group (SSH and HTTP) or create new
+   - Advanced details → User data → Add user-data-for-load-balancer
 
-1. Launch an EC2 instance with the user data of httpd
+2. **Rename instances:** Change one instance name to **My Second Instance**
 
-<img width="336" alt="User-Data for EC2" src="https://github.com/viswa2/DevOps/assets/34201574/81115aef-80a4-48dc-9292-bd323b1e0538">
+![2 EC2 Instances for Load Balancer](https://github.com/viswa2/DevOps/assets/34201574/f487987a-a91f-4e38-b139-653ef03a36c8)
 
-2. check with the public ip in the browser
+3. **Test both instances:** Check public IP of both instances
 
-<img width="465" alt="HTTPD-Configuration-Check-in Browser" src="https://github.com/viswa2/DevOps/assets/34201574/0e7765cb-ba91-4b21-ad8e-477ef735bdb2">
+![EC2 Instance Public IP](https://github.com/viswa2/DevOps/assets/34201574/abaa77af-0daa-4a09-9799-0eb809c84dbe)
 
-3. Create a image from the EC2 instance which we created on it's first step --> Select the EC2 instance from the 1st Step --> Click on Actions --> Image and Templates --> Image name --> Create image i.e Then click on EC2 dashboard --> Images --> AMIs --> You can find the created image.
+4. **Create Security Group for Load Balancer:** Allow HTTP port
 
-<img width="1439" alt="AMI" src="https://github.com/viswa2/DevOps/assets/34201574/4861798a-5bf2-4064-af5f-03c09a9c7bc3">
+![Security Group for Load Balancer](https://github.com/viswa2/DevOps/assets/34201574/e4db92d2-301d-4698-93ad-6593b9f269e2)
 
-5. Launch a instance from AMI list which was created on 3rd step with the user data with the just last line of echo statement.
+5. **Create Target Group:**
+   - Target type → **Instances** → Target Group Name → Protocol: **HTTP**
+   - IP address type: **IPv4** → Health checks: **HTTP**
+   - Register Targets → Select both instances → Create Target Group
 
-<img width="743" alt="AMI from Catalog" src="https://github.com/viswa2/DevOps/assets/34201574/7667160b-3c85-4c48-b598-ace82702a5cd">
+![Target Groups](https://github.com/viswa2/DevOps/assets/34201574/17335d87-5d6a-4dd3-9f39-1d84973343ce)
 
-<img width="559" alt="User-Data" src="https://github.com/viswa2/DevOps/assets/34201574/02eed45c-9dca-4604-88a9-5fd228ccfcd5">
+6. **Create Application Load Balancer:**
+   - Load balancer name: **Demo-ALB** → Internet-facing → IPv4
+   - Network mapping → Select at least two Availability Zones
+   - Security group → Select created security group
+   - Target group → Select created target group → Create
 
-6. Check instance public ip in the browser it's should work.
+![Application Load Balancer](https://github.com/viswa2/DevOps/assets/34201574/d1d6b659-ccca-464a-a746-76037da60044)
 
-7. Find the screenshot for the second instance as below.
+7. **Test Load Balancer:**
+   - Copy DNS name and open in browser
+   - Refresh to see traffic distribution between instances
 
-<img width="955" alt="AMI Image Instance IP" src="https://github.com/viswa2/DevOps/assets/34201574/d90ceb66-369c-4cf3-8fb9-ed108a2df11f">
+![First EC2 Instance IP](https://github.com/viswa2/DevOps/assets/34201574/4b0dd520-aa96-45c8-9f8f-c349d3d48ca4)
 
-## Application Load Balancer ##
+![Second EC2 IP Address](https://github.com/viswa2/DevOps/assets/34201574/13bd5b62-f641-43d0-98d9-89af6dbfe16a)
 
-1. Launch 2 EC2 instances with the same style --> My first instance --> Number of instances 2 --> Instance type t2.micro --> Proceed without keypair --> Under network settings select existing security group which is having ssh and http indbound rule if not create a new one --> Advance details --> user data --> add user-data-for-load-balancer
+8. **High Availability Testing:** Stop one instance and test load balancer functionality
 
-2. After launching the 2 instances change the name for one of the instance from My First Instance to My Second Instance
+## S3 Bucket Management
 
-<img width="1488" alt="2-EC@-Instances created for -Load-Balancer" src="https://github.com/viswa2/DevOps/assets/34201574/f487987a-a91f-4e38-b139-653ef03a36c8">
+### Creating and Configuring S3 Bucket
 
-3. Check the public Ip of both Ec2 instances if it's working or not as per below attaching here one instance reference.
+#### Step-by-Step Process:
 
-<img width="758" alt="Ec2-Instance-Public-Ip" src="https://github.com/viswa2/DevOps/assets/34201574/abaa77af-0daa-4a09-9799-0eb809c84dbe">
+1. **Create S3 Bucket:**
+   - Search S3 → Create bucket → Select region → Unique bucket name
+   - Object Ownership: **ACLs disabled** → Block all public access → Disable versioning
+   - Default options → Create bucket
 
-4. Click on load balancers --> create load balancer --> click on creat application load balancer --> load abalancer name i.e Demo-ALB, Internet-facing, ip address type ipv4 --> Network mapping --> Select at least two Availability Zones --> Refresh and select the Security group which we created in 5th step --> Refresh and select the target group which we created in 6th step --> Create a load balancer
+2. **Upload Objects:**
+   - Click bucket name → Upload → Add files → Select from computer → Upload
 
-<img width="1485" alt="Application-Load-Balancer" src="https://github.com/viswa2/DevOps/assets/34201574/d1d6b659-ccca-464a-a746-76037da60044">
+3. **Configure Public Access:**
+   - Click uploaded object → Object URL (will show AccessDenied initially)
+   - Bucket permissions → Edit Block public access → Uncheck **Block all public access** → Save
 
-5. Create a new security group which is allowing http port
+4. **Create Bucket Policy:**
+   - Edit Bucket policy → Use Policy Generator: https://awspolicygen.s3.amazonaws.com/policygen.html
+   - Fill necessary details → Add statement → Generate policy
 
-<img width="1420" alt="Security-group for- load- balancer" src="https://github.com/viswa2/DevOps/assets/34201574/e4db92d2-301d-4698-93ad-6593b9f269e2">
-  
-6. Listner and routing --> choose a target type --> Instances --> Target Group Name --> Protocol port http --> IP address type ipv4--> Health checks HTTP --> Register Targets select the 2 instances --> Include as pending below --> Create Target Group
+![S3 Bucket Policy Generator](https://github.com/viswa2/DevOps/assets/34201574/78d17a6c-4a76-4b24-a23d-254af0c0b9a0)
 
-<img width="1446" alt="Target-Groups" src="https://github.com/viswa2/DevOps/assets/34201574/17335d87-5d6a-4dd3-9f39-1d84973343ce">
+5. **Test Public Access:**
+   - Copy and paste policy → Save changes → Refresh object URL
 
-7. Copy DNS name of the load balancer and open in the browser and refresh it you camn able to observe the two ip address of the 2 EC2 instances.
+![S3 Bucket Object URL Testing](https://github.com/viswa2/DevOps/assets/34201574/2f915698-ddfa-401b-af56-4fda2756cbf9)
 
-<img width="704" alt="First-EC2-Instance-Ip" src="https://github.com/viswa2/DevOps/assets/34201574/4b0dd520-aa96-45c8-9f8f-c349d3d48ca4">
+## Static Website Hosting
 
-<img width="701" alt="Second-Ec2-IP-Address" src="https://github.com/viswa2/DevOps/assets/34201574/13bd5b62-f641-43d0-98d9-89af6dbfe16a">
+### Configuring S3 for Static Website Hosting
 
-8. For futrher testing you can stop one instance and refresh the DNS name of load balancer and vice versa
+#### Step-by-Step Process:
 
-## S3 Bucket ##
+1. **Enable Static Website Hosting:**
+   - Buckets → Bucket name → Properties → Edit Static website hosting → Enable → Save changes
 
-1. Search on s3 on amaznon dashboard and click on create bucket
-2. Select the region if you want to create a bucket
-3. Bucket name must be unique within the global namespace and follow the bucket naming rules
-4. Object Ownership  ACL's disabled
-5. Block all public access
-6. Disable bucket versioning
-7. Rest of the options are default and create a bucket
-8. Click on the bucket name --> upload --> Add files --> Slect from your computer --> Upload
-9. Click on the objects which you have uploaded and click on object url you will get AccessDenied error due to Block all public access on 6th point.
-10. Now click on bucket permissions and edit Block public access (bucket settings) uncheck Block all public access and save
-11. Edit the Bucket policy click on plocy generator (https://awspolicygen.s3.amazonaws.com/policygen.html) and fill the necessary details add statement and generate policy.
+2. **Upload index.html:** Upload the index.html file to the bucket
 
-<img width="1521" alt="S3-bucket-p;olicy-Generator" src="https://github.com/viswa2/DevOps/assets/34201574/78d17a6c-4a76-4b24-a23d-254af0c0b9a0">
+3. **Access Website:** Go to Static website hosting → Click URL
 
-12. Copy the policy and paste policy and click on save changes
-13. Now try to refresh the object URl
+![Static Website Hosting](https://github.com/viswa2/DevOps/assets/34201574/129d1275-f623-4365-9a0c-ffc7951bc278)
 
-<img width="1156" alt="S3-bucket-object-url-testing" src="https://github.com/viswa2/DevOps/assets/34201574/2f915698-ddfa-401b-af56-4fda2756cbf9">
+4. **Enable Versioning (Optional):**
+   - Properties → Bucket Versioning → Enable → Save
+   - Upload modified index.html to test versioning
 
-## Static website hosting ##
+![S3 Bucket Versioning](https://github.com/viswa2/DevOps/assets/34201574/1dda5c3e-63de-4caa-87d0-52b24e603a2d)
 
-1. Click buckets --> Bucket name --> properties --> edit and enable static website hosting --> Save changes
-2. Upload the index.html file into the bucket
-3. Go to the Static website hosting click on url find the below image as reference.
+## S3 Replication Rules
 
-<img width="591" alt="static-website-hosting" src="https://github.com/viswa2/DevOps/assets/34201574/129d1275-f623-4365-9a0c-ffc7951bc278">
+### Setting up Cross-Region Replication
 
-4. if you want to enable the bucket versioning click on properties Bucket Versioning enable and save it.
-5. Then try to upload some modificatiopn with the index.html and upload the same.
+#### Step-by-Step Process:
 
-<img width="1606" alt="s3-bucket-versioning" src="https://github.com/viswa2/DevOps/assets/34201574/1dda5c3e-63de-4caa-87d0-52b24e603a2d">
+1. **Create Two Buckets:**
+   - Create buckets: **replication-origin** and **replication-destination0**
 
-## Replication Rules for S3 Bucket ##
+![S3 Buckets for Replication Testing](https://github.com/viswa2/DevOps/assets/34201574/2e096291-654e-46e5-8a7f-21e636b2c9fa)
 
-1. Create a 2 buckets for replication testing i.e replication-origin and replication-destination0
+2. **Create Replication Rule:**
+   - In **replication-origin** bucket → Management → Replication rule name: **mydemo replication**
+   - Status: **Enabled** → Source bucket: **Apply to all objects**
+   - Destination: **Choose bucket in this account** → Bucket name: **replication-destination0**
+   - IAM role: **Create new role** → Save
 
-<img width="1569" alt="s3-buckets-for replication-testing" src="https://github.com/viswa2/DevOps/assets/34201574/2e096291-654e-46e5-8a7f-21e636b2c9fa">
+3. **Test Replication:**
+   - Upload objects with versioning enabled
+   - Check **replication-destination0** bucket for replicated files
 
-2. Create a replication rule in `replication-origin` bucket click on Management --> Replication rule name i.e mydemo replication --> Status enabled --> Under source bucket Apply to all objects in the bucket --> Destination choose --> Choose a bucket in this account, add the bucket name i.e `replication-destination0` --> IAM role --> Create a new role --> keep remaining as default and save.
+![Replication Source](https://github.com/viswa2/DevOps/assets/34201574/5ca7fc5b-ea69-4171-b8f2-1318b3d5a746)
 
-3. Upload the objects for testing with the versioning enabled
-4. Go to the `replication-destination0` bucket and refresh the page you can observe same file with the same version id.
+![Replication Destination](https://github.com/viswa2/DevOps/assets/34201574/4454fdfd-a696-4319-9f6e-546df97108b1)
 
-<img width="1601" alt="replication-source" src="https://github.com/viswa2/DevOps/assets/34201574/5ca7fc5b-ea69-4171-b8f2-1318b3d5a746">
+## S3 Bucket Policy for Restricted Access
 
-5. Replication destination with `replication-destination0`
+### Restricting Bucket Access to Root User Only
 
-<img width="1608" alt="replication-destination" src="https://github.com/viswa2/DevOps/assets/34201574/4454fdfd-a696-4319-9f6e-546df97108b1">
+This policy denies all S3 actions on the `my-demo-test-bucket-prod` bucket and its objects to any principal except the root user of account ID 407303443287.
 
-## S3 Bucket Policy for Restrict Users ##
+#### Testing Process:
 
-This policy denies all S3 actions on the `my-demo-test-bucket-prod bucket` and its objects to any principal except the root user of the account with ID 407303443287. In other words, only the root user of this AWS account can access the bucket and its objects; all other users are denied access.
+1. **Root Account Setup:**
+   - Create IAM test user with permissions: **IAMUserChangePassword**, **AmazonS3FullAccess**
+   - Create bucket: **my-demo-test-bucket-prod**
+   - Upload objects and add bucket policy: **s3-bucket-policy-restrict-users**
 
-This effectively restricts access to the bucket to only the specified root user, ensuring that no other IAM users or roles (even within the same account) can perform any actions on the bucket or its objects.
+2. **IAM User Testing:**
+   - Login with IAM user account
+   - Try to access S3 section - access will be denied
 
-`How This was Tested` ?
+![S3 Bucket Testing](https://github.com/viswa2/DevOps/assets/34201574/57f3862f-42c9-45df-8cfe-052be0c9e909)
 
-1. In the root it's tested by creating a IAM test user with the permissions of policy IAMUserChangePassword AmazonS3FullAccess.
-2. In the root account we have created a bucket called `my-demo-test-bucket-prod` upload the objects and added the bucket policy called `s3-bucket-policy-restrict-users`
-3. Login with the IAM user account and click on s3 section you can't able to view the objects, permissions, listout objects etc. i.e as below image.
+## CloudFormation
 
-<img width="1357" alt="s3-bucket-testing" src="https://github.com/viswa2/DevOps/assets/34201574/57f3862f-42c9-45df-8cfe-052be0c9e909">
+### Infrastructure as Code with CloudFormation
 
-## Cloud Formation ##
+CloudFormation allows building environments by writing code instead of using the AWS Management Console.
 
-CloudFormation, It's infrastructure as code. This means that you can build an environment by writing lines of code instead of using the AWS Management Console to individually provision your infrastructure resources.
+#### Step-by-Step Process:
 
-1. Select the region as us-east-1 otherwise things will not work.
-2. Create a stack & Prerequisite –-> Prepare template--> select Template is ready
-3. Specify Template --> select Upload a template file i.e upload from your computer or you can select Amazon S3 url as well.
+1. **Region Selection:** Select region **us-east-1** (required for some resources)
 
-<img width="1291" alt="Upload a template from computer" src="https://github.com/viswa2/DevOps/assets/34201574/0afd6382-fbd2-4a6f-bafe-478c11b03359">
+2. **Create Stack:**
+   - Create stack → Prerequisite: **Template is ready**
+   - Specify Template → **Upload template file** or **Amazon S3 URL**
 
-4. Provide a stack name called i.e Demo Cloudformation and click on next
-5. Configure stack options provide key and value fields and click on next and submit
-6. Then You can observe Events
+![Upload Template from Computer](https://github.com/viswa2/DevOps/assets/34201574/0afd6382-fbd2-4a6f-bafe-478c11b03359)
 
-<img width="1064" alt="Cloud-formation-Events" src="https://github.com/viswa2/DevOps/assets/34201574/bbe6a256-1f1b-4821-841d-42ba31a39156">
+3. **Stack Configuration:**
+   - Stack name: **Demo CloudFormation** → Next
+   - Configure stack options → Key-value fields → Next → Submit
 
-7. Open the next tab and you can able to see the Ec2 intsance through the cloudformation which we have provisioned.
+4. **Monitor Events:**
 
-<img width="1485" alt="Cloud-Formation-Through-Ec2-Instance" src="https://github.com/viswa2/DevOps/assets/34201574/a835737f-1ef5-4140-a0bd-d624ad3419d3">
+![CloudFormation Events](https://github.com/viswa2/DevOps/assets/34201574/bbe6a256-1f1b-4821-841d-42ba31a39156)
 
-8. If you want to update stack click on update stack --> replace current template --> Upload a template file with the changes. Once done it will terminate the existing resources and re-create with the new one.
+5. **Verify Resources:**
+
+![CloudFormation EC2 Instance](https://github.com/viswa2/DevOps/assets/34201574/a835737f-1ef5-4140-a0bd-d624ad3419d3)
+
+6. **Update Stack:** Update stack → Replace current template → Upload modified template
+
+7. **Delete Resources:** Delete stack to remove all associated resources
+
+> **Note:** Ensure AZ and subnet are in the same AZ when creating CloudFormation templates.
+
+## CloudFront CDN
+
+### Setting up Content Delivery Network
+
+Amazon CloudFront is a global CDN service that caches and serves static & dynamic content with high performance and security.
+
+#### Step-by-Step Process:
+
+1. **Create S3 Bucket:** Create bucket and upload files for CloudFront testing
+
+![S3 Bucket for CloudFront](https://github.com/viswa2/DevOps/assets/34201574/e46ec12b-8c6a-47c3-a6b7-17e307adaf48)
+
+2. **Enable Static Website Hosting:**
+   - Properties → Enable Static website hosting
+   - Index document: **index.html** → Save changes
+
+![CloudFront Demo Object URL](https://github.com/viswa2/DevOps/assets/34201574/bd672d96-9a45-47ac-bebb-8ce6ccc1823f)
+
+3. **Create CloudFront Distribution:**
+   - Search CloudFront → Create distribution
+   - Origin: Select bucket object URL
+   - Origin access: **Legacy access identities** → Create new OAI
+   - Bucket Policy: **Yes, update bucket policy**
+   - WAF: **Do not enable security protections**
+   - Default root object: **index.html** → Create distribution
+
+4. **Test CloudFront:**
+   - Wait for distribution status: **Enabled**
+   - Access content via CloudFront domain name
+
+![CloudFront Image](https://github.com/viswa2/DevOps/assets/34201574/897a9dcd-6062-47ab-8d2d-557d76df830a)
+
+## AWS Shared Responsibility Model
+
+### Understanding Security Responsibilities
+
+![AWS Shared Responsibility Model](https://github.com/viswa2/DevOps/assets/34201574/a27613ca-d83c-4c50-8126-8cc56a62e598)
+
+Under the AWS Shared Responsibility Model:
+
+- **AWS Responsibilities:** Infrastructure layer, operating system, platforms for abstracted services
+- **Customer Responsibilities:** Data management, encryption options, asset classification, IAM tools, application-level security
+
+For services like Amazon S3 and DynamoDB, customers are responsible for:
+- Managing data (including encryption options)
+- Classifying assets
+- Using IAM tools for appropriate permissions
+- Maintaining versions of AWS Lambda functions
+
+## VPC and EC2 Deployment
+
+### Creating VPC and Deploying HTTP Application
+
+![VPC and EC2 Instance Deployment](https://github.com/viswa2/DevOps/assets/34201574/2ffddc60-6904-4442-9013-5691713ad481)
+
+#### Step-by-Step Process:
+
+1. **Create VPC:**
+   - VPC settings → **VPC and more** → VPC name
+   - IPv4 CIDR block → Number of AZs → Default options → Create VPC
+
+2. **View Resource Map:**
+
+![VPC Resource Map Details](https://github.com/viswa2/DevOps/assets/34201574/0cb6740e-c95a-4feb-8a70-c6e91e7408b3)
+
+3. **Launch EC2 Instance:**
+   - Ubuntu AMI → Key pair → Network settings: Select created VPC
+   - Public subnet → Enable Auto-assign public IP → Launch
+
+4. **Connect and Test:**
+   ```bash
+   ssh -i "key-pair-name" ubuntu@<public_ip>
+   sudo apt update
+   python3 -m http.server 8000
+   ```
+
+![App Launching](https://github.com/viswa2/DevOps/assets/34201574/fb06a01e-6faf-4669-9285-47246c1d2b46)
+
+5. **Configure Security Group:** Enable port 8000 in inbound rules
+
+6. **Test Application:** Access `http://<public_ip>:8000`
+
+![Testing Python3 App](https://github.com/viswa2/DevOps/assets/34201574/0caed047-c689-485c-962b-89ef9abcfa10)
+
+7. **Network ACL Configuration:**
+   - VPC → Network ACLs → Edit inbound rules
+   - Allow/deny specific ports, IP addresses, and ranges
+
+![NACL Inbound Rules](https://github.com/viswa2/DevOps/assets/34201574/24e7a66b-9b23-4a7c-9811-5b7a9cb58566)
+
+## Private Subnet Application Deployment
+
+### Deploying Applications in Private Subnets
+
+![Deploy Sample App in Private Subnet](https://github.com/viswa2/DevOps/assets/34201574/305f2cc5-06d9-4c79-9adc-6050038630af)
+
+#### Step-by-Step Process:
+
+1. **Create VPC:** 2 public and 2 private subnets, 2 NAT gateways, internet gateway across 2 AZs
+
+![Resource Map After Creating VPC](https://github.com/viswa2/DevOps/assets/34201574/1469215c-d950-4f8e-a658-9c5ecd37fba7)
+
+2. **Create Auto Scaling Group:** Launch template attached to private subnets
+
+3. **Create Bastion Host:** Jump server for connecting to private instances
+
+4. **Copy Key Pair to Bastion:**
+   ```bash
+   scp -i /Users/viswanathareddy/Downloads/.pem \
+       /Users/viswanathareddy/Downloads/.pem \
+       ubuntu@<bastion_public_ip>:/home/ubuntu
+   ```
+
+5. **Connect to Private Instance:**
+   ```bash
+   ssh -i .pem ubuntu@<bastion_public_ip>
+   chmod 400 /home/ubuntu/.pem
+   ssh -i .pem ubuntu@<private_ip>
+   ```
+
+6. **Deploy Application:**
+   - Create basic index.html
+   - Deploy sample Python HTTP application: `python3 -m http.server 8000`
+
+7. **Create Application Load Balancer:** Configure with public subnets
+
+8. **Test Application:** Access via load balancer DNS name
+
+![Application with Load Balancer](https://github.com/viswa2/DevOps/assets/34201574/e3029e48-6d6b-411e-983b-6680142ff887)
+
+> **Observation:** Even with 2 healthy instances, traffic may route to single instance only during testing.
+
+## AWS CodeCommit
+
+### Fully-Managed Source Control Service
+
+AWS CodeCommit hosts secure Git-based repositories for team collaboration.
+
+#### Step-by-Step Process:
+
+1. **Create IAM User:**
+   - User: **test-user** → Attach policy: **AWSCodeCommitPowerUser**
+
+2. **Generate Git Credentials:**
+   - IAM → Users → test-user → Security credentials
+   - HTTPS Git credentials for AWS CodeCommit → Generate credentials → Download
+
+3. **Create Repository:**
+   - CodeCommit → Create repository → Repository name → Description → Create
+
+4. **Clone Repository:**
+   ```bash
+   git clone <https_url>
+   # Enter username and password from step 2
+   ```
+
+5. **Add and Push Files:**
+   ```bash
+   # Add files (e.g., s3-bucket.yaml)
+   git add .
+   git commit -m "Initial commit"
+   git push origin main
+   ```
+
+6. **Verify in Console:** Check CodeCommit repository for uploaded files
+
+![CodeCommit](https://github.com/viswa2/DevOps/assets/34201574/8512e0da-1c36-4fd3-aa4a-cde1d220c1a1)
+
+## AWS CodeBuild
+
+### Fully-Managed Continuous Integration Service
+
+CodeBuild compiles source code, runs tests, and produces deployment-ready packages.
+
+#### Step-by-Step Process:
+
+1. **Create Build Project:**
+   - CodeBuild → Create project → Project name
+   - Source provider: **GitHub** → Repository: Connect from GitHub
+
+2. **Environment Configuration:**
+   - Operating system: **Ubuntu** → Runtime: **Standard**
+   - Image: **Latest** → Image version: **Always use latest**
+
+3. **Build Specifications:**
+   - Build spec → Insert build commands → Add YAML configuration
+
+4. **IAM Role Setup:**
+   - Create role with **AWSCodeBuildAdminAccess**
+   - Service role → Update with created role → Create build project
+
+5. **Docker Authentication:**
+   - AWS Systems Manager → Parameter Store → Create parameter
+   - Add Docker credentials (username/password)
+
+![Parameter Store for Credentials](https://github.com/viswa2/DevOps/assets/34201574/11471f53-a59a-4b5b-94be-1698c87729c2)
+
+6. **Build Execution:**
+   - Start build → Monitor build history and logs
+   - Fix YAML indentation errors and syntax issues
+
+7. **Common Fixes:**
+   - Use `pre_build` instead of `pre-build`
+   - Add `docker build .` command
+   - Verify Docker registry credentials format
+   - Check buildspec.yaml syntax
+
+## AWS CodePipeline
+
+### Continuous Delivery Service
+
+CodePipeline models, visualizes, and automates software release processes.
+
+#### Step-by-Step Process:
+
+1. **Create Pipeline:**
+   - CodePipeline → Pipeline name → Pipeline type: **V2**
+   - Service role: Create new or use existing
+
+2. **Source Configuration:**
+   - Source provider: **GitHub Version 2** → Connection: Connect to GitHub
+   - Repository name → Default branch name
+
+3. **Build Stage:**
+   - Build provider: **AWS CodeBuild** → Select project
+
+4. **Deploy Stage:** Skip deploy stage → Review → Create pipeline
+
+5. **Automatic Triggers:** Pipeline triggers automatically on code changes
+
+## AWS CodeDeploy
+
+### Application Deployment Automation
+
+CodeDeploy automates deployments to EC2, on-premises, Lambda, or ECS.
+
+#### Step-by-Step Process:
+
+1. **Create IAM Roles:** Create roles for Amazon EC2 and AWS CodeDeploy
+
+2. **Launch EC2 Instance:** Attach IAM role from step 1
+
+3. **Install CodeDeploy Agent:**
+   - Reference: [CodeDeploy Agent Installation](https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html)
+
+4. **Create Application:**
+   - CodeDeploy → Applications → Create application
+
+5. **Create Deployment Group:** Configure deployment group options
+
+6. **Deploy Application:** Authenticate with GitHub and deploy
+
+## AWS CloudWatch
+
+### Real-Time Monitoring and Observability
+
+CloudWatch monitors AWS resources and applications, collecting metrics, logs, and alarms.
+
+#### Key Features:
+- **Logs:** Application and system logs
+- **Metrics:** Performance and operational data
+- **Alarms:** Threshold-based notifications
+- **Custom Metrics:** Application-specific monitoring
+- **Cost Optimization:** Resource usage tracking
+
+#### Testing Process:
+
+1. **Log Groups:** CloudWatch automatically tracks AWS account activities
+
+![CloudWatch Logs](Cloudwatch-Logs.png)
+
+2. **EC2 Monitoring:**
+   - Create EC2 instance → Monitor CPU, Network metrics
+   - Connect to instance: `stress --cpu 4 --timeout 60`
+   - Enable detailed monitoring for maximum CPU spike visibility
+
+![CloudWatch Logs Details](Cloudwatch-Logs-1.png)
+
+3. **Create CloudWatch Alarms:**
+   - Alarms → Create alarm → Select metric → EC2 → Per instance metrics
+   - Search CPU → Select instance → Statistic: **Maximum**
+   - Period: **1 minute** → Condition: **Greater than or equal to 50**
+
+4. **Notification Setup:**
+   - Create SNS topic → Topic name → Email notification
+   - Confirm subscription via email
+
+![CloudWatch Alarm After Subscription](Cloudwtach-alarm-after-subscription-confirmation.png)
+
+5. **Testing:** Trigger CPU spike to receive email notifications
+
+## AWS Lambda
+
+### Event-Driven Serverless Computing
+
+#### Key Features:
+- **Event-Driven Execution:** Triggered by events (S3, API, scheduled)
+- **No Server Management:** AWS handles infrastructure
+- **Automatic Scaling:** Scales from 1 to millions of users
+- **Pay-per-Use:** Only pay for compute time consumed
+- **Multi-Language Support:** Node.js, Python, Java, Go, etc.
+
+#### Step-by-Step Process:
+
+1. **Create Function:**
+   - Lambda → Create function → Author from scratch
+   - Function name → Runtime: **Python 3.10**
+
+2. **Configure Function URL:**
+   - Advanced settings → Enable function URL
+   - Auth type: **None** (for testing) or **AWS_IAM** (production)
+
+3. **Test Function:**
+   - Default lambda function code provided
+   - Test → Event trigger → Execution results
+   - Response: `200` with `"Hello from Lambda!"`
+
+## AWS Cost Optimization
+
+### Automated EBS Snapshot Cleanup
+
+Remove snapshots belonging to volumes not attached to EC2 instances using Lambda.
+
+#### Step-by-Step Process:
+
+1. **Create EC2 Instance and Snapshot:**
+   - Launch EC2 instance → Create snapshot of volume
+
+2. **Create Lambda Function:**
+   - Function name: **cost-optimization-EBS-snapshot**
+   - Runtime: **Python 3.10** → Create function
+
+3. **Add Code:**
+   - Remove existing code → Add Python code from repository
+   - Reference: `iam-veeramalla/aws-devops-zero-to-hero/tree/main/day-18/ebs_stale_snapshosts.py`
+
+4. **Configure Timeout:**
+   - Configuration → Edit → Increase timeout from 3 to 10 seconds
+
+5. **Create IAM Policies:**
+   - **Policy 1:** EC2 service → Actions: DeleteSnapshot, DescribeSnapshots
+   - **Policy 2:** EC2 service → Actions: DescribeInstances, DescribeVolumes
+
+6. **Attach Policies:**
+   - Configuration → Execution role → Attach created policies
+
+7. **Test Function:**
+   - Terminate EC2 instance (volume gets deleted)
+   - Re-run Lambda function → Snapshot should be deleted
+
+8. **Schedule Automation:**
+   - CloudWatch → Events → Rules → Create scheduled rule
+
+## ECR (Elastic Container Registry)
+
+### AWS Managed Container Image Registry
+
+Amazon ECR provides secure, scalable, and reliable container image storage.
+
+#### Step-by-Step Process:
+
+1. **Create Repository:**
+   - ECR → Create repository → General settings
+   - Visibility: **Private** → Repository name: **demo-repository**
+
+2. **Configure Repository Settings:**
+   - **Tag immutability:** Enable (prevents tag overwriting)
+   - **Image scan settings:** Enable scan on push
+
+3. **Install AWS CLI:** Ensure AWS CLI is installed on your system
+
+4. **Authentication and Push:**
+   - Click repository → **View push commands**
+   - Follow OS-specific commands:
+
+   ```bash
+   # Login to Docker registry
+   aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <registry_url>
    
-9. If we want to delete the resources there is no need to go each and indivual resources to delete simply go and delete the stack
+   # Build Docker image
+   docker build -t demo-repository .
+   
+   # Tag image
+   docker tag demo-repository:latest <registry_url>/demo-repository:latest
+   
+   # Push image
+   docker push <registry_url>/demo-repository:latest
+   ```
 
-   `Note:` While creating the cloud formation template check the AZ and subnet in the same AZ.
+5. **Verify Upload:** Check repository for pushed Docker image
 
-## Cloud Front ##
+![ECR Image Registry](ECR-Image-Registry.png)
 
-Amazon CloudFront is a content delivery network (CDN) service built for high performance, security, and developer convenience. Caches and serves static & dynamic content it's a `global` service.
+---
 
-**Protection against network and application layer attacks**
-Amazon CloudFront, AWS Shield, AWS Web Application Firewall (WAF), and Amazon Route 53 work seamlessly together to create a flexible, layered security perimeter against multiple types of attacks including network and application layer DDoS attacks.
+## Summary
 
-1. Create a bucket in S3
-2. Upload with the files for cloudfront testing.
+This guide covers essential AWS technical implementations including:
 
-<img width="1371" alt="S3-bucket for Cloudfront" src="https://github.com/viswa2/DevOps/assets/34201574/e46ec12b-8c6a-47c3-a6b7-17e307adaf48">
+- **Infrastructure Setup:** VPC, EC2, Security Groups, Load Balancers
+- **Storage Solutions:** S3, EBS, snapshots, and replication
+- **Development Tools:** CodeCommit, CodeBuild, CodePipeline, CodeDeploy
+- **Monitoring & Security:** CloudWatch, IAM, security policies
+- **Serverless & Containers:** Lambda, ECR
+- **Content Delivery:** CloudFront CDN
+- **Infrastructure as Code:** CloudFormation
 
-3. Under properties --> Enable Static website hosting, index document add `index.html` and Error document  is `optional` click on save changes.
+Each section provides hands-on implementation steps with screenshots and best practices for AWS technical essentials.
 
-<img width="775" alt="Cloudfront demo object url" src="https://github.com/viswa2/DevOps/assets/34201574/bd672d96-9a45-47ac-bebb-8ce6ccc1823f">
+### 📚 Reference Links
 
-4. Next in Amazon console search i.e cloudfront & Create distribution ie choose the name of bucket object url which we was created the bucket in 1st step
-5. Name of this origin i.e demo-cloudfront10.s3.us-east-1.amazonaws.com (it's same like the distrubution)
-6. Origin access as Legacy access identities, under Origin access identity:Create new OAI, Bucket Policy:Yes, update the bucket policy
-7. Under Web Application Firewall (WAF) select Do not enable security protections.
-8. Under Default root object type `index.html` which we were uploaded earlier in s3 bucket and then click create distribution.
-9. Once the distribution status is enabled click on Distribution domain name and see the magic.
+- [AWS Documentation](https://docs.aws.amazon.com/)
+- [AWS Technical Essentials](https://aws.amazon.com/training/course-descriptions/essentials/)
+- [AWS Best Practices](https://aws.amazon.com/architecture/well-architected/)
+- [AWS CLI Documentation](https://docs.aws.amazon.com/cli/)
 
-<img width="358" alt="Cloudfront Image" src="https://github.com/viswa2/DevOps/assets/34201574/897a9dcd-6062-47ab-8d2d-557d76df830a">
+---
 
-10. You can try with the domain name with the index.html and image.jpg etc.
-
-## AWS Shared Responsibility Model ##
-
-<img width="496" alt="AWS-Shared-Responsibility-Model" src="https://github.com/viswa2/DevOps/assets/34201574/a27613ca-d83c-4c50-8126-8cc56a62e598">
-
-Under the AWS Shared Responsibility Model, customer's responsibility is determined by the AWS Cloud services that a customer selects. For abstracted services, such as Amazon S3 and Amazon DynamoDB, AWS operates the infrastructure layer, the operating system, and platforms, and customers access the endpoints to store and retrieve data. Customers are responsible for managing their data (including encryption options), classifying their assets, and using IAM tools to apply the appropriate permissions.
-
-For the given use-case, the customer is responsible for maintaining the versions of an AWS Lambda function.
-
-## Create a VPC, launch EC2 Instance and Test with Http Sample Application ##
-
-<img width="667" alt="VPC, Launch Ec2 instance and deploy httpp sample app" src="https://github.com/viswa2/DevOps/assets/34201574/2ffddc60-6904-4442-9013-5691713ad481">
-
-1. In AWS by default VPC should be available.
-2. Create a VPC and under VPC settings click on vpc and more
-3. Add the name of vpc, IPv4 CIDR block number AZ's and rest of the options are default and click on create vpc.
-4. Then vpc created with the name of demo-vpc, under you can see the resource map as below.
-
-<img width="1402" alt="vpc-resource-map -details" src="https://github.com/viswa2/DevOps/assets/34201574/0cb6740e-c95a-4feb-8a70-c6e91e7408b3">
-
-5. Launch EC2 instance by selecting ubuntu flavor with the key pair, network settings select as what we have created above, select one public subnet which we have created as above and enable the Auto-assign public IP and launch instance.
-
-6. Once EC2 instance start running try to connect the instance by using ssh
-EX: ssh -i "key pair name" ubuntu@< PUblic IP of EC2 Instance >
-
-7. Then update the package by using `sudo apt update` command
-8. Just try with the simple application by using as below command `python3 -m http.server 8000`
-
-<img width="519" alt="App-launching" src="https://github.com/viswa2/DevOps/assets/34201574/fb06a01e-6faf-4669-9285-47246c1d2b46">
-
-9. Then try to check in the browser `http://<public ip:8000>` it won't work since your Ec2 instance in bound rules are not enabled with the 8000 port. Enbale and try it's should works.
-
-<img width="491" alt="Testing-Pyhon3-app" src="https://github.com/viswa2/DevOps/assets/34201574/0caed047-c689-485c-962b-89ef9abcfa10">
-
-10. You can able to restrict the port on top of the subnet under network ACLs i.e under VPC--> Network ACLs --> Click on which VPC connected on top of NACL's and edit the inbound rules, allow or denay specific port, ip address and ranges of the ip addresses based on the rule number of assending order it's should work's on subnet level.
-
-<img width="1434" alt="nacl-inboud-rules" src="https://github.com/viswa2/DevOps/assets/34201574/24e7a66b-9b23-4a7c-9811-5b7a9cb58566">
-
-## Deploy a Sample Application in Private Subnet ## 
-
-<img width="768" alt="Deploy Sample App in Private Subnet " src="https://github.com/viswa2/DevOps/assets/34201574/305f2cc5-06d9-4c79-9adc-6050038630af">
-
-1. Create a VPC as per above diagram i.e 2 public and 2 private subnets 2 nat gateways and internet gateway with 2 AZ
-
-<img width="1414" alt="Resource Map after creating VPC" src="https://github.com/viswa2/DevOps/assets/34201574/1469215c-d950-4f8e-a658-9c5ecd37fba7">
-
-2. Create a auto scaling group with launch template and attach with the private subnet.
-3. Create a bastion host or jump server it’s should be work as a mediator b/w private subnets and public subnets to connect the EC2 instances.
-4. Create if you don't have key pair (.pem) and copy into the bastion host server
-   `Example command:` scp -i /Users/viswanathareddy/Downloads/.pem file /Users/viswanathareddy/Downloads/.pem file ubuntu@3.80.93.106:/home/ubuntu
-5. Try to connect bastion host with the ssh command i.e ssh -i .pem file ubuntu@public iP and then check /home/ubuntu path .pem file is available or not.
-6. Take the private ip address of first instance and try to connect by using ssh it should connect by using .pem file, what we have copied in the previous step.
-7. Create basic index.html file content
-8. Deploy the sample python http application. `python3 -m http.server 8000`
-9. Create a application load balancer with the public subnet.
-10. Copy of the load balancer of dns name and hit the url in browser It's should work as below.
-
-<img width="682" alt="Application with the load balancer" src="https://github.com/viswa2/DevOps/assets/34201574/e3029e48-6d6b-411e-983b-6680142ff887">
-
-`Observation:ch` I have tried with the 2 instances to create basic `index.html file` and deploy with the sample python application, Even though my 2 EC2 instances are healthy traffic is routing into the single instance only.
-
-## AWS CodeCommit ##
-
-AWS CodeCommit is a f`ully-managed source control service that hosts secure Git-based repositories`. It makes it easy for teams to collaborate on code in a secure and highly scalable ecosystem.
-
-1. Create a IAM user Ex: `test-user` and add the permissions with the attach policies directly `policy name`: AWSCodeCommitPowerUser which allow the user full access to AWS CodeCommit repositories.
-2. Under IAM --> Users --> test-user --> Security credentials --> HTTPS Git credentials for AWS CodeCommit --> click on generate credentials and download the credentials.
-3. Search on AWS console codecommit and add the repository name, add meaningful description and click on create.
-4. Once create the repository, click on repositories, repository name clone https URL
-5. Git clone <Https Url name>
-6. It will ask username and password provide the credentials which was downloaded in 2nd step.
-7. Then add some files Ex: s3-bucket.yaml 
-8. Use git commands i.e git add, commit, and push the changes into the repo.
-9. Once pushed go to the AWS console and refresh the code commit repository we can able to see the `s3-bucket.yaml` file
-
-<img width="1335" alt="Code-Commit" src="https://github.com/viswa2/DevOps/assets/34201574/8512e0da-1c36-4fd3-aa4a-cde1d220c1a1">
-
-## AWS CodeBuild ##
-
-AWS CodeBuild is a fully managed continuous integration service that compiles source code, runs tests, and produces software packages that are ready to deploy. With CodeBuild, you don’t need to provision, manage, and scale your own build servers.
-
-1. Search codecommit and click on create project add the project name.
-2. Under source select source provider is Github since source code is present in Github. We can selectother options based on source code availability.
-3. GitHub repository Since i have been testing `iam-veeramalla` added the same.
-4. Click on connect form github it will open another window and add the details and click on connect.
-5. Under environment add the operating ssytem as Ubuntu, Runtime:standard, Image:latest and Image version: always use the latest image for this runtime version.
-6. Under build spec click on insert build commands `add the yaml configuration details`
-7. Go to IAM roles and add the `AWSCodeBuildAdminAccess` and create the role.
-8.  Under service role permissions `service role` updae the role created on 7th step and click on create build project.
-9.  Since we are using docker we need credentails for the docker authentication search on aws console `AWS Systems Manager`
-10.  Under Application Management --> parameter store --> Create parameter as per the screenshot and add the name and value of it.
-
-<img width="1603" alt="Parameter-Store-for credentials" src="https://github.com/viswa2/DevOps/assets/34201574/11471f53-a59a-4b5b-94be-1698c87729c2">
-
-11. Now Click on start build under CodeBuild project check the build history and build logs check the erros and resolve one by one. i.e Yaml indendation errors in the phases i have added `pre-build` but actually `pre_build` and check the spaces `python: 3.11` etc.
-12. Error docker buildx build" requires exactly 1 argument
-Fix: We need add the docker build command . in the last so that it's should identify the `Dockerfile` and build the process.
-13. I have added the credentails invaild refernce format under `AWS Systems Manager --> Parameter store`
-Fix: Check username and password correctly along with the docker registry name Ex: docker.io
-14. Once everything fine it's should build and pushed the image into docker hub.
-15. Adding the build spec yaml file into the github for reference.
-
-## AWS CodePipeline ##
-
-AWS CodePipeline is a continuous delivery service you can use to model, visualize, and automate the steps required to release your software. You can quickly model and configure the different stages of a software release process.
-
-1. Click on codepipeline add the pipeline name, select the pipeline type V2 
-2. Add the existing service role if already have otherwise create and add it.
-3. Click on next add source --> source provider Github version2 --> Connection --> connect to github --> Add the repository name --> provide the default branch name.
-4. Click add on build stage i.e AWS CodeBuild click on next and skip on deploy stage review and click on code pipeline.
-5. Once done pipeline will trigger and it will complete with the succeeded.
-6. Now make a small change and push into the repo the codepipeline will trigger automatically.
-
-## AWS CodeDeploy ##
-
-CodeDeploy is a deployment service that automates application deployments to Amazon EC2 instances, on-premises instances, serverless Lambda functions, or Amazon ECS services.
-
-1. Create a role for Amazon Ec2 & AWSCodedeploy.
-2. Launch a Ec2 instance and attach the IAM role which we have created in 1st step.
-3. Install codedeploy agent for ubuntu server as per the reference link.
-
-`Reference Link`: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
-
-4. In the AWS console search for the codedeploy under --> Applications --> Create application.
-5. Click on application name and crete deployment group as per the options.
-6. Start authenticate for the github and deploy the application.
-
-## AWS CloudWatch ##
-
-Amazon CloudWatch monitors your resources and the applications you run on AWS in real time. You can use CloudWatch to collect and track metrics, which are variables you can measure for your resources and applications. i.e logs, metrics, alarms, custom metrics and cost-optimization etc.
-
-`For Testing:`
-1. AWS console search for cloudwatch and click on `Log groups` we can observe our recent activities are performed under our aws account. we chck on log group with the log stream what kind of different activities we are performed on particulatr event time. this logs are collected cloudwatch by default will track as per below screenshot.
-
-![Alt text](Cloudwatch-Logs.png)
-
-2. Create a EC2 instance and observe the monitoring section we have a CPU, Network in bytes, etc.
-3. Login into EC2 instance and run the command called `stress --cpu 4 --timeout 60` this will increase the CPU spike in EC2 instance.
-4. EC2 Instance --> Monitoring --> Enable the manage detailed monitoring and we can able to see the maximum spike of CPU.
-
-![Alt text](Cloudwatch-Logs-1.png)
-
-5. In the Cloudwatch we can create the alarms In alarms --> Create alaram --> Select the metric --> Mettric --> EC2 --> Per instance metrics --> Serach per cpu --> Findout with the Instance-id --> Select Metric --> statistic --> maximum and period --> 1 minute and conditions greater or equals to 50 and click on next
-6. Under Notification Create a topic --> topic name and email to send a notification when thresold reaches to what we have configured and then click on next.
-7. Add a name and description and then reveiew and create.
-8. Once done you will receive a mail AWS Notification - Subscription Confirmation, click on confirm subscription.
-9. Once confirm the subscription your cloudwtach alarm should be as below.
-
-![Alt text](Cloudwtach-alarm-after-subscription-confirmation.png)
-
-10. After reaching the CPU spike we can get the notification through mail based on our configuration.
-
-11. Not only this we can able to see the diffrenet types of metrics based on our actvity on daily basis.
-
-## AWS Lambda ##
-
-`Event-Driven Execution:` Lambda functions are triggered by events. An event could be anything, like a new file being uploaded to Amazon S3, a request hitting an API, or a specific time on the clock. When an event occurs, Lambda executes the corresponding function.
-
-`No Server Management:` As a developer, you don't need to worry about managing servers. AWS handles everything behind the scenes. You just upload your code, configure the trigger, and Lambda takes care of the rest.
-
-`Automatic Scaling:` Whether you have one user or one million users, Lambda scales automatically. Each function instance runs independently, ensuring that your application can handle any level of incoming traffic without manual intervention.
-
-`Pay-per-Use:` One of the most attractive features of serverless computing is cost efficiency. With Lambda, you pay only for the compute time your code consumes. When your code isn't running, you're not charged.
-
-`Supported Languages:` Lambda supports multiple programming languages like Node.js, Python, Java, Go, and more. You can choose the language you are comfortable with or that best fits your application's needs.
-
-1. In AWS console search for lambda and create function.
-2. While creating we have different options i.e Author from scratch, Use a blueprint and container image
-3. Select the author from scratch and add the function name
-4. In the runtime we can select the different programing languages i.e .net, python, java etc. in our case select python 3.10
-5. In the Advanced settings select the Enable function URL and auth type select node as of now. `Usually we can select AWS_Iam users only not allowed for outsiderrs` and select create function.
-6. Under our lanbda function .py file has been created with the sample lambda function app.
-7. When we click on test the event can trigger and provide the execution results i.e `response code 200 and msg called hello from lambda`. 
-
-## AWS CostOptimization ##
-
-In Any snapshot is belongs to volume that is not attached to EC2 instance need to identify and remove the snapshot by using AWS lambda function.
-
-1. Create a EC2 instance
-2. Create a snapshot with the volume of Ec2 instance as above
-3. Create a lambda function with the name of cost-optimization-EBS-snapshot.
-4. Runtime select a python 3.10
-5. Click on create function
-6. Click on function name and code remove the existing code and add the python code `iam-veeramalla/aws-devops-zero-to-hero/tree/main/day-18/ebs_stale_snapshosts.py` available in the github repo.
-5. Save the code click on deploy and configure the event.
-6.  Click on Test we can able to see the output in `Execution results`.
-7. Got an error called timeout error. Go to configuration --> Edit --> Increase the `Timeout from 3 seconds to 10.` We need to keep the timeout option is less due to based on time execution lambda function cost will occour.
-8. Next error is you are not authorized to perform the actions, since we don't have enough permissions to test the lambda function.
-9. Create a policy --> Choose a service as Ec2 and in filter options select DeleteSnapshot, DescribeSnapshots and create a policy.
-10. Create a policy --> Choose a service as Ec2 and in filter options select DescribeInstances, DescribeVolumes and create a policy.
-11. Under configuration --> `Execution role`--> Role name --> click  attach a policies we have created in 11th and 12th step.
-12. Now Click on code and Test the lambda function. It was succeded still snapshot was available.
-13. Go to EC2 instance and terminate the EC2 manually, Once terminates volume also got deletes.
-14. Now re-run the lambda function again this time snapshot got deleted. find the reference screenshot as below.
-15. This Lambda is we are triggering manually, we can able to configure by event driven i.e cloud watch --> Events --> Rules --> Create a role, schedule based on project requirements.
-
-## ECR (Elastic Container Registry) ##
-
-Amazon Elastic Container Registry (Amazon ECR) is an AWS managed container image registry service that is secure, scalable, and reliable. Amazon ECR supports private repositories with resource-based permissions using AWS IAM.
-
-1. Go to AWS console search with the ecr and it will popup elastic container registry click on.
-2. Click on create repository General settings --> Visibility settings by default private only and add the repository name i.e demo-repository.
-3. Tag immutability enable the option (Enable tag immutability to prevent image tags from being overwritten by subsequent image pushes using the same tag.)
-4. Image scan settings enable the scan on push each image automatically scanned after being pushed to a repository.
-5. Click on create repository.
-6. In your system available to aws cli installation. if not install the same.
-7. Since i'm using the root account doesn't have any issue with the permissions. if you were using IAM user check the necessary permissions to login with the registry.
-8. Click on view push commands based on your operating system perform the commands as given i.e login with the docker registry.
-9. Build the sample Dockerfile.
-10. Tag your docker iamge for push.
-11. Push the docker iamge into the ECR repository.
-12. Once push click on repository name and then see the docker image. Find the reference screeshot after pushing the image into ECR.
-
-![alt text](ECR-Image-Registry.png)
+*Last updated: September 30, 2025*
