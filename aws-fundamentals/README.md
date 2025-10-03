@@ -1,67 +1,79 @@
-## AWS Fundamentals ##
-## Cloud Practitioner Essentials ##
-`What is Cloud Computing`
 
-Cloud computing is the delivery of on-demand computing services over the internet on a pay-as-you-go basis. It offers the online data storage, Infrastructure and application.
+# AWS Fundamentals
+
+## Cloud Practitioner Essentials
+
+### What is Cloud Computing?
+
+Cloud computing is the delivery of on-demand computing services over the internet on a pay-as-you-go basis. It offers online data storage, infrastructure, and applications.
 
 <img width="359" alt="cloud-computing" src="https://github.com/viswa2/devops/assets/34201574/816eb632-2e32-44c6-b0f6-1020d7646aba">
 
-Cloud computing offers platform independency, as the software is not required to be installed locally on the PC. Hence, the Cloud Computing is making our business applications mobile and collaborative.
+Cloud computing offers platform independence, as the software does not need to be installed locally on the PC. This makes business applications mobile and collaborative.
 
-Types of cloud computing model:
-1.	Deployment Model
-2.	Service Model
+#### Types of Cloud Computing Models
 
-Types of Cloud Deployment Model:
+1. **Deployment Model**
+2. **Service Model**
 
-1.	Public Cloud: The Cloud infrastructure is made available to general public over the internet and by cloud provider.
- `Ex:` - AWS, Azure, IBM’s Blue cloud and sun cloud
-2.	Private Cloud: This Cloud Infrastructure Is Exclusively operated by a single organization. It can be managed by organization or third party and may exist on-premises or off-premises.
-`Ex:`` - AWS, VMware
-3.	Hybrid Cloud: It’s Consists of both Public and Private cloud
-Ex: - Federal agencies opt for private clouds when sensitive information is involved. Also, they use the public cloud to share the datasets with the general public or other government departments.
+#### Types of Cloud Deployment Models
 
-`Types of Service Model`
-1.	IAAS
-2.	PAAS
-3.	SAAS
+1. **Public Cloud:** The cloud infrastructure is made available to the general public over the internet by a cloud provider.  
+      _Examples:_ AWS, Azure, IBM Blue Cloud, Sun Cloud
+2. **Private Cloud:** This cloud infrastructure is exclusively operated by a single organization. It can be managed by the organization or a third party and may exist on-premises or off-premises.  
+      _Examples:_ AWS, VMware
+3. **Hybrid Cloud:** Consists of both public and private clouds.  
+      _Example:_ Federal agencies opt for private clouds when sensitive information is involved, but use the public cloud to share datasets with the general public or other government departments.
 
-      <img width="383" alt="Iaas vs Paas vs Saas " src="https://github.com/viswa2/devops/assets/34201574/e84f94d5-5b95-4e8f-8f10-11840939d3e3">
+#### Types of Service Models
 
-`IAAS:`
-Infrastructure-as-a-service, or IaaS, is a step away from on-premises infrastructure. It’s a pay-as-you-go service where a third party provides you with infrastructure services, like storage and virtualization, as you need them, via a cloud, through the internet. 
+1. **IaaS** (Infrastructure as a Service)
+2. **PaaS** (Platform as a Service)
+3. **SaaS** (Software as a Service)
 
-As the user, you are responsible for the operating system and any data, applications, middleware, and runtimes, but a provider gives you access to, and management of, the network, servers, virtualization, and storage you need. 
+<img width="383" alt="Iaas vs Paas vs Saas " src="https://github.com/viswa2/devops/assets/34201574/e84f94d5-5b95-4e8f-8f10-11840939d3e3">
 
-You don’t have to maintain or update your own on-site datacenter because the provider does it for you. Instead, you access and control the infrastructure via an application programming interface (API) or dashboard. 
+**IaaS:**
 
-IaaS gives you flexibility to purchase only the components you need and scale them up or down as needed. There’s low overhead and no maintenance costs, making IaaS a very affordable option. 
+Infrastructure-as-a-Service (IaaS) is a step away from on-premises infrastructure. It’s a pay-as-you-go service where a third party provides infrastructure services, like storage and virtualization, as you need them, via the cloud and the internet.
 
-One way to use IaaS would be as a quick, flexible way to build up and take down and development and testing environments. You can use only the infrastructure you need to create your development environment—and scale it up or down—for as long as you need it, and then you can stop when you’re finished, paying only for what you use. 
+As the user, you are responsible for the operating system, data, applications, middleware, and runtimes, while the provider manages the network, servers, virtualization, and storage.
 
-The main drawbacks to IaaS are the possibilities of provider security issues, multi-tenant systems where the provider must share infrastructure resources with multiple clients, and service reliability. These drawbacks can be avoided by choosing a reliable and trustworthy provider with a solid history and reputation.
+You don’t have to maintain or update your own on-site datacenter because the provider does it for you. Instead, you access and control the infrastructure via an API or dashboard.
 
-`EX:` Public cloud providers such as AWS, AWS EC2, Microsoft Azure, and Google Cloud are examples of IaaS
+IaaS gives you flexibility to purchase only the components you need and scale them up or down as needed. There’s low overhead and no maintenance costs, making IaaS a very affordable option.
 
-`PAAS:`
-Platform-as-a-service (PaaS) is another step further from full, on-premises infrastructure management. It is where a provider hosts the hardware and software on its own infrastructure and delivers this platform to the user as an integrated solution, solution stack, or service through an internet connection.
+One way to use IaaS is as a quick, flexible way to build and tear down development and testing environments. You can use only the infrastructure you need, scale it up or down as needed, and pay only for what you use.
 
-Primarily useful for developers and programmers, PaaS allows the user to develop, run, and manage their own apps without having to build and maintain the infrastructure or platform usually associated with the process. 
-You write the code, build, and manage your apps, but you do it without the headaches of software updates or hardware maintenance. The environment to build and deploy is provided for you. 
-PaaS is a way that developers can create a framework to build and customize their web-based applications on. Developers can use built-in software components to create their applications, which cuts down on the amount of code they must write themselves.
+**Drawbacks:** Possible provider security issues, multi-tenant systems, and service reliability. These can be avoided by choosing a reliable provider with a solid reputation.
 
-`EX:` A few examples of PaaS are AWS Elastic Beanstalk, Heroku, and Red Hat OpenShift.
+_Examples:_ AWS, AWS EC2, Microsoft Azure, Google Cloud
 
-`SAAS:`
-Software-as-a-service (SaaS), also known as cloud application services, is the most comprehensive form of cloud computing services, delivering an entire application that is managed by a provider, via a web browser. 
-Software updates, bug fixes, and general software maintenance are handled by the provider and the user connects to the app via a dashboard or API. There’s no installation of the software on individual machines and group access to the program is smoother and more reliable. 
-You’re already familiar with a form of SaaS if you have an email account with a web-based service like Outlook or Gmail, for example, as you can log into your account and get your email from any computer, anywhere. 
-SaaS is a great option for small businesses who don’t have the staff or bandwidth to handle software installation and updates, as well as for applications that don’t require much customization or that will only be used periodically. 
-What SaaS saves you in time and maintenance, however, it could cost you in control, security, and performance, so it’s important to choose a provider you can trust.
+**PaaS:**
 
-`EX:` Dropbox, Salesforce, Google Apps, i.e Amazon Rekognition and gmail are some examples of SaaS. 
+Platform-as-a-Service (PaaS) is a further step from full, on-premises infrastructure management. The provider hosts the hardware and software on its own infrastructure and delivers this platform to the user as an integrated solution or service through an internet connection.
 
-`Reference Link:` IaaS vs PaaS vs SaaS (redhat.com)
+PaaS is primarily useful for developers and programmers, allowing them to develop, run, and manage their own apps without having to build and maintain the underlying infrastructure. You write the code, build, and manage your apps, but without the headaches of software updates or hardware maintenance. The environment to build and deploy is provided for you.
+
+PaaS enables developers to create a framework to build and customize web-based applications, using built-in software components to reduce the amount of code they must write themselves.
+
+_Examples:_ AWS Elastic Beanstalk, Heroku, Red Hat OpenShift
+
+**SaaS:**
+
+Software-as-a-Service (SaaS), also known as cloud application services, is the most comprehensive form of cloud computing services, delivering an entire application managed by a provider via a web browser.
+
+Software updates, bug fixes, and general maintenance are handled by the provider. The user connects to the app via a dashboard or API. There’s no installation of the software on individual machines, and group access is smoother and more reliable.
+
+You’re already familiar with SaaS if you have an email account with a web-based service like Outlook or Gmail, as you can log in from any computer, anywhere.
+
+SaaS is a great option for small businesses that don’t have the staff or bandwidth to handle software installation and updates, as well as for applications that don’t require much customization or are used only periodically.
+
+**Drawbacks:** What SaaS saves you in time and maintenance, it could cost you in control, security, and performance, so it’s important to choose a provider you can trust.
+
+_Examples:_ Dropbox, Salesforce, Google Apps, Amazon Rekognition, Gmail
+
+**Reference:** [IaaS vs PaaS vs SaaS (redhat.com)](https://www.redhat.com/en/topics/cloud-computing/iaas-vs-paas-vs-saas)
 
 ## Six advantages of cloud computing ##
 
@@ -586,23 +598,25 @@ Ama![EBS](https://github.com/viswa2/devops/assets/34201574/fe1d890e-82df-4aef-b1
 
 `Amazon Elastic Block Store (Amazon EBS)` is a service that provides block-level storage volumes that you can use with Amazon EC2 instances. If you stop or terminate an Amazon EC2 instance, all the data on the attached EBS volume remains available.
 To create an EBS volume, you define the configuration (such as volume size and type) and provision it. After you create an EBS volume, it can attach to an Amazon EC2 instance.
+
 Because EBS volumes are for data that needs to persist, it’s important to back up the data. You can take incremental backups of EBS volumes by creating Amazon EBS snapshots.
 
-`Note:` In the same AZ EC2 instance volume can be attached other AZ volume can't be attached to EC2  
-      Once the EC2 instance is terminated by default volume should be deleted, because while creating EC2 instance `delete on termination is selected yes`
+> **Note:** In the same Availability Zone (AZ), an EC2 instance volume can be attached. Volumes from other AZs cannot be attached to an EC2 instance. By default, when an EC2 instance is terminated, the volume is deleted (if "delete on termination" is selected during creation).
 
 <img width="1383" alt="Block-Device-Volume" src="https://github.com/viswa2/DevOps/assets/34201574/2c7846d2-a924-44f0-9ac1-cd33eaa1e11d">
 
-`Reference Link:` https://aws.amazon.com/ebs/
+**Reference:** [Amazon EBS](https://aws.amazon.com/ebs/)
 
-## Amazon EBS snapshots ##
 
-An EBS snapshot is an incremental backup. This means that the first backup taken of a volume copy all the data. For subsequent backups, only the blocks of data that have changed since the most recent snapshot are saved. 
-Incremental backups are different from full backups, in which all the data in a storage volume copies each time a backup occurs. The full backup includes data that has not changed since the most recent backup.
+## Amazon EBS Snapshots
+
+An EBS snapshot is an incremental backup. The first backup of a volume copies all the data. For subsequent backups, only the blocks of data that have changed since the most recent snapshot are saved. 
+Incremental backups differ from full backups, where all the data in a storage volume is copied each time a backup occurs, including data that has not changed since the most recent backup.
 
 ![EBS-Snapshot](https://github.com/viswa2/devops/assets/34201574/0b02b1d5-a11e-43c7-acb0-815a6cc8b745)
 
-## Amazon Simple Storage Service (Amazon S3) or Object Storage ##
+
+## Amazon Simple Storage Service (Amazon S3) / Object Storage
 
 ![Object-Storage](https://github.com/viswa2/devops/assets/34201574/c2bd700d-fccc-499b-a0ce-205718d4a1cc)
 
@@ -611,16 +625,19 @@ The data might be an image, video, text document, or any other type of file. Met
 
 `Note:` Recall that when you modify a file in block storage, only the pieces that are changed are updated. When a file in object storage is modified, the entire object is updated.
 
-## Amazon Simple Storage Service (Amazon S3) ##
+
+## Amazon Simple Storage Service (Amazon S3)
 
 Amazon Simple Storage Service (Amazon S3) is a service that provides object-level storage. Amazon S3 stores data as objects in buckets.
 You can upload any type of file to Amazon S3, such as images, videos, text files, and so on. For example, you might use Amazon S3 to store backup files, media files for a website, or archived documents. `The total volume of data and number of objects you can store in Amazon S3 are unlimited`. `Individual Amazon S3 objects can range in size from a minimum of 0 bytes to a maximum of 5 TB. The largest object that can be uploaded in a single PUT is 5 GB`.
 
-## S3 Versioning ##
+
+### S3 Versioning
 
 `Note:` Enable the bucket versioning can use to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket. With versioning, you can easily recover from both unintended user actions and application failures.
 
-## S3 Encryption ##
+
+### S3 Encryption
 
 `All Amazon S3 buckets have encryption configured by default, and objects are automatically encrypted by using server-side encryption with Amazon S3 managed keys (SSE-S3). This encryption setting applies to all objects in your Amazon S3 buckets.` 
 
@@ -628,7 +645,8 @@ The AWS encryption SDK is a client-side encryption library that is separate from
 
 <img width="969" alt="s3-encryption" src="https://github.com/viswa2/DevOps/assets/34201574/6f439e8d-c21e-4128-900a-8ac1b7eaf33c">
 
-## Amazon S3 storage classes ##
+
+### Amazon S3 Storage Classes
 
 With Amazon S3, you pay only for what you use. You can choose from a range of storage classes to select a fit for your business and cost needs. When selecting an Amazon S3 storage class, consider these two factors:
 
@@ -688,17 +706,20 @@ Amazon S3 Deep Archive supports `long-term retention and digital preservation fo
 •	Makes it easier to retrieve, store, and access data on AWS Outposts
 Amazon S3 Outposts delivers object storage to your on-premises AWS Outposts environment. Amazon S3 Outposts is designed to store data durably and redundantly across multiple devices and servers on your Outposts. It works well for workloads with local data residency requirements that must satisfy demanding performance needs by keeping data close to on-premises applications.
 
-## Performance accross S3 Storage Class ##
+
+### Performance Across S3 Storage Classes
 
 <img width="712" alt="s3-storage-class" src="https://github.com/viswa2/DevOps/assets/34201574/2976f1ba-3373-4323-865f-0bb5352e105e">
 
 `Reference Links:` https://aws.amazon.com/s3/storage-classes/
 
-## AWS Storage Gateway ##
+
+## AWS Storage Gateway
 
 AWS Storage Gateway is a hybrid cloud storage service that gives you on-premises access to virtually unlimited cloud storage. All data transferred between the gateway and AWS storage is encrypted using SSL (for all three types of gateways - File, Volume and Tape Gateways).
 
-## Amazon Elastic File System (Amazon EFS) ##
+
+## Amazon Elastic File System (Amazon EFS)
 
 `File storage`
 
@@ -709,7 +730,8 @@ Compared to block storage and object storage, file storage is ideal for use case
 
 `Amazon EFS` is a regional service storing data within and across multiple Availability Zones (AZs) for high availability and durability. Amazon EC2 instances can access your file system across AZs, regions, and VPCs, while on-premises servers can access using AWS Direct Connect or AWS VPN.
 
-## Amazon Relational Database Service (RDS) ##
+
+## Amazon Relational Database Service (RDS)
 
 In a relational database, data is stored in a way that relates it to other pieces of data. 
 An example of a relational database might be the coffee shop’s inventory management system. Each record in the database would include data for a single item, such as product name, size, price, and so on.
@@ -728,7 +750,8 @@ Amazon RDS is a managed service that automates tasks such as hardware provisioni
 
 Amazon RDS provides several different security options. Many Amazon RDS database engines offer encryption at rest (protecting data while it is stored) and encryption in transit (protecting data while it is being sent and received).
 
-## Amazon RDS database engines ##
+
+### Amazon RDS Database Engines
 Amazon RDS is available on six database engines, which optimize for memory, performance, or input/output (I/O). Supported database engines include:
 
 •	Amazon Aurora
@@ -738,13 +761,15 @@ Amazon RDS is available on six database engines, which optimize for memory, perf
 •	Oracle Database
 •	Microsoft SQL Server
 
-## Amazon Aurora ##
+
+### Amazon Aurora
 
 Amazon Aurora is an enterprise-class relational database. `It is compatible with MySQL and PostgreSQL relational databases.` It is up to five times faster than standard MySQL databases and up to three times faster than standard PostgreSQL databases.
 Amazon Aurora helps to reduce your database costs by reducing unnecessary input/output (I/O) operations, while ensuring that your database resources remain reliable and available. 
 Consider Amazon Aurora if your workloads require high availability. It replicates six copies of your data across three Availability Zones and continuously backs up your data to Amazon S3.
 
-## Amazon DynamoDB ##
+
+## Amazon DynamoDB
 
 Amazon DynamoDB is a key-value database service. It delivers single-digit millisecond performance at any scale. allows a database to have `schemaless and supports document data models.` With global tables, your globally distributed applications can access data locally in the selected regions `to get single-digit millisecond read and write performance. DynamoDB offers active-active cross-region support that is needed for the company`.
 
@@ -758,12 +783,14 @@ You also do not have to install, maintain, or operate software.
 As the size of your database shrinks or grows, DynamoDB automatically scales to adjust for changes in capacity while maintaining consistent performance. 
 This makes it a suitable choice for use cases that require high performance while scaling.
 
-## Amazon Redshift ##
+
+## Amazon Redshift
 
 `Amazon Redshift` is a `data warehousing service that you can use for big data analytics including compatibility with existing business intelligence tools`.
  It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data. It is AWS database service.
 
-## AWS Database Migration Service (AWS DMS) ##
+
+## AWS Database Migration Service (AWS DMS)
 
 `AWS Database Migration Service (AWS DMS)` enables you to migrate relational databases, nonrelational databases, and other types of data stores.
 With AWS DMS, you move data between a source database and a target database. The source and target databases can be of the same type or different types. During the migration, your `source database remains operational, reducing downtime for any applications that rely on the database.`
@@ -772,7 +799,8 @@ For example, suppose that you have a MySQL database that is stored on premises i
 
 <img width="679" alt="Differences b:w databases" src="https://github.com/viswa2/DevOps/assets/34201574/f3b16e97-12bf-4664-8fe5-27ec9d688f01">
 
-## AWS Identity and Access Management (IAM) ##
+
+## AWS Identity and Access Management (IAM)
 
 AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely.   
 IAM gives you the flexibility to configure access based on your company’s specific operational and security needs. You do this by using a combination of IAM features, which are explored in detail in this lesson:
@@ -782,7 +810,8 @@ IAM gives you the flexibility to configure access based on your company’s spec
 •	Multi-factor authentication
 You will also learn best practices for each of these features.
 
-## AWS account root user ##
+
+### AWS Account Root User
 
 When you first create an AWS account, you begin with an identity known as the root user. 
 The root user is accessed by signing in with the `email address and password` that you used to create your AWS account. You can think of the root user as being like the owner of the coffee shop. It has complete access to all the AWS services and resources in the account.
@@ -795,7 +824,8 @@ Do not use the root user for everyday tasks.
 Instead, use the root user to create your first IAM user and assign it permissions to create other users.
 Then, continue to create other `IAM users, and access those identities for performing regular tasks throughout AWS.` `Only use the root user when you need to perform a limited number of tasks that are only available to the root user.` Examples of these tasks include changing your root user email address and changing your AWS support plan.
 
-## IAM users ##
+
+### IAM Users
 
 An IAM user is an identity that you create in AWS. It represents the person or application that interacts with AWS services and resources. It consists of a name and credentials.
 By default, when you create a new IAM user in AWS, it has no permissions associated with it. To allow the IAM user to perform specific actions in AWS, such as launching an Amazon EC2 instance or creating an Amazon S3 bucket, you must grant the IAM user the necessary permissions. AWS recommends that you require `multi-factor authentication (MFA)` for all users in your account and rotate credentials regularly. `Access keys and security keys are tied to iam users.`
@@ -805,7 +835,8 @@ By default, when you create a new IAM user in AWS, it has no permissions associa
 We recommend that you create individual IAM users for each person who needs to access AWS.  
 Even if you have multiple employees who require the same level of access, you should create individual IAM users for each of them. This provides additional security by allowing each IAM user to have a unique set of security credentials.
 
-## IAM policies ##
+
+### IAM Policies
 
 An IAM policy is a document that allows or denies permissions to AWS services and resources.  
 IAM policies enable you to customize users’ levels of access to resources. For example, you can allow users to access all the Amazon S3 buckets within your AWS account, or only a specific bucket.
@@ -828,7 +859,8 @@ In this example, the IAM policy is allowing a specific action within Amazon S3: 
 If the owner wants the cashier to be able to access other services and perform other actions in AWS, the owner must attach additional policies to specify these services and actions.
 Now, suppose that the coffee shop has hired a few more cashiers. Instead of assigning permissions to each individual IAM user, the owner places the users into an IAM group.
 
-## IAM groups ##
+
+### IAM Groups
 
 An IAM group is a collection of IAM users. When you assign an IAM policy to a group, all users in the group are granted permissions specified by the policy.
 Here’s an example of how this might work in the coffee shop. Instead of assigning permissions to cashiers one at a time, the owner can create a “Cashiers” IAM group. The owner can then add IAM users to the group and then attach permissions at the group level. 
@@ -838,7 +870,8 @@ Here’s an example of how this might work in the coffee shop. Instead of assign
 Assigning IAM policies at the group level also makes it easier to adjust permissions when an employee transfers to a different job. For example, if a cashier becomes an inventory specialist, the coffee shop owner removes them from the “Cashiers” IAM group and adds them into the “Inventory Specialists” IAM group. This ensures that employees have only the permissions that are required for their current role.
 What if a coffee shop employee hasn’t switched jobs permanently, but instead, rotates to different workstations throughout the day? This employee can get the access they need through IAM roles.
 
-## IAM roles ##
+
+### IAM Roles
 
 In the coffee shop, an employee rotates to different workstations throughout the day. Depending on the staffing of the coffee shop, this employee might perform several duties: work at the cash register, update the inventory system, process online orders, and so on. 
 When the employee needs to switch to a different task, they give up their access to one workstation and gain access to the next workstation. The employee can easily switch between workstations, but at any given point in time, they can have access to only a single workstation. This same concept exists in AWS with IAM roles.
@@ -847,12 +880,14 @@ An `IAM role is an identity that you can assume to gain temporary access to perm
 Before an IAM user, application, or service can assume an IAM role, they must be granted permissions to switch to the role. When someone assumes an IAM role, they abandon all previous permissions that they had under a previous role and assume the permissions of the new role. 
 Best practice: IAM roles are ideal for situations in which access to services or resources needs to be granted temporarily, instead of long-term.
 
-## Multi-factor authentication ##
+
+### Multi-Factor Authentication (MFA)
 
 Have you ever signed into a website that required you to provide multiple pieces of information to verify your identity? You might have needed to provide your password and then a second form of authentication, such as a random code sent to your phone. This is an example of `multi-factor authentication`.
 In IAM, multi-factor authentication (MFA) provides an `extra layer of security` for your AWS account.
 
-## AWS Organizations ##
+
+## AWS Organizations
 
 Suppose that your company has multiple AWS accounts. You can use `AWS Organizations to consolidate and manage multiple AWS accounts within a central location`.
 When you create an organization, AWS Organizations automatically creates a root, which is the parent container for all the accounts in your organization. 
@@ -862,13 +897,15 @@ In AWS Organizations, you can `centrally control permissions for the accounts in
 
 `Note:` Volume discounts for Amazon EC2 and Amazon S3 aggregated across the member AWS accounts and Share the reserved Amazon EC2 instances amongst the member AWS accounts.
 
-## Organizational units ##
+
+### Organizational Units
 
 In `AWS Organizations, you can group accounts into organizational units (OUs) to make it easier to manage accounts with similar business or security requirements.` When you apply a policy to an OU, all the accounts in the OU automatically inherit the permissions specified in the policy.  
 By organizing separate accounts into OUs, you can more easily isolate workloads or applications that have specific security requirements. For instance, if your company has accounts that can access only the AWS services that meet certain regulatory requirements, you can put these accounts into one OU. Then, you can attach a policy to the OU that blocks access to all other AWS services that do not meet the regulatory requirements.
 
 
-## Denial-of-service attacks ##
+
+## Denial-of-Service (DoS) Attacks
 
 A `denial-of-service (DoS) attack` is a deliberate attempt to make a website or application unavailable to users.
 
@@ -876,7 +913,8 @@ A `denial-of-service (DoS) attack` is a deliberate attempt to make a website or 
 
 For example, an attacker might flood a website or application with excessive network traffic until the targeted website or application becomes overloaded and is no longer able to respond. If the website or application becomes unavailable, this denies service to users who are trying to make legitimate requests.
 
-## Distributed denial-of-service attacks ##
+
+### Distributed Denial-of-Service (DDoS) Attacks
 
 Now, suppose that the prankster has enlisted the help of friends. 
 The prankster and their friends repeatedly call the coffee shop with requests to place orders, even though they do not intend to pick them up. These requests are coming in from different phone numbers, and it’s impossible for the coffee shop to block them all. Additionally, the influx of calls has made it increasingly difficult for customers to be able to get their calls through. This is like a distributed denial-of-service attack.
@@ -885,7 +923,8 @@ The prankster and their friends repeatedly call the coffee shop with requests to
 
 In a distributed denial-of-service (DDoS) attack, multiple sources are used to start an attack that `aims to make a website or application unavailable`. This can come from a group of attackers, or even a single attacker. The single attacker can use multiple infected computers (also known as “bots”) to send excessive traffic to a website or application. To help minimize the effect of DoS and DDoS attacks on your applications, you can use `AWS Shield`.
 
-## AWS Shield ##
+
+## AWS Shield
 
 AWS Shield is a service that protects applications against `DDoS attacks.` AWS Shield provides two levels of protection: `Standard and Advanced`.
 AWS `Shield Standard automatically protects all AWS customers at no cost. It protects your AWS resources from the most common, frequently occurring types of DDoS attacks.`
@@ -896,12 +935,14 @@ AWS `Shield Advanced is a paid service for all customers`, `irrespective of the 
 
 It also integrates with other services such as `EC2, Elastic Load Balancing (ELB), Amazon CloudFront, Amazon Route 53, and AWS Global Accelerator`. Additionally, you can integrate AWS Shield with AWS WAF by writing custom rules to mitigate complex DDoS attacks.
 
-## AWS Key Management Service (AWS KMS) ##
+
+## AWS Key Management Service (AWS KMS)
 
 `AWS Key Management Service (AWS KMS)` enables you to perform encryption operations using `cryptographic keys`. A cryptographic key is a random string of digits used for locking (encrypting) and unlocking (decrypting) data. You can use AWS KMS to create, manage, and use cryptographic keys. You can also control the use of keys across a wide range of services and in your applications.
 With AWS KMS, you can choose the specific levels of access control that you need for your keys. For example, you can specify which IAM users and roles are able to manage keys. Alternatively, you can temporarily disable keys so that they are no longer in use by anyone. Your keys never leave AWS KMS, and you are always in control of them.
 
-## AWS  Web Application Firewall (WAF) ##
+
+## AWS Web Application Firewall (WAF)
 
 `AWS WAF is a web application firewall that lets you monitor network requests that come into your web applications`. 
 AWS WAF works together with `Amazon CloudFront and an Application Load Balancer`. Recall the network access control lists that you learned about in an earlier module. `AWS WAF works in a similar way to block or allow traffic`. However, it does this by using a web access control list (ACL) to protect your AWS resources. It will protect `HTTP and HTTPS requests are part of the Application layer, which is layer 7`.
@@ -917,12 +958,14 @@ When a request comes into AWS WAF, it checks against the list of rules that you 
 
 However, if a request came from one of the blocked IP addresses that you have specified in the web ACL, it is denied access.
 
-## Amazon Inspector ##
+
+## Amazon Inspector
 
 `Amazon Inspector helps to improve the security and compliance of applications by running automated security assessments`. It checks applications for security vulnerabilities and deviations from security best practices, such as open access to Amazon EC2 instances and installations of vulnerable software versions. 
 After Amazon Inspector has performed an assessment, it provides you with a list of security findings. The list prioritizes by severity level, including a detailed description of each security issue and a recommendation for how to fix it. However, AWS does not guarantee that following the provided recommendations resolves every potential security issue. Under the shared responsibility model, customers are responsible for the security of their applications, processes, and tools that run on AWS services.
 
-## Amazon Guard Duty ##
+
+## Amazon GuardDuty
 
 `Amazon Guard Duty is a service that provides intelligent threat detection malicious activity and unauthorized behavior to protect your AWS account`.
 
@@ -931,18 +974,21 @@ After Amazon Inspector has performed an assessment, it provides you with a list 
 After you have enabled GuardDuty for your AWS account, GuardDuty begins monitoring your network and account activity. You do not have to deploy or manage any additional security software. GuardDuty then continuously analyzes data from multiple AWS sources, including VPC Flow Logs and DNS logs. 
 If GuardDuty detects any threats, you can review detailed findings about them from the AWS Management Console. Findings include recommended steps for remediation. You can also configure AWS Lambda functions to take remediation steps automatically in response to GuardDuty’s security findings.
 
-## Amazon CloudWatch ##
+
+## Amazon CloudWatch
 
 `Amazon CloudWatch is a web service that enables you to monitor and manage various metrics and configure alarm actions based on data from those metrics`.
 CloudWatch uses metrics to represent the data points for your resources. AWS services send metrics to CloudWatch. CloudWatch then uses these metrics to create graphs automatically that show how performance has changed over time. 
 
-## CloudWatch alarms ##
+
+### CloudWatch Alarms
 
 With CloudWatch, you can create alarms that automatically perform actions if the value of your metric has gone above or below a predefined threshold. 
 For example, suppose that your company’s developers use Amazon EC2 instances for application development or testing purposes. If the developers occasionally forget to stop the instances, the instances will continue to run and incur charges. 
 In this scenario, you could create a CloudWatch alarm that automatically stops an Amazon EC2 instance when the CPU utilization percentage has remained below a certain threshold for a specified period. When configuring the alarm, you can specify to receive a notification whenever this alarm is triggered.
 
-## CloudWatch dashboard ##
+
+### CloudWatch Dashboard
 
 <img width="452" alt="Cloudwatch-Dashboard" src="https://github.com/viswa2/devops/assets/34201574/bb359427-2992-4b37-8e5a-506cdb0b19cf">
 
@@ -950,7 +996,8 @@ The `CloudWatch dashboard` feature enables you to access all the metrics for you
 
 `Note:` CloudWatch billing metric data is stored in US East (N. Virginia) - us-east-1
 
-## AWS CloudTrail ##
+
+## AWS CloudTrail
 
 AWS CloudTrail is an `AWS service that helps you enable operational and risk auditing, governance, and compliance of your AWS account`. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. Events include actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs.
 CloudTrail is active in your AWS account when you create it and doesn't require any manual setup. When activity occurs in your AWS account, that activity is recorded in a CloudTrail event.
@@ -965,12 +1012,14 @@ To answer these questions, the owner navigates to AWS CloudTrail.
 In the CloudTrail Event History section, the owner applies a filter to display only the events for the “Create User” API action in IAM. The owner locates the event for the API call that created an IAM user for Mary. This event record provides complete details about what occurred: 
 On January 1, 2020, at 9:00 AM, IAM user John created a new IAM user (Mary) through the AWS Management Console.
 
-## CloudTrail Insights ##
+
+### CloudTrail Insights
 
 Within CloudTrail, you can also enable CloudTrail Insights. This optional feature allows CloudTrail to automatically detect unusual API activities in your AWS account. 
 For example, CloudTrail Insights might detect that a higher number of Amazon EC2 instances than usual have recently launched in your account. You can then review the full event details to determine which actions you need to take next.
 
-## AWS Trusted Advisor ##
+
+## AWS Trusted Advisor
 
 AWS Trusted Advisor is a web service that inspects your AWS environment and provides real-time recommendations in accordance with AWS best practices.
 Trusted Advisor compares its findings to AWS best practices in five categories: `cost optimization, performance, security, fault tolerance, and service limits`. For the checks in each category, Trusted Advisor offers a list of recommended actions and additional resources to learn more about AWS best practices.
@@ -979,7 +1028,8 @@ The guidance provided by AWS Trusted Advisor can benefit your company at all sta
 
 `AWS Trusted Advisor can check Amazon Elastic Block Store (Amazon EBS) volume configurations and warns when volumes appear to be underused`. Charges begin when a volume is created. If a volume remains unattached or has very low write activity (excluding boot volumes) for a period of time, the volume is probably not being
 
-## AWS Trusted Advisor dashboard ##
+
+### AWS Trusted Advisor Dashboard
 
 ![AWS-Trusted-Advisor](https://github.com/viswa2/devops/assets/34201574/1860f0e8-009c-4ef6-a047-61ddf634f3a5)
 
@@ -989,11 +1039,13 @@ For each category:
 •	The orange triangle represents the number of recommended investigations.
 •	The red circle represents the number of recommended actions.
 
-## Fault Tolerance ##
+
+## Fault Tolerance
 
 Fault tolerance describes the concept of a system (in our case a web application) to have failure in some of its components and still remain accessible (highly available). Fault tolerant web applications will have at least two web servers (in case one fails).
 
-## AWS Free Tier ##
+
+## AWS Free Tier
 The AWS Free Tier enables you to begin using certain services without having to worry about incurring costs for the specified period. 
 Three types of offers are available: 
 •	Always Free
@@ -1063,7 +1115,8 @@ Which service or resource is used to find third-party software that runs on AWS?
 
 AWS Marketplace is a digital catalog that includes thousands of software listings from independent software vendors. You can use AWS Marketplace to find, test, and buy software that runs on AWS.
 
-## Migration and Innovation ##
+
+## Migration and Innovation
 
 `Six core perspectives of the Cloud Adoption Framework`
 
@@ -1151,7 +1204,8 @@ For example, a business might choose to implement the repurchasing strategy by m
 
 `Retiring` is the process of removing applications that are no longer needed.
 
-## AWS Snow Family members ##
+
+## AWS Snow Family Members
 
 The AWS Snow Family is a collection of physical devices that help to physically transport up to exabytes of data into and out of AWS. 
 AWS Snow Family is composed of AWS Snowcone, AWS Snowball, and AWS Snowmobile.
@@ -1173,7 +1227,8 @@ o	Compute: 52 vCPUs, 208 GiB of memory, and an optional NVIDIA Tesla V100 GPU. D
 `AWS Snowmobile` is an exabyte-scale data transfer service used to move large amounts of data to AWS. 
 You can transfer up to `100 petabytes of data per Snowmobile,` a 45-foot-long ruggedized shipping container, pulled by a semi-trailer truck.
 
-## AWS Well-Architected Framework (WAF) ##
+
+## AWS Well-Architected Framework (WAF)
 
 The AWS Well-Architected Framework helps you understand how to design and operate reliable, secure, efficient, and cost-effective systems in the AWS Cloud. It provides a way for you to consistently measure your architecture against best practices and design principles and identify areas for improvement.
 
@@ -1222,31 +1277,39 @@ To facilitate good design for sustainability:
 
 `Reference Link:` https://aws.amazon.com/certification/certified-cloud-practitioner/
 
-## AWS Health Dashboard – Your account health ##
+
+## AWS Health Dashboard – Your Account Health
 
 `AWS Health Dashboard` – Your account health provides alerts and remediation guidance when AWS is experiencing events that may impact you.
 
 `AWS Health Dashboard` – Your account health, alerts are triggered by changes in the health of your AWS resources, giving you event visibility, and guidance to help quickly diagnose and resolve issues.
 
-## AWS Config ##
+
+## AWS Config
 AWS Config provides a detailed view of the configuration of AWS resources in your AWS account. This includes how the resources are related to one another and how they were configured in the past so that you can see how the configurations and relationships change over time. AWS Config is designed to help you oversee your application resources in the following scenarios: `Resource Administration, Auditing and Compliance, Managing and Troubleshooting Configuration Changes, Security Analysis`.
 
-## Amazon Translate ##
+
+## Amazon Translate
 Amazon Translate is a neural machine translation service that delivers fast, high-quality, and affordable language translation. Amazon Translate allows you to localize content - such as websites and applications - for international users, and to easily translate large volumes of text efficiently.
 
-## Amazon Polly ##
+
+## Amazon Polly
 You can use Amazon Polly to turn text into lifelike speech thereby allowing you to create applications that talk. `Polly's Text-to-Speech (TTS)` service uses advanced deep learning technologies to synthesize natural sounding human speech
 
-## Amazon Transcribe ##
+
+## Amazon Transcribe
 You can use Amazon Transcribe to add `speech-to-text capability to your applications`. Amazon Transcribe uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately. Amazon Transcribe can be used to transcribe customer service calls, to automate closed captioning and subtitling, and to generate metadata for media assets.
 
-## Amazon Rekognition ##
+
+## Amazon Rekognition
 With Amazon Rekognition, you can `identify objects, people, text, scenes, and activities in images and videos, as well as to detect any inappropriate content`. Amazon Rekognition also provides highly accurate facial analysis and facial search capabilities that you can use to detect, analyze, and compare faces for a wide variety of user verification, people counting, and public safety use cases.
 
-## AWS OpsWorks ## 
+
+## AWS OpsWorks
 AWS OpsWorks is a `configuration management service that provides managed instances of Chef and Puppet`. AWS OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed and managed across your Amazon EC2 instances or on-premises compute environments.
 
-## Amazon Macie ##
+
+## Amazon Macie
 Amazon Macie is a fully managed `data security and data privacy service that uses Machine Learning` and pattern matching to discover and `protect your sensitive data in AWS`.
 
 ## AWS Artifact ## 
