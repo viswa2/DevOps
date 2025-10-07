@@ -5,4 +5,11 @@
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
+node_modules
+npm-debug.log
+.env
+.vscode
+*.iml
+.idea
+*.log
 

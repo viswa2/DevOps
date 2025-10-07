@@ -1,0 +1,46 @@
+## version key removed (obsolete)
+services:
+  frontend: 
+    image: nginx:alpine
+    working_dir: /usr/share/nginx/html
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - 3000:80
+    networks:
+      - my-custom-network
+  
+  backend:
+    image: node:20-alpine
+    working_dir: /app
+    ports:
+      - 5000:5000
+    environment:
+      DB_HOST: database
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgres
+    depends_on:
+      - database
+    volumes:
+      - ./backend:/app
+    command: sh -c "npm install && npm run dev"
+    networks:
+      - my-custom-network
+
+  database:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data    
+    networks:
+      - my-custom-network
+volumes:
+  pgdata:
+networks:
+  my-custom-network:
+    driver: bridge  

@@ -44,8 +44,6 @@ There are three important components:
 
 ### Docker Daemon
 
-### Docker Daemon
-
 The Docker daemon (dockerd) listens for Docker API requests and manages Docker objects such as images, containers, networks, and volumes. A daemon can also communicate with other daemons to manage Docker services.
 
 ### Docker Client
@@ -239,11 +237,13 @@ COPY --from=installer /app/build /usr/share/nginx/html
 ### Build and Run
 
 ```bash
-docker build -t multistage .
+docker build --load -t multistage .
 docker images
 docker run -it -dp 3000:80 multistage
 docker ps
 ```
+
+**Note:** NGINX listens on port 80 inside the container. The `docker run -p 3000:80` option maps container port 80 to host port 3000. You can access the container at `localhost:3000`, even without `EXPOSE 3000` in your Dockerfile.
 
 ### How Docker Works Internally
 
@@ -275,6 +275,85 @@ docker ps
 
 14. When you push an image, Docker checks which layers are already in the registry. It only uploads what's missing.
 
+### Docker Networking
+
+Networking allows containers to communicate with each other and with the host system. Containers run isolated from the host system and need a way to communicate with each other and with the host system.
+
+Containers have networking enabled by default, and they can make outgoing connections.
+
+**Bridge:** The default network driver. If you don't specify a driver, this is the type of network you are creating. Bridge networks are commonly used when your application runs in a container that needs to communicate with other containers on the same host.
+
+**Host:** Removes network isolation between the container and the Docker host, and uses the host's networking directly. (Not supported on macOS/Windows)
+
+**None:** Completely isolates a container from the host and other containers. `none` is not available for Swarm services.
+
+**Overlay:** Overlay networks connect multiple Docker daemons together and enable Swarm services and containers to communicate across nodes. This strategy removes the need to do OS-level routing.
+
+**Macvlan:** Macvlan networks allow you to assign a MAC address to a container, making it appear as a physical device on your network. The Docker daemon routes traffic to containers by their MAC addresses. Using the macvlan driver is sometimes the best choice when dealing with legacy applications that expect to be directly connected to the physical network, rather than routed through the Docker host's network stack.
+
+#### Example Commands
+
+```bash
+# Start a busybox container as root
+docker run -itd --user root busybox sh
+docker exec -it <container_id> sh
+
+> **Note:** While ping  inside container i.e `ping google.com` If you get 'ping: permission denied', use --privileged as below.
+
+docker run -itd --privileged busybox sh
+docker exec -it <container_id> sh
+
+# List networks
+docker network ls
+# Inspect the bridge network
+docker network inspect bridge
+# Create a bridge network
+docker network create my-bridge
+# Run containers on the custom bridge network
+docker run --network my-bridge --name container1 -d nginx
+docker run --network my-bridge --name container2 -d alpine sleep 3600
+docker exec -it container2 ping container1
+
+# Run with host network (Linux only)
+docker run --network host -d nginx
+```
+
+> **Note:** On macOS and Windows, the `--network host` option is not supported because Docker Desktop uses a virtualized environment and does not provide the host network driver. This option only works natively on Linux. When you run `docker run --network host ...` on macOS or Windows, the container will exit or fail because it cannot use the host network mode.
+
+### Docker Compose
+
+Docker Compose is a tool for defining and running multi-container applications. It streamlines development and deployment by allowing you to manage services in a single YAML file.
+
+**Why use Compose?**
+
+- **Simplified control:** Define and manage multi-container apps in one YAML file, streamlining orchestration and replication.
+- **Efficient collaboration:** Shareable YAML files support smooth collaboration between developers and operations, improving workflows and issue resolution.
+- **Rapid application development:** Compose caches the configuration used to create a container. When you restart a service that has not changed, Compose re-uses the existing containers, allowing quick environment changes.
+- **Portability across environments:** Compose supports variables in the Compose file, enabling customization for different environments or users.
+
+**How Compose works:**
+With Docker Compose, you use a YAML configuration file (the Compose file) to configure your application's services, then create and start all the services from your configuration with the Compose CLI.
+
+> **Note:** The `version` key is obsolete in Compose v2+ and can be omitted.
+
+Refer: `docker-zero-to-hero/docker-compose/docker-compose.yaml`
+
+## Docker Compose Commands
+
+```bash
+cd DevOps/docker-zero-to-hero/backend
+npm install
+```
+
+> **Note:** A basic backend package has been generated with Express and an entry point (index.js). Dependencies are installed and ready for use in your Docker Compose setup. You can now run docker compose up
+
+```bash
+docker compose up
+docker compose down
+docker compose logs
+docker compose ps
+```
+
 ---
 
 ## Summary
@@ -285,6 +364,8 @@ This guide covers Docker from basics to advanced concepts including:
 - Creating and managing Docker images
 - Multi-stage builds for optimized production images
 - Internal workings of Docker
+- Docker networking
+- Docker compose
 
 For more advanced topics, refer to the official [Docker Documentation](https://docs.docker.com/).
 
