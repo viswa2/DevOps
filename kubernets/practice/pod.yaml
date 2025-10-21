@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    env: dev
+spec:
+  containers:
+    - name: python-demo-app
+      image: mekala/python-demo-app:demo-app-1.0
+      ports:
+      - containerPort: 8080 
+  selector:
+    app: dev

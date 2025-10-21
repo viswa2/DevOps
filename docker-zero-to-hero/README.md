@@ -239,6 +239,9 @@ COPY --from=installer /app/build /usr/share/nginx/html
 ```bash
 docker build --load -t multistage .
 docker images
+docker tag multistage:latest mekala/multistage:latest 
+docker login -u username mekala
+docker push mekala/multistage:latest
 docker run -it -dp 3000:80 multistage
 docker ps
 ```
@@ -354,6 +357,26 @@ docker compose logs
 docker compose ps
 ```
 
+### Docker Best Practices
+
+**Use Multi-stage Builds:** Reduce final image size and attack surface by separating build dependencies from runtime dependencies.
+
+**Choose Small, Official Base Images:** Start with minimal base images (e.g., Alpine) and use official images from trusted sources when available to ensure security and maintainability.
+
+**Minimize Layers:** Combine related RUN commands using && to reduce the number of layers and improve build cache efficiency.
+
+**Leverage Build Cache:** Order Dockerfile commands from least to most frequently changing to maximize cache hits.
+Use .dockerignore: Exclude unnecessary files and directories from the build context to speed up builds and reduce image size.
+
+**Pin Base Image Versions:** Specify exact image tags (e.g., node:20.11.0-alpine) instead of latest to ensure reproducibility.
+
+**Prefer COPY over ADD:** COPY is generally preferred as it's more explicit and avoids potential issues with ADD's tar extraction and URL handling.
+
+**Run as Non-Root User:** Create a dedicated user and group within the image and run the application as this unprivileged user to enhance security.
+
+**Scan Images for Vulnerabilities:** Integrate image scanning tools into your CI/CD pipeline to identify and address security vulnerabilities early. `Ex:` trivy, clair and snyk etc.
+
+**Reference:** [Docker Best Practices](https://docs.docker.com/build/building/best-practices/)
 ---
 
 ## Summary
@@ -366,6 +389,6 @@ This guide covers Docker from basics to advanced concepts including:
 - Internal workings of Docker
 - Docker networking
 - Docker compose
+- Docker best practices
 
 For more advanced topics, refer to the official [Docker Documentation](https://docs.docker.com/).
-

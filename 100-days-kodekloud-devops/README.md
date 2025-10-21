@@ -307,6 +307,28 @@ ssh tony@172.16.238.10
 **Alternative Hostnames:**
 - App Server 2: `stapp02.stratos.xfusioncorp.com`
 
+Task -10 MariaDB Trouble shooting
+
+MariaDB is down needs to check the database server and up the database
+
+### Steps:
+
+```bash
+#Connect to the server
+ssh peter@172.16.239.10
+
+#sudo for root access
+sudo su -
+
+#Check the maria db status
+systemctl status mariadb.service --> status is Active failed 
+
+#Just give a try to restart a service if it's works or not else check the logs
+sudo systemctl restart mariadb
+
+# Verify status
+sudo systemctl status mariadb --> status is Active running
+
 ---
 
 ## Tips and Best Practices

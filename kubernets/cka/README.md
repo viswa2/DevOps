@@ -182,7 +182,17 @@ Follow the reference link according to your Operating System (Windows, macOS, Li
    kubectl get nodes
    ```
 
-6. Currently we have a single node which is the control plane. To setup a multi-node cluster, we need additional configuration.
+6. Currently we have a single node which is the control plane, it's acts a docker container. To setup a multi-node cluster, we need additional configuration.
+
+```bash
+docker exec -it cka-cluster1-control-plane sh --> you are inside control plane node
+cd /etc/kubernetes/manifests
+ls -lrt --> Manifests for controlplane components
+-rw-------. 1 root root 2622 Oct  8 06:19 etcd.yaml
+-rw-------. 1 root root 1836 Oct  8 06:19 kube-scheduler.yaml
+-rw-------. 1 root root 3615 Oct  8 06:19 kube-controller-manager.yaml
+-rw-------. 1 root root 4073 Oct  8 06:19 kube-apiserver.yaml
+```
 
 ### Multi-Node Cluster Configuration
 
@@ -319,6 +329,8 @@ Check for more details: `day-08-replicaset & deployment/deploy.yaml`
 
 ```bash
 # Create a Deployment
+kubectl create deploy nginx-deploy --image=nginx --replicas=4
+kubectl create deploy nginx-deploy --image=nginx --replicas=4 -oyaml> deploy.yaml
 kubectl create -f deployment.yaml
 
 # List Deployments
@@ -349,17 +361,25 @@ In Kubernetes, a Service is a method for exposing a network application that is 
 
 Check for more details: `day-09-kubernetes-services/clusterip.yaml`
 
+```bash
+After day-08 deploy and day-09 clusterip deploy, we just need to test the cluster ip service as below.
+kubectl port-forward svc/cluster-svc 8080:80 --> (8080 is host machine port we can use any other port, which is available and 80 is service port which is defined in `clusterip.yaml`)
+curl http://localhost:8080
+```
+
 #### 🚪 NodePort
 ✅ Exposes the service on each node's IP and a static port (30000-32767)  
 ✅ Accessible externally via NodeIP:NodePort  
 ✅ **Example use case:** Direct external access without a LoadBalancer
 
 #### ⚖️ LoadBalancer
-✅ Provisions an external load balancer (cloud provider-specific)  
+✅ Provisions an external load balancer (cloud provider-specific i.e EKS, AKE, and GKE)  
 ✅ Distributes traffic to backend pods  
 ✅ **Example use case:** Exposing an application to the internet
 
 Check for more details: `day-09-kubernetes-services/lb.yaml`
+
+**Note:** The external ip address pending, due to we don't have cloud controller manager that actually create a load balancer with in the cloud.
 
 #### 🔗 ExternalName
 ✅ Maps a Kubernetes service to an external DNS name  

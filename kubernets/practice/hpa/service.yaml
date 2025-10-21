@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-nodeport
+spec:
+  selector:
+      app: dev
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30007
+      targetPort: 5000
+  type: NodePort

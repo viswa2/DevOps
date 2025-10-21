@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dev
+  name: python-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dev
+  template:
+    metadata:
+      labels:
+        app: dev
+    spec:
+      containers:
+        - name: python-demo-app
+          image: mekala/python-demo-app:demo-app-1.0
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 200m
+          ports:
+          - containerPort: 5000
+            protocol: TCP
+      imagePullSecrets:
+        - name: sample-docker-secret     
