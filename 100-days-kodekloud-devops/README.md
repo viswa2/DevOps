@@ -12,6 +12,7 @@ This repository contains my solutions and execution steps for various DevOps tas
 - [Task 7: Create User with Custom UID and Home Directory](#task-7-create-user-with-custom-uid-and-home-directory)
 - [Task 8: Create Group and Add User](#task-8-create-group-and-add-user)
 - [Task 9: Setup Password-less SSH Authentication](#task-9-setup-password-less-ssh-authentication)
+- [Task 10: MariaDB Trouble shooting](#task-10-mariadb-trouble-shooting)
 
 ---
 
@@ -307,7 +308,7 @@ ssh tony@172.16.238.10
 **Alternative Hostnames:**
 - App Server 2: `stapp02.stratos.xfusioncorp.com`
 
-Task -10 MariaDB Trouble shooting
+## Task 10: MariaDB Trouble shooting
 
 MariaDB is down needs to check the database server and up the database
 
