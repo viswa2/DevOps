@@ -302,7 +302,7 @@ Once you save the edited configuration, it will apply the changes automatically.
 
 **ReplicationController:** Ensures a specified number of pod replicas are running at any given time. Uses equality-based selectors (key=value) to match pods. Considered deprecated in favor of ReplicaSet (legacy-based).
 
-**ReplicaSet:** An improved version of ReplicationController. Supports both equality-based and set-based selectors (in, notin operations). Used as part of Deployments to manage pods more efficiently.
+**ReplicaSet:** An improved version of ReplicationController. Supports both equality-based and set-based selectors (in, notin operations). Used as part of Deployments to manage pods more efficiently. Ensures Specified number of pod replicas running.
 
 ### Commands for ReplicaSet:
 
