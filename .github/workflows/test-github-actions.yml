@@ -1,3 +1,4 @@
+/*
 name: Example Github Action WorkFlow
 
 on:
@@ -27,3 +28,4 @@ jobs:
         run: |
           # Your deployment commands here, e.g., Copying objects into s3 bucket
           aws s3 cp ./myfile.txt s3://${{ env.BUCKET_NAME }}/
+*/
