@@ -1,5 +1,0 @@
-{
-  "admin_group": ["viswa", "viswanath"],
-  "dev_group": ["viswanath", "viswa"],
-  "test_group": ["viswanath", "viswa"]
-}
